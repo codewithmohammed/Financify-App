@@ -1,5 +1,4 @@
-import 'package:financify/notifierclass/profileclass.dart';
-import 'package:financify/screens/profileset/profilescreen.dart';
+import 'package:financify/notifierclass/Data_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -15,104 +14,92 @@ class Mainscreen extends StatelessWidget {
         body: Consumer<ProfileDataProvider>(
             builder: ((context, ProfileDataProvider, child) =>
                 ProfileDataProvider.pages[ProfileDataProvider.pageIndex])),
-        // floatingActionButton: SafeArea(child: Container(
-        //   width: 50,height: 50,color: Colors.red,)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: SafeArea(
+            child: SizedBox(
+          height: 70,
+          width: 70,
+          child: FittedBox(
+            child: FloatingActionButton(
+                shape: const CircleBorder(
+                    side: BorderSide(style: BorderStyle.solid)),
+                backgroundColor: AppTheme.primaryColor,
+                onPressed: () {
+                  Navigator.pushNamed(context, 'TransactionOperation');
+                },
+                child: const Icon(
+                  Icons.add,
+                  color: AppTheme.backgroundColor,
+                  size: 50,
+                )),
+          ),
+        )),
         bottomNavigationBar: Consumer<ProfileDataProvider>(
             builder: ((context, ProfileDataProvider, child) => SafeArea(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 70,
-                        margin: const EdgeInsets.only(
-                            right: 12, left: 12, bottom: 8),
-                        decoration: const BoxDecoration(
-                            color: AppTheme.darkblue,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(56))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                ProfileDataProvider.changePages(0);
-                              },
-                              child: SizedBox(
-                                width: 40,
-                                child: Image.asset(
-                                    ProfileDataProvider.pageIndex == 0
-                                        ? NavICons.iconHome
-                                        : NavICons.iconHomeUn),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                ProfileDataProvider.changePages(1);
-                              },
-                              child: SizedBox(
-                                width: 40,
-                                child: Image.asset(
-                                    ProfileDataProvider.pageIndex == 1
-                                        ? NavICons.iconWatch
-                                        : NavICons.iconWatchUn),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                ProfileDataProvider.changePages(2);
-                              },
-                              child: SizedBox(
-                                width: 40,
-                                child: Image.asset(
-                                    ProfileDataProvider.pageIndex == 2
-                                        ? NavICons.iconLoop
-                                        : NavICons.iconLoopUn),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                ProfileDataProvider.changePages(3);
-                              },
-                              child: SizedBox(
-                                width: 40,
-                                child: Image.asset(
-                                    ProfileDataProvider.pageIndex == 3
-                                        ? NavICons.iconSetting
-                                        : NavICons.iconSettingUn),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 30,
-                            )
-                          ],
+                  child: Container(
+                    height: 70,
+                    margin:
+                        const EdgeInsets.only(right: 12, left: 12, bottom: 8),
+                    decoration: const BoxDecoration(
+                        color: AppTheme.darkblue,
+                        borderRadius: BorderRadius.all(Radius.circular(56))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            ProfileDataProvider.changePages(0);
+                          },
+                          child: SizedBox(
+                            width: 40,
+                            child: Image.asset(
+                                ProfileDataProvider.pageIndex == 0
+                                    ? NavICons.iconHome
+                                    : NavICons.iconHomeUn),
+                          ),
                         ),
-                      ),
-                      Positioned(
-                          right: 20,
-                          bottom: 35,
-                          child: Container(
-                            height: 70,
-                            width: 70,
-                            child: FittedBox(
-                              child: FloatingActionButton(
-                                  shape: const CircleBorder(
-                                      side: BorderSide(style: BorderStyle.solid)),
-                                  backgroundColor: AppTheme.primaryColor,
-                                  onPressed: () {},
-                                  child: const Icon(
-                                    Icons.add,
-                                    color: AppTheme.backgroundColor,
-                                    size: 50,
-                                  )),
-                            ),
-                          ))
-                    ],
+                        InkWell(
+                          onTap: () {
+                            ProfileDataProvider.changePages(1);
+                          },
+                          child: SizedBox(
+                            width: 40,
+                            child: Image.asset(
+                                ProfileDataProvider.pageIndex == 1
+                                    ? NavICons.iconWatch
+                                    : NavICons.iconWatchUn),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            ProfileDataProvider.changePages(2);
+                          },
+                          child: SizedBox(
+                            width: 40,
+                            child: Image.asset(
+                                ProfileDataProvider.pageIndex == 2
+                                    ? NavICons.iconLoop
+                                    : NavICons.iconLoopUn),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            ProfileDataProvider.changePages(3);
+                          },
+                          child: SizedBox(
+                            width: 40,
+                            child: Image.asset(
+                                ProfileDataProvider.pageIndex == 3
+                                    ? NavICons.iconSetting
+                                    : NavICons.iconSettingUn),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        )
+                      ],
+                    ),
                   ),
                 ))));
   }
 }
-
-
-        // margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-        // decoration: const BoxDecoration(
-        //     color: AppTheme.darkblue,
-        //     borderRadius: BorderRadius.all(Radius.circular(56))), 

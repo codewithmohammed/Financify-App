@@ -19,4 +19,7 @@ class NavICons {
   static const String iconWatchUn = 'assets/images/watch-unselected.png';
   static const String iconLoop = 'assets/images/loop.png';
   static const String iconLoopUn = 'assets/images/loop-unselected.png';
+  static const String iconTransfer = 'assets/images/transferIcon.png';
+  static const String iconIncome = 'assets/images/incomeIcon.png';
+  static const String iconExpense = 'assets/images/cashIcon.png';
 }

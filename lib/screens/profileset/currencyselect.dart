@@ -1,5 +1,7 @@
 import 'package:currency_picker/currency_picker.dart';
-import 'package:financify/notifierclass/profileclass.dart';
+import 'package:financify/db/profile_db.dart';
+import 'package:financify/model/category/profilecategory/profile_model.dart';
+import 'package:financify/notifierclass/Data_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -131,8 +133,10 @@ class _CurrencySelectState extends State<CurrencySelect> {
                         width: 350,
                         height: 54,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'CashAccountAmt');
+                          onPressed: () async {
+                            // ProfileDB().clearProfile();
+                            ProfileDataProvider.profileToBD();
+                            Navigator.pushNamedAndRemoveUntil(context, 'CashAccountAmt', (route) => false);
                           },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<

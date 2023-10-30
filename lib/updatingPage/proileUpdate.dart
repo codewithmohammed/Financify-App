@@ -4,13 +4,15 @@ import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfileSetScreen extends StatelessWidget {
-  const ProfileSetScreen({super.key});
+class ProfileUpdateScreen extends StatelessWidget {
+  const ProfileUpdateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final nameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
+    if (ProfileDataProvider().name != null) {
+      nameController.text == ProfileDataProvider().name;
+    }
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
@@ -21,14 +23,12 @@ class ProfileSetScreen extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () async {
-                            if (nameKey.currentState!.validate()) {
-                              ProfileDataProvider.setName(
-                                  nameController.text.toString());
-                              FocusScope.of(context).unfocus();
-                              await Future.delayed(
-                                  const Duration(milliseconds: 200));
-                              Navigator.pushNamedAndRemoveUntil(context, 'CurrencySelect', (route) => false);
-                            }
+                            ProfileDataProvider.setName(
+                                nameController.text.toString());
+                            FocusScope.of(context).unfocus();
+                            await Future.delayed(
+                                const Duration(milliseconds: 100));
+                            Navigator.pushNamed(context, 'CurrencySelect');
                           },
                           child: const Text(
                             'NEXT',
@@ -91,51 +91,26 @@ class ProfileSetScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 100),
                         SingleChildScrollView(
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.black,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  width: 350,
-                                  height: 50,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 25),
-                                child: Form(
-                                  key: nameKey,
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (value) {
-                                      if (value == null || value.trim().isEmpty) {
-                                        return 'Please Enter your Name';
-                                      } else if (!RegExp(r'^[A-Za-z\s\-]+$')
-                                          .hasMatch(value)) {
-                                        return 'Please Enter Your Correct Name';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    controller: nameController,
-                                    style: const TextStyle(
-                                        color: AppTheme.mainTextColor),
-                                    decoration: const InputDecoration(
-                                        hintText: 'What Should we call you?',
-                                        hintStyle:
-                                            TextStyle(color: AppTheme.accentColor),
-                                        prefixIcon: Icon(
-                                          Icons.person_outlined,
-                                          color: AppTheme.accentColor,
-                                        ),
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: AppTheme.black,
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: 350,
+                              child: TextFormField(
+                                autovalidateMode: AutovalidateMode.always,
+                                controller: nameController,
+                                style: const TextStyle(
+                                    color: AppTheme.mainTextColor),
+                                decoration: const InputDecoration(
+                                    hintText: 'What Should we call you?',
+                                    hintStyle:
+                                        TextStyle(color: AppTheme.accentColor),
+                                    prefixIcon: Icon(
+                                      Icons.person_outlined,
+                                      color: AppTheme.accentColor,
+                                    ),
+                                    border: InputBorder.none),
+                              )),
                         ),
                       ],
                     ),

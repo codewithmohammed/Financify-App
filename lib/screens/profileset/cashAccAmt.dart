@@ -1,4 +1,5 @@
-import 'package:financify/notifierclass/profileclass.dart';
+import 'package:financify/db/profile_db.dart';
+import 'package:financify/notifierclass/Data_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,10 @@ class CashAccSet extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () async {
+                            await ProfileDB()
+                                .getProfile()
+                                .then((value) => {print(value.toString())});
+
                             FocusScope.of(context).unfocus();
                             await Future.delayed(
                                 const Duration(milliseconds: 100));
