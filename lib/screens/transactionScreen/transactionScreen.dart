@@ -22,7 +22,7 @@ class TransactionScreen extends StatelessWidget {
           indicatorWeight: 5,
           tabs: [
             Tab(
-              child: Text('INCOME',style: TextStyle(color: AppTheme.mainTextColor),),
+              child: Text('INCOME',style: TextStyle(color: AppTheme.mainTextColor)),
             ),
             Tab(
              child: Text('EXPENSE',style: TextStyle(color: AppTheme.mainTextColor)),

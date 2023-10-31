@@ -1,7 +1,7 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:financify/db/profile_db.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
-import 'package:financify/notifierclass/Data_notifiers.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';

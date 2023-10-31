@@ -1,5 +1,6 @@
-import 'package:financify/db/profile_db.dart';
-import 'package:financify/notifierclass/Data_notifiers.dart';
+import 'package:financify/db/account_db.dart';
+import 'package:financify/notifierclass/account_notifier.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,11 @@ class CashAccSet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController amountController = TextEditingController();
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
-        body: Consumer<ProfileDataProvider>(
-          builder: ((context, ProfileDataProvider, child) => SafeArea(
+        body: Consumer<AccountDataProvider>(
+          builder: ((context, AccountDataProvider, child) => SafeArea(
                   child: Stack(
                 children: [
                   Row(
@@ -21,10 +23,9 @@ class CashAccSet extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () async {
-                            await ProfileDB()
-                                .getProfile()
-                                .then((value) => {print(value.toString())});
-
+                            AccountDataProvider.accBalanaceSet(
+                                amountController.text);
+                            AccountDataProvider.accountToDB();
                             FocusScope.of(context).unfocus();
                             await Future.delayed(
                                 const Duration(milliseconds: 100));
@@ -89,6 +90,7 @@ class CashAccSet extends StatelessWidget {
                             SizedBox(
                                 width: 125,
                                 child: TextFormField(
+                                  controller: amountController,
                                   decoration: InputDecoration(
                                       hintText: 'AMOUNT',
                                       hintStyle: TextStyle(
@@ -101,14 +103,16 @@ class CashAccSet extends StatelessWidget {
                                   keyboardType: TextInputType.number,
                                 )),
                             Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Text(
-                                ProfileDataProvider.currencyCode,
-                                style: const TextStyle(
-                                    color: AppTheme.mainTextColor,
-                                    fontSize: 20),
-                              ),
-                            )
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Consumer<ProfileDataProvider>(
+                                    builder: ((context, ProfileDataProvider,
+                                            child) =>
+                                        Text(
+                                          ProfileDataProvider.currencyCode,
+                                          style: const TextStyle(
+                                              color: AppTheme.mainTextColor,
+                                              fontSize: 20),
+                                        ))))
                           ],
                         )
                       ],

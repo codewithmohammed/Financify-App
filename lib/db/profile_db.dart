@@ -1,7 +1,7 @@
 import 'package:financify/model/category/profilecategory/profile_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-const PROFILE_DB_NAME = 'category_database';
+const PROFILE_DB_NAME = 'profile_database';
 const PROFILE_KEY = 'profile_key';
 
 abstract class ProfileDBFunctions {

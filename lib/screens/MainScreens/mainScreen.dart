@@ -1,4 +1,4 @@
-import 'package:financify/notifierclass/Data_notifiers.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +20,21 @@ class Mainscreen extends StatelessWidget {
           height: 70,
           width: 70,
           child: FittedBox(
-            child: FloatingActionButton(
-                shape: const CircleBorder(
-                    side: BorderSide(style: BorderStyle.solid)),
-                backgroundColor: AppTheme.primaryColor,
-                onPressed: () {
-                  Navigator.pushNamed(context, 'TransactionOperation');
-                },
-                child: const Icon(
-                  Icons.add,
-                  color: AppTheme.backgroundColor,
-                  size: 50,
-                )),
+            child: Visibility(
+              visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+              child: FloatingActionButton(
+                  shape: const CircleBorder(
+                      side: BorderSide(style: BorderStyle.solid)),
+                  backgroundColor: AppTheme.primaryColor,
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'TransactionOperation');
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color: AppTheme.backgroundColor,
+                    size: 50,
+                  )),
+            ),
           ),
         )),
         bottomNavigationBar: Consumer<ProfileDataProvider>(

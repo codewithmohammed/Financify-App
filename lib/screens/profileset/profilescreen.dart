@@ -1,7 +1,10 @@
-import 'package:financify/notifierclass/Data_notifiers.dart';
+import 'dart:io';
+import 'package:financify/db/profile_db.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ProfileSetScreen extends StatelessWidget {
@@ -21,13 +24,16 @@ class ProfileSetScreen extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () async {
-                            if (nameKey.currentState!.validate()) {
-                              ProfileDataProvider.setName(
+                            // ProfileDB().clearProfile();
+                            if (nameKey.currentState!.validate() &&
+                                ProfileDataProvider.imageData != null) {
+                              ProfileDataProvider.setProfileName(
                                   nameController.text.toString());
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
-                              Navigator.pushNamedAndRemoveUntil(context, 'CurrencySelect', (route) => false);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'CurrencySelect', (route) => false);
                             }
                           },
                           child: const Text(
@@ -68,10 +74,15 @@ class ProfileSetScreen extends StatelessWidget {
                                     ],
                                     color: AppTheme.darkblue,
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Image.asset(
-                                  ImgIcons.iconperson,
-                                  scale: 4,
-                                )),
+                                child: ProfileDataProvider.imageData != null
+                                    ? ClipOval(
+                                        child: Image.file(
+                                            ProfileDataProvider.imageData!,
+                                            fit: BoxFit.cover))
+                                    : Image.asset(
+                                        ImgIcons.iconperson,
+                                        scale: 4,
+                                      )),
                             Positioned(
                               right: 10,
                               bottom: 5,
@@ -83,7 +94,77 @@ class ProfileSetScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20)),
                                 child: IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (builder) => Container(
+                                              height: 100,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 20,
+                                                vertical: 20,
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  const Text(
+                                                    'Choose Profile Photo',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ElevatedButton.icon(
+                                                          onPressed: () async {
+                                                            final returnedcamera =
+                                                                await ImagePicker()
+                                                                    .pickImage(
+                                                                        source:
+                                                                            ImageSource.camera);
+                                                            final fileImage = File(
+                                                                returnedcamera!
+                                                                    .path);
+                                                            ProfileDataProvider
+                                                                .setProfilePic(
+                                                                    fileImage);
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.camera),
+                                                          label: const Text(
+                                                              'Camera')),
+                                                      ElevatedButton.icon(
+                                                          onPressed: () async {
+                                                            final returnedImage =
+                                                                await ImagePicker()
+                                                                    .pickImage(
+                                                                        source:
+                                                                            ImageSource.gallery);
+                                                            final fileImage =
+                                                                File(
+                                                                    returnedImage!
+                                                                        .path);
+                                                            ProfileDataProvider
+                                                                .setProfilePic(
+                                                                    fileImage);
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.image),
+                                                          label: const Text(
+                                                              'Gallery'))
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ));
+                                  },
                                 ),
                               ),
                             )
@@ -110,7 +191,8 @@ class ProfileSetScreen extends StatelessWidget {
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (value) {
-                                      if (value == null || value.trim().isEmpty) {
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
                                         return 'Please Enter your Name';
                                       } else if (!RegExp(r'^[A-Za-z\s\-]+$')
                                           .hasMatch(value)) {
@@ -124,8 +206,8 @@ class ProfileSetScreen extends StatelessWidget {
                                         color: AppTheme.mainTextColor),
                                     decoration: const InputDecoration(
                                         hintText: 'What Should we call you?',
-                                        hintStyle:
-                                            TextStyle(color: AppTheme.accentColor),
+                                        hintStyle: TextStyle(
+                                            color: AppTheme.accentColor),
                                         prefixIcon: Icon(
                                           Icons.person_outlined,
                                           color: AppTheme.accentColor,

@@ -1,3 +1,4 @@
+import 'package:financify/db/profile_db.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';

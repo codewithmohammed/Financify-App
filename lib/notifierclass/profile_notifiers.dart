@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:financify/db/profile_db.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
 import 'package:financify/screens/MainScreens/homeScreen.dart';
@@ -8,7 +10,8 @@ import 'package:flutter/material.dart';
 
 class ProfileDataProvider extends ChangeNotifier {
   int id = 1;
-  late String name;
+  String name = '';
+  File? imageData;
   String currencyCode = 'ABC';
   String currencyCountry = 'Select Your Country Currency';
   void replaceCurrency(String selectedCode) {
@@ -35,7 +38,16 @@ class ProfileDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setName(String typedname) {
+  void setProfilePic(
+    File? imageSelected,
+  ) {
+    imageData = imageSelected;
+    notifyListeners();
+  }
+
+  void setProfileName(
+    String typedname,
+  ) {
     name = typedname;
     notifyListeners();
   }
@@ -43,20 +55,17 @@ class ProfileDataProvider extends ChangeNotifier {
   void dBToName() async {
     final profileDB = ProfileDB();
     final profiledata = await profileDB.getProfile();
-    setName(profiledata!.name);
+    setProfileName(profiledata!.name);
   }
 
-  void profileToBD() {
-    // if (name == '' && currencyCode == '' && currencyCountry == '') {
-    //   return;
-    // }else{
+  void profileToBD() async{
     final profilevalue = ProfileModel(
         id: id,
+        // imageData: await imageData!.readAsBytes(),
         name: name,
         currencyCode: currencyCode,
         currencyCountry: currencyCountry);
     final profileDB = ProfileDB();
     profileDB.insertProfile(profilevalue);
   }
-  // }
 }

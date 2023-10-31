@@ -1,10 +1,16 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:typed_data';
 part 'profile_model.g.dart';
+
+
 @HiveType(typeId: 1)
 class ProfileModel {
   @HiveField(0)
   final int id;
+
+  // @HiveField(1)
+  // final Uint8List? imageData;
 
   @HiveField(1)
   final String name;
@@ -17,6 +23,7 @@ class ProfileModel {
 
   ProfileModel(
       {required this.id,
+      // required this.imageData,
       required this.name,
       required this.currencyCode,
       required this.currencyCountry});
@@ -26,4 +33,3 @@ class ProfileModel {
     return '$id $name $currencyCode $currencyCountry';
   }
 }
-

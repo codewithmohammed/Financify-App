@@ -1,18 +1,29 @@
-import 'package:financify/notifierclass/Data_notifiers.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfileUpdateScreen extends StatelessWidget {
+class ProfileUpdateScreen extends StatefulWidget {
   const ProfileUpdateScreen({super.key});
 
   @override
+  State<ProfileUpdateScreen> createState() => _ProfileUpdateScreenState();
+}
+
+class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
+        TextEditingController nameController = TextEditingController();
+  @override
+  void initState() {
+    // if (ProfileDataProvider().name != null) {
+    //   nameController.text == ProfileDataProvider().name;
+    // }
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    if (ProfileDataProvider().name != null) {
-      nameController.text == ProfileDataProvider().name;
-    }
+
+
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
@@ -23,8 +34,8 @@ class ProfileUpdateScreen extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () async {
-                            ProfileDataProvider.setName(
-                                nameController.text.toString());
+                            // ProfileDataProvider.setProfile(
+                            //     nameController.text.toString());
                             FocusScope.of(context).unfocus();
                             await Future.delayed(
                                 const Duration(milliseconds: 100));

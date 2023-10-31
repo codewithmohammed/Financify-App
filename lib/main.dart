@@ -1,5 +1,7 @@
+import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
-import 'package:financify/notifierclass/Data_notifiers.dart';
+import 'package:financify/notifierclass/account_notifier.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/screens/MainScreens/homeScreen.dart';
 import 'package:financify/screens/MainScreens/mainscreen.dart';
 import 'package:financify/screens/OBscreens/screenone.dart';
@@ -18,6 +20,9 @@ Future<void> main() async {
   if (!Hive.isAdapterRegistered(ProfileModelAdapter().typeId)) {
     Hive.registerAdapter(ProfileModelAdapter());
   }
+  if (!Hive.isAdapterRegistered(AccountModelAdapter().typeId)) {
+    Hive.registerAdapter(AccountModelAdapter());
+  }
   runApp(const MyApp());
 }
 
@@ -29,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProfileDataProvider()),
-      //  ChangeNotifierProvider(create: (context) => AccountDataProvider())
+       ChangeNotifierProvider(create: (context) => AccountDataProvider())
       ],
       child: MaterialApp(
         routes: {
