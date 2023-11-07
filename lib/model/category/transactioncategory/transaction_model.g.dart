@@ -8,7 +8,7 @@ part of 'transaction_model.dart';
 
 class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
   @override
-  final int typeId = 3;
+  final int typeId = 5;
 
   @override
   TransactionModel read(BinaryReader reader) {
@@ -18,32 +18,38 @@ class TransactionModelAdapter extends TypeAdapter<TransactionModel> {
     };
     return TransactionModel(
       id: fields[0] as String,
-      accountname: fields[1] as String,
-      toAccount: fields[2] as String,
-      transactiondate: fields[3] as String,
-      fromAccount: fields[4] as String,
-      categoryname: fields[5] as String,
-      type: fields[6] as TransactionCategoryType,
+      amount: fields[1] as String,
+      accountname: fields[2] as String,
+      toaccountname: fields[3] as String,
+      transactiondate: fields[4] as String,
+      fromaccountname: fields[5] as String,
+      categoryname: fields[6] as String,
+      accountnote: fields[7] as String,
+      type: fields[8] as TransactionCategoryType,
     );
   }
 
   @override
   void write(BinaryWriter writer, TransactionModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.accountname)
+      ..write(obj.amount)
       ..writeByte(2)
-      ..write(obj.toAccount)
+      ..write(obj.accountname)
       ..writeByte(3)
-      ..write(obj.transactiondate)
+      ..write(obj.toaccountname)
       ..writeByte(4)
-      ..write(obj.fromAccount)
+      ..write(obj.transactiondate)
       ..writeByte(5)
-      ..write(obj.categoryname)
+      ..write(obj.fromaccountname)
       ..writeByte(6)
+      ..write(obj.categoryname)
+      ..writeByte(7)
+      ..write(obj.accountnote)
+      ..writeByte(8)
       ..write(obj.type);
   }
 

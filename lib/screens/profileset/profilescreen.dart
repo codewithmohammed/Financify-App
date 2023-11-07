@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:financify/db/profile_db.dart';
 import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
@@ -29,11 +28,14 @@ class ProfileSetScreen extends StatelessWidget {
                                 ProfileDataProvider.imageData != null) {
                               ProfileDataProvider.setProfileName(
                                   nameController.text.toString());
+                              ProfileDataProvider.profileToBD();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
                               Navigator.pushNamedAndRemoveUntil(
                                   context, 'CurrencySelect', (route) => false);
+                            } else {
+                              return;
                             }
                           },
                           child: const Text(

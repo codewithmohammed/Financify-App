@@ -1,8 +1,7 @@
+
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'dart:typed_data';
 part 'profile_model.g.dart';
-
 
 @HiveType(typeId: 1)
 class ProfileModel {
@@ -10,7 +9,7 @@ class ProfileModel {
   final int id;
 
   // @HiveField(1)
-  // final Uint8List? imageData;
+  // final Uint8List imageData;
 
   @HiveField(1)
   final String name;

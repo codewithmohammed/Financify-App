@@ -5,16 +5,15 @@ import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class CurrencySelect extends StatefulWidget {
-  const CurrencySelect({super.key});
+class UpdateCurrencySelect extends StatefulWidget {
+  const UpdateCurrencySelect({super.key});
 
   @override
-  State<CurrencySelect> createState() => _CurrencySelectState();
+  State<UpdateCurrencySelect> createState() => _UpdateCurrencySelectState();
 }
 
-class _CurrencySelectState extends State<CurrencySelect> {
+class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,14 +135,8 @@ class _CurrencySelectState extends State<CurrencySelect> {
                                 height: 54,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    AccountDataProvider.accountToDB();
-                                    final sharedPrefs =
-                                        await SharedPreferences.getInstance();
-                                    await sharedPrefs.setString(
-                                        'SAVE_KEY_LOGIN', 'true');
                                     ProfileDataProvider.profileToBD();
-                                    Navigator.pushNamedAndRemoveUntil(context,
-                                        'CashAccountAmt', (route) => false);
+                                    Navigator.of(context).pop();
                                   },
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all<

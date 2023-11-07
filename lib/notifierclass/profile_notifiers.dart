@@ -10,10 +10,11 @@ import 'package:flutter/material.dart';
 
 class ProfileDataProvider extends ChangeNotifier {
   int id = 1;
-  String name = '';
+  TextEditingController nameController = TextEditingController();
   File? imageData;
   String currencyCode = 'ABC';
   String currencyCountry = 'Select Your Country Currency';
+
   void replaceCurrency(String selectedCode) {
     currencyCode = selectedCode;
     notifyListeners();
@@ -48,24 +49,30 @@ class ProfileDataProvider extends ChangeNotifier {
   void setProfileName(
     String typedname,
   ) {
-    name = typedname;
+    nameController.text = typedname;
     notifyListeners();
   }
 
   void dBToName() async {
     final profileDB = ProfileDB();
     final profiledata = await profileDB.getProfile();
-    setProfileName(profiledata!.name);
+    if (profiledata == null) {
+      return;
+    }
+    nameController.text = profiledata.name;
+    currencyCode = profiledata.currencyCode;
+    currencyCountry = profiledata.currencyCountry;
+    notifyListeners();
   }
 
-  void profileToBD() async{
+  void profileToBD() async {
     final profilevalue = ProfileModel(
         id: id,
-        // imageData: await imageData!.readAsBytes(),
-        name: name,
+        name: nameController.text,
         currencyCode: currencyCode,
         currencyCountry: currencyCountry);
     final profileDB = ProfileDB();
     profileDB.insertProfile(profilevalue);
+    dBToName();
   }
 }

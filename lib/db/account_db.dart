@@ -26,7 +26,11 @@ class AccountDB implements AccountDBFunctions {
   Future<List<AccountModel>> getAccount() async {
     final accountDB = await Hive.openBox<AccountModel>(ACCOUNT_DB_NAME);
     return accountDB.values.toList();
-    // return accountDB.values.toList();
+  }
+
+  Future<void> deleteAccount(String index) async {
+    final accountDB = await Hive.openBox<AccountModel>(ACCOUNT_DB_NAME);
+    accountDB.delete(index);
   }
 }
 

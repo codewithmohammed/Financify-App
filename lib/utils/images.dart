@@ -22,4 +22,6 @@ class NavICons {
   static const String iconTransfer = 'assets/images/transferIcon.png';
   static const String iconIncome = 'assets/images/incomeIcon.png';
   static const String iconExpense = 'assets/images/cashIcon.png';
+  static const String deleteIcon = 'assets/images/Delete-Icon.png';
+  static const String editAllIcon = 'assets/images/Editall-Icon.png';
 }

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ProfileUpdateScreen extends StatefulWidget {
@@ -12,37 +14,55 @@ class ProfileUpdateScreen extends StatefulWidget {
 }
 
 class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
-        TextEditingController nameController = TextEditingController();
+
   @override
   void initState() {
-    // if (ProfileDataProvider().name != null) {
-    //   nameController.text == ProfileDataProvider().name;
-    // }
+       Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
     super.initState();
   }
   @override
+  void didChangeDependencies() {
+    Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-
+    final nameKey = GlobalKey<FormState>();
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
           builder: ((context, ProfileDataProvider, child) => SafeArea(
                 child: Stack(children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                          onPressed: () async {
-                            // ProfileDataProvider.setProfile(
-                            //     nameController.text.toString());
-                            FocusScope.of(context).unfocus();
-                            await Future.delayed(
-                                const Duration(milliseconds: 100));
-                            Navigator.pushNamed(context, 'CurrencySelect');
+                          onPressed: () {
+                            Navigator.pop(context);
                           },
                           child: const Text(
-                            'NEXT',
+                            'CLOSE',
+                            style: TextStyle(color: AppTheme.primaryColor),
+                          )),
+                      TextButton(
+                          onPressed: () async {
+                            if (nameKey.currentState!.validate() &&
+                                ProfileDataProvider.imageData != null) {
+                              ProfileDataProvider.setProfileName(
+                                  ProfileDataProvider.nameController.text
+                                      .toString());
+                                      ProfileDataProvider.profileToBD();
+                              FocusScope.of(context).unfocus();
+                              await Future.delayed(
+                                  const Duration(milliseconds: 200));
+                              Navigator.pop(context);
+                            } else {
+                              return;
+                            }
+                          },
+                          child: const Text(
+                            'UPDATE',
                             style: TextStyle(color: AppTheme.primaryColor),
                             textAlign: TextAlign.right,
                           )),
@@ -79,10 +99,15 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                     ],
                                     color: AppTheme.darkblue,
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Image.asset(
-                                  ImgIcons.iconperson,
-                                  scale: 4,
-                                )),
+                                child: ProfileDataProvider.imageData != null
+                                    ? ClipOval(
+                                        child: Image.file(
+                                            ProfileDataProvider.imageData!,
+                                            fit: BoxFit.cover))
+                                    : Image.asset(
+                                        ImgIcons.iconperson,
+                                        scale: 4,
+                                      )),
                             Positioned(
                               right: 10,
                               bottom: 5,
@@ -94,7 +119,77 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                     borderRadius: BorderRadius.circular(20)),
                                 child: IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (builder) => Container(
+                                              height: 100,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 20,
+                                                vertical: 20,
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  const Text(
+                                                    'Choose Profile Photo',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      ElevatedButton.icon(
+                                                          onPressed: () async {
+                                                            final returnedcamera =
+                                                                await ImagePicker()
+                                                                    .pickImage(
+                                                                        source:
+                                                                            ImageSource.camera);
+                                                            final fileImage = File(
+                                                                returnedcamera!
+                                                                    .path);
+                                                            ProfileDataProvider
+                                                                .setProfilePic(
+                                                                    fileImage);
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.camera),
+                                                          label: const Text(
+                                                              'Camera')),
+                                                      ElevatedButton.icon(
+                                                          onPressed: () async {
+                                                            final returnedImage =
+                                                                await ImagePicker()
+                                                                    .pickImage(
+                                                                        source:
+                                                                            ImageSource.gallery);
+                                                            final fileImage =
+                                                                File(
+                                                                    returnedImage!
+                                                                        .path);
+                                                            ProfileDataProvider
+                                                                .setProfilePic(
+                                                                    fileImage);
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.image),
+                                                          label: const Text(
+                                                              'Gallery'))
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ));
+                                  },
                                 ),
                               ),
                             )
@@ -107,20 +202,24 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                   color: AppTheme.black,
                                   borderRadius: BorderRadius.circular(10)),
                               width: 350,
-                              child: TextFormField(
-                                autovalidateMode: AutovalidateMode.always,
-                                controller: nameController,
-                                style: const TextStyle(
-                                    color: AppTheme.mainTextColor),
-                                decoration: const InputDecoration(
-                                    hintText: 'What Should we call you?',
-                                    hintStyle:
-                                        TextStyle(color: AppTheme.accentColor),
-                                    prefixIcon: Icon(
-                                      Icons.person_outlined,
-                                      color: AppTheme.accentColor,
-                                    ),
-                                    border: InputBorder.none),
+                              child: Form(
+                                key: nameKey,
+                                child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.always,
+                                  controller:
+                                      ProfileDataProvider.nameController,
+                                  style: const TextStyle(
+                                      color: AppTheme.mainTextColor),
+                                  decoration: const InputDecoration(
+                                      hintText: 'What Should we call you?',
+                                      hintStyle: TextStyle(
+                                          color: AppTheme.accentColor),
+                                      prefixIcon: Icon(
+                                        Icons.person_outlined,
+                                        color: AppTheme.accentColor,
+                                      ),
+                                      border: InputBorder.none),
+                                ),
                               )),
                         ),
                       ],

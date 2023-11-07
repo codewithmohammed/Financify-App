@@ -1,4 +1,4 @@
-import 'package:financify/db/account_db.dart';
+
 import 'package:financify/notifierclass/account_notifier.dart';
 import 'package:financify/notifierclass/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
@@ -23,13 +23,24 @@ class CashAccSet extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () async {
-                            AccountDataProvider.accBalanaceSet(
-                                amountController.text);
-                            AccountDataProvider.accountToDB();
-                            FocusScope.of(context).unfocus();
-                            await Future.delayed(
-                                const Duration(milliseconds: 100));
-                            Navigator.pushNamed(context, 'MainPage');
+                            if (amountController.text.isEmpty) {
+                              AccountDataProvider.accBalanaceSet('0');
+                              AccountDataProvider.accountToDB();
+                              FocusScope.of(context).unfocus();
+                              await Future.delayed(
+                                  const Duration(milliseconds: 100));
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'MainPage', (route) => false);
+                            } else {
+                              AccountDataProvider.accBalanaceSet(
+                                  amountController.text);
+                              AccountDataProvider.accountToDB();
+                              FocusScope.of(context).unfocus();
+                              await Future.delayed(
+                                  const Duration(milliseconds: 100));
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'MainPage', (route) => false);
+                            }
                           },
                           child: const Text(
                             'NEXT',

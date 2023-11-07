@@ -1,6 +1,12 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:financify/notifierclass/account_notifier.dart';
+import 'package:financify/notifierclass/expensetransaction_notifier.dart';
+import 'package:financify/notifierclass/profile_notifiers.dart';
+import 'package:financify/notifierclass/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseOperationScreen extends StatefulWidget {
   const ExpenseOperationScreen({super.key});
@@ -10,216 +16,419 @@ class ExpenseOperationScreen extends StatefulWidget {
 }
 
 class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
-  @override
-  final List<String> items = [
-    'A_Item1',
-    'A_Item2',
-    'A_Item3',
-    'A_Item4',
-    'B_Item1',
-    'B_Item2',
-    'B_Item3',
-    'B_Item4',
-  ];
-
-  String? selectedValue;
-  final TextEditingController textEditingController = TextEditingController();
-
-  @override
-  void dispose() {
-    textEditingController.dispose();
-    super.dispose();
-  }
-
+  String? accountselectedValue;
+  String? categoryselectedValue;
+  final _amountkey = GlobalKey<FormState>();
+  final TextEditingController categorytextEditingController =
+      TextEditingController();
+  final TextEditingController accounttextEditingController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
+    List<String> expenseCategories = [
+      'Housing',
+      'Utilities',
+      'Groceries',
+      'Transportation',
+      'Health Care',
+      'Insurance',
+      'Education',
+      'Entertainment',
+      'Dining Out',
+      'Shopping',
+      'Personal Care',
+      'Debt Payments',
+      'Charitable Donations',
+      'Taxes',
+      'Miscellaneous',
+    ];
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
-      body: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(
-                        Icons.minimize,
-                        color: AppTheme.mainTextColor,
-                        size: 50,
-                      ),
-                      Row(
+        backgroundColor: AppTheme.backgroundColor,
+        body: Consumer<TransactionDataProvider>(
+          builder: ((context, ExpenseTransactionDataProvider, child) =>
+              (SafeArea(
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: 150,
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 50, color: AppTheme.mainTextColor),
-                              decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none),
-                                  hintText: "0",
-                                  hintStyle:
-                                      TextStyle(color: AppTheme.mainTextColor)),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(),
-                            ),
-                          ),
-                          const Text(
-                            'AED',
-                            style: TextStyle(
-                                color: AppTheme.mainTextColor, fontSize: 30),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 150),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            const Text(
-                              'Account',
-                              style: TextStyle(color: AppTheme.accentColor),
-                            ),
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton2<String>(
-                                isExpanded: true,
-                                hint: const Text(
-                                  'Select Item',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: AppTheme.mainTextColor,
-                                  ),
-                                ),
-                                items: items
-                                    .map((item) => DropdownMenuItem(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color: AppTheme.mainTextColor),
-                                          ),
-                                        ))
-                                    .toList(),
-                                value: selectedValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedValue = value;
-                                  });
-                                },
-                                buttonStyleData: const ButtonStyleData(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  height: 40,
-                                  width: 100,
-                                ),
-                                dropdownStyleData: DropdownStyleData(
-                                  maxHeight: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: AppTheme.accentColor,
-                                  ),
-                                ),
-                                menuItemStyleData: const MenuItemStyleData(
-                                  overlayColor: MaterialStatePropertyAll(
-                                      AppTheme.backgroundColor),
-                                  height: 40,
-                                ),
-                                dropdownSearchData: DropdownSearchData(
-                                  searchController: textEditingController,
-                                  searchInnerWidgetHeight: 50,
-                                  searchInnerWidget: Container(
-                                    height: 50,
-                                    padding: const EdgeInsets.only(
-                                      top: 8,
-                                      bottom: 4,
-                                      right: 8,
-                                      left: 8,
-                                    ),
-                                    child: TextFormField(
-                                      expands: true,
-                                      maxLines: null,
-                                      controller: textEditingController,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                          vertical: 8,
-                                        ),
-                                        hintText: 'Search for an item...',
-                                        hintStyle:
-                                            const TextStyle(fontSize: 12),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Icon(
+                                Icons.remove,
+                                color: AppTheme.mainTextColor,
+                                size: 50,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 150,
+                                    child: Form(
+                                      key: _amountkey,
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator: (value) {
+                                          if (value == null) {
+                                            return "The Amount cant be Empty";
+                                          }
+                                          return null;
+                                        },
+                                        controller:
+                                            ExpenseTransactionDataProvider
+                                                .amountController,
+                                        onChanged: (value) {
+                                          print(ExpenseTransactionDataProvider
+                                              .amountController.text);
+                                        },
+                                        style: const TextStyle(
+                                            fontSize: 50,
+                                            color: AppTheme.mainTextColor),
+                                        decoration: const InputDecoration(
+                                            border: UnderlineInputBorder(
+                                                borderSide: BorderSide.none),
+                                            hintText: "0",
+                                            hintStyle: TextStyle(
+                                                color: AppTheme.mainTextColor)),
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(),
                                       ),
                                     ),
                                   ),
-                                  searchMatchFn: (item, searchValue) {
-                                    return item.value
-                                        .toString()
-                                        .contains(searchValue);
-                                  },
+                                  Consumer<ProfileDataProvider>(
+                                      builder: ((context, ProfileDataProvider,
+                                              child) =>
+                                          Text(
+                                            ProfileDataProvider.currencyCode,
+                                            style: const TextStyle(
+                                                color: AppTheme.mainTextColor,
+                                                fontSize: 30),
+                                          ))),
+                                ],
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 150),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    const Text(
+                                      'Account',
+                                      style: TextStyle(
+                                          color: AppTheme.accentColor),
+                                    ),
+                                    Consumer<AccountDataProvider>(
+                                        builder: ((context, AccountDataProvider,
+                                                child) =>
+                                            DropdownButtonHideUnderline(
+                                              child: DropdownButton2<String>(
+                                                isExpanded: true,
+                                                hint: const Text(
+                                                  'Select Account',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        AppTheme.mainTextColor,
+                                                  ),
+                                                ),
+                                                items: AccountDataProvider
+                                                    .accountList
+                                                    .map((accname) =>
+                                                        accname.accName)
+                                                    .map((item) =>
+                                                        DropdownMenuItem(
+                                                          value: item,
+                                                          child: Text(
+                                                            item,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                color: AppTheme
+                                                                    .mainTextColor),
+                                                          ),
+                                                        ))
+                                                    .toList(),
+                                                value: accountselectedValue,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    accountselectedValue =
+                                                        value;
+                                                  });
+                                                  ExpenseTransactionDataProvider
+                                                      .accountnameController
+                                                      .text = value!;
+                                                  print(ExpenseTransactionDataProvider
+                                                      .accountnameController
+                                                      .text);
+                                                },
+                                                buttonStyleData:
+                                                    const ButtonStyleData(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 0),
+                                                  height: 40,
+                                                  width: 100,
+                                                ),
+                                                dropdownStyleData:
+                                                    DropdownStyleData(
+                                                  maxHeight: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: AppTheme.accentColor,
+                                                  ),
+                                                ),
+                                                menuItemStyleData:
+                                                    const MenuItemStyleData(
+                                                  overlayColor:
+                                                      MaterialStatePropertyAll(
+                                                          AppTheme
+                                                              .backgroundColor),
+                                                  height: 40,
+                                                ),
+                                                dropdownSearchData:
+                                                    DropdownSearchData(
+                                                  searchController:
+                                                      accounttextEditingController,
+                                                  searchInnerWidgetHeight: 50,
+                                                  searchInnerWidget: Container(
+                                                    height: 50,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      top: 8,
+                                                      bottom: 4,
+                                                      right: 8,
+                                                      left: 8,
+                                                    ),
+                                                    child: TextFormField(
+                                                      expands: true,
+                                                      maxLines: null,
+                                                      controller:
+                                                          accounttextEditingController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 8,
+                                                        ),
+                                                        hintText:
+                                                            'Search for an item...',
+                                                        hintStyle:
+                                                            const TextStyle(
+                                                                fontSize: 12),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  searchMatchFn:
+                                                      (item, searchValue) {
+                                                    return item.value
+                                                        .toString()
+                                                        .toLowerCase()
+                                                        .contains(searchValue);
+                                                  },
+                                                ),
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    accounttextEditingController
+                                                        .clear();
+                                                  }
+                                                },
+                                              ),
+                                            )))
+                                  ],
                                 ),
-                                //This to clear the search value when you close the menu
-                                onMenuStateChange: (isOpen) {
-                                  if (!isOpen) {
-                                    textEditingController.clear();
-                                  }
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            const Text('Date',
-                                style: TextStyle(color: AppTheme.accentColor)),
-                            TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Select',
-                                  style:
-                                      TextStyle(color: AppTheme.mainTextColor),
-                                ))
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            const Text('Category',
-                                style: TextStyle(color: AppTheme.accentColor)),
-                            SizedBox(
-                                width: 100,
-                                height: 50,
-                                child: TextFormField(
-                                  style: const TextStyle(
-                                      color: AppTheme.mainTextColor),
-                                  decoration: InputDecoration(
-                                      hintText: 'eg.salary',
-                                      hintStyle: TextStyle(
-                                          color: AppTheme.mainTextColor
-                                              .withOpacity(0.5)),
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              style: BorderStyle.solid))),
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )),
-      ),
-    );
+                                Column(
+                                  children: [
+                                    const Text('Date',
+                                        style: TextStyle(
+                                            color: AppTheme.accentColor)),
+                                    TextButton(
+                                        onPressed: () async {
+                                          final selectedDate =
+                                              await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now().subtract(
+                                                const Duration(days: 30)),
+                                            lastDate: DateTime.now(),
+                                          ).then((pickedDate) {
+                                            String? formattedDate;
+                                            if (pickedDate != null) {
+                                              formattedDate =
+                                                  DateFormat('d/M/y').format(
+                                                      pickedDate); // Format the date without leading zeros
+                                              print(
+                                                  formattedDate); // Use this formattedDate where needed
+                                            }
+                                            return formattedDate;
+                                          });
+                                          if (selectedDate == null) {
+                                            return;
+                                          } else {
+                                            ExpenseTransactionDataProvider
+                                                .setTransactionDate(
+                                                    selectedDate);
+                                            print(ExpenseTransactionDataProvider
+                                                .dateController.text);
+                                          }
+                                        },
+                                        child: Text(
+                                          ExpenseTransactionDataProvider
+                                                      .dateController
+                                                      .text !=
+                                                  ''
+                                              ? ExpenseTransactionDataProvider
+                                                  .dateController.text
+                                              : 'Select',
+                                          style: const TextStyle(
+                                              color: AppTheme.mainTextColor),
+                                        ))
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    const Text('Category',
+                                        style: TextStyle(
+                                            color: AppTheme.accentColor)),
+                                    DropdownButtonHideUnderline(
+                                      child: DropdownButton2<String>(
+                                        isExpanded: true,
+                                        hint: const Text(
+                                          'Select Category',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: AppTheme.mainTextColor,
+                                          ),
+                                        ),
+                                        items: expenseCategories
+                                            .map((item) => DropdownMenuItem(
+                                                  value: item,
+                                                  child: Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        color: AppTheme
+                                                            .mainTextColor),
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        value: categoryselectedValue,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            categoryselectedValue = value;
+                                          });
+                                          ExpenseTransactionDataProvider
+                                              .categoryController.text = value!;
+                                          print(ExpenseTransactionDataProvider
+                                              .categoryController.text);
+                                        },
+                                        buttonStyleData: const ButtonStyleData(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 0),
+                                          height: 40,
+                                          width: 150,
+                                        ),
+                                        dropdownStyleData: DropdownStyleData(
+                                          maxHeight: 200,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: AppTheme.accentColor,
+                                          ),
+                                        ),
+                                        menuItemStyleData:
+                                            const MenuItemStyleData(
+                                          overlayColor:
+                                              MaterialStatePropertyAll(
+                                                  AppTheme.backgroundColor),
+                                          height: 40,
+                                        ),
+                                        dropdownSearchData: DropdownSearchData(
+                                          searchController:
+                                              categorytextEditingController,
+                                          searchInnerWidgetHeight: 50,
+                                          searchInnerWidget: Container(
+                                            height: 50,
+                                            padding: const EdgeInsets.only(
+                                              top: 8,
+                                              bottom: 4,
+                                              right: 8,
+                                              left: 8,
+                                            ),
+                                            child: TextFormField(
+                                              expands: true,
+                                              maxLines: null,
+                                              controller:
+                                                  categorytextEditingController,
+                                              decoration: InputDecoration(
+                                                isDense: true,
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 8,
+                                                ),
+                                                hintText:
+                                                    'Search for an item...',
+                                                hintStyle: const TextStyle(
+                                                    fontSize: 12),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          searchMatchFn: (item, searchValue) {
+                                            return item.value
+                                                .toString()
+                                                .toLowerCase()
+                                                .contains(searchValue);
+                                          },
+                                        ),
+                                        onMenuStateChange: (isOpen) {
+                                          if (!isOpen) {
+                                            categorytextEditingController
+                                                .clear();
+                                          }
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 80,
+                            child: TextFormField(
+                              controller:
+                                  ExpenseTransactionDataProvider.noteController,
+                              style: const TextStyle(
+                                  color: AppTheme.mainTextColor),
+                              decoration: const InputDecoration(
+                                  hintText: 'Write Any Note',
+                                  hintStyle:
+                                      TextStyle(color: AppTheme.accentColor),
+                                  border: OutlineInputBorder()),
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+              ))),
+        ));
   }
 }
