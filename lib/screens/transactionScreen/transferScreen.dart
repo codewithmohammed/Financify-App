@@ -1,5 +1,4 @@
-import 'package:financify/notifierclass/transaction_notifier.dart';
-import 'package:financify/notifierclass/transferTransaction_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,8 @@ class TransferScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount: TransferTransactionDataProvider.transferaccountList.length,
+                    itemCount: TransferTransactionDataProvider
+                        .transferaccountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -32,7 +32,7 @@ class TransferScreen extends StatelessWidget {
                           children: [
                             Text(
                               TransferTransactionDataProvider
-                                  .transferaccountList[index].fromaccountname,
+                                  .transferaccountList[index].accountnote,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
@@ -46,11 +46,24 @@ class TransferScreen extends StatelessWidget {
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              TransferTransactionDataProvider
-                                  .transferaccountList[index].toaccountname,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
+                            Row(
+                              children: [
+                                Text(
+                                  TransferTransactionDataProvider
+                                      .transferaccountList[index]
+                                      .fromaccountname,
+                                  style: const TextStyle(
+                                      color: AppTheme.mainTextColor),
+                                ),
+                                const Icon(Icons.arrow_right_alt_outlined,
+                                    color: Colors.blue),
+                                Text(
+                                  TransferTransactionDataProvider
+                                      .transferaccountList[index].toaccountname,
+                                  style: const TextStyle(
+                                      color: AppTheme.mainTextColor),
+                                )
+                              ],
                             ),
                             Text(
                               TransferTransactionDataProvider

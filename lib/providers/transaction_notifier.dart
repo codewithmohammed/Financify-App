@@ -5,6 +5,7 @@ import 'package:financify/model/category/transactioncategory/transaction_model.d
 import 'package:flutter/material.dart';
 
 class TransactionDataProvider extends ChangeNotifier {
+  double accExpense = 0;
   List<TransactionModel> accountList = [];
   List<TransactionModel> incomeaccountList = [];
   List<TransactionModel> expenseaccountList = [];
@@ -26,6 +27,12 @@ class TransactionDataProvider extends ChangeNotifier {
   void setTransactionDate(String selectedDate) {
     dateController.text = selectedDate;
     notifyListeners();
+  }
+
+  void runFilter(String enteredKeyword){
+    if (enteredKeyword.trim().isEmpty) {
+      // accountList = students;
+    }
   }
 
   Future<void> transactionToDB() async {
@@ -60,17 +67,30 @@ class TransactionDataProvider extends ChangeNotifier {
     incomeaccountList.clear();
     expenseaccountList.clear();
     transferaccountList.clear();
-    accountList = listofTransaction.reversed.toList();
+    accountList = listofTransaction.toList();
+    accountList.sort((first, second) {
+      return second.transactiondate.compareTo(first.transactiondate);
+    });
     incomeaccountList = listofTransaction
         .where((element) => element.type == TransactionCategoryType.income)
         .toList();
     expenseaccountList = listofTransaction
         .where((element) => element.type == TransactionCategoryType.expense)
         .toList();
+    accExpense = sumofAccounts();
     transferaccountList = listofTransaction
         .where((element) => element.type == TransactionCategoryType.transfer)
         .toList();
     notifyListeners();
+  }
+
+  double sumofAccounts() {
+    final accountbalances = expenseaccountList
+        .map((account) => double.parse(account.amount))
+        .toList();
+    double sum = accountbalances.fold(
+        0, (previousValue, element) => previousValue + element);
+    return sum;
   }
 
   Future<void> calculateAccountAmount(
@@ -130,6 +150,8 @@ class TransactionDataProvider extends ChangeNotifier {
   void clearAll() {
     accountnameController.clear();
     amountController.clear();
+    toaccountnameController.clear();
+    fromaccountnameController.clear();
     dateController.clear();
     categoryController.clear();
     noteController.clear();

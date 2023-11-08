@@ -1,4 +1,4 @@
-import 'package:financify/notifierclass/transaction_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class ExpenseScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
                     itemCount: ExpenseTransactionDataProvider
-                        .transferaccountList.length,
+                        .expenseaccountList.length,
                     itemBuilder: (
                       context,
                       index,

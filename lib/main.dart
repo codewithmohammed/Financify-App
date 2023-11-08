@@ -1,13 +1,10 @@
 import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
-import 'package:financify/notifierclass/account_notifier.dart';
-import 'package:financify/notifierclass/expensetransaction_notifier.dart';
-import 'package:financify/notifierclass/profile_notifiers.dart';
-import 'package:financify/notifierclass/incometransaction_notifier.dart';
-import 'package:financify/notifierclass/record_notifier.dart';
-import 'package:financify/notifierclass/transaction_notifier.dart';
-import 'package:financify/notifierclass/transferTransaction_notifier.dart';
+import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/filter_notifier.dart';
+import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/screens/MainScreens/homeScreen.dart';
 import 'package:financify/screens/MainScreens/mainscreen.dart';
 import 'package:financify/screens/MainScreens/settingScreen.dart';
@@ -17,9 +14,9 @@ import 'package:financify/screens/operationScreens/transactionScreen.dart';
 import 'package:financify/screens/profileset/cashAccAmt.dart';
 import 'package:financify/screens/profileset/currencyselect.dart';
 import 'package:financify/screens/profileset/profilescreen.dart';
-import 'package:financify/updatingPage/editAllAccounts.dart';
-import 'package:financify/updatingPage/proileUpdate.dart';
-import 'package:financify/updatingPage/Currencyupdate.dart';
+import 'package:financify/screens/updatingPage/editAllAccounts.dart';
+import 'package:financify/screens/updatingPage/proileUpdate.dart';
+import 'package:financify/screens/updatingPage/Currencyupdate.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -49,10 +46,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ProfileDataProvider()..dBToName()),
-        ChangeNotifierProvider(create: (context) => AccountDataProvider()..dBToAccount()),
-        ChangeNotifierProvider(create: (context) => TransactionDataProvider()..dBtoTransaction()),
-
+        ChangeNotifierProvider(
+            create: (context) => ProfileDataProvider()..dBToName()),
+        ChangeNotifierProvider(
+            create: (context) => AccountDataProvider()..dBToAccount()),
+        ChangeNotifierProvider(
+            create: (context) => TransactionDataProvider()..dBtoTransaction()),
+        ChangeNotifierProvider(create: (context) => FilterNotifier()),
       ],
       child: MaterialApp(
         routes: {
@@ -66,8 +66,8 @@ class MyApp extends StatelessWidget {
               const TransactionOperationScreen(),
           'ProfileUpdate': (context) => const ProfileUpdateScreen(),
           'settingPage': (context) => const SettingScreen(),
-          'EditallAccount' : (context) => const EditAllAccounts(),
-          'UpdateCurrency' : (context) => const UpdateCurrencySelect()
+          'EditallAccount': (context) => const EditAllAccounts(),
+          'UpdateCurrency': (context) => const UpdateCurrencySelect()
         },
         title: 'Financify',
         debugShowCheckedModeBanner: false,

@@ -1,6 +1,6 @@
 
-import 'package:financify/notifierclass/account_notifier.dart';
-import 'package:financify/notifierclass/profile_notifiers.dart';
+import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';

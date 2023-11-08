@@ -1,8 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:financify/notifierclass/account_notifier.dart';
-import 'package:financify/notifierclass/profile_notifiers.dart';
-import 'package:financify/notifierclass/transaction_notifier.dart';
-import 'package:financify/notifierclass/transferTransaction_notifier.dart';
+import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -508,10 +507,10 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                         // setState(() {
                         // toselectedValue = _accountnamecontroller.text;
                         // });
-                        TransferTransactionDataProvider
+                      if(accountnameKey.currentState!.validate()){TransferTransactionDataProvider
                             .toaccountnameController
                             .text = _accountnamecontroller.text;
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();};
                       },
                       child: const Text('SET NAME'))
                 ],

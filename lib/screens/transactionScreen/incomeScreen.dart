@@ -1,5 +1,4 @@
-import 'package:financify/notifierclass/incometransaction_notifier.dart';
-import 'package:financify/notifierclass/transaction_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,8 @@ class IncomeScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount: IncomeTransactionDataProvider.incomeaccountList.length,
+                    itemCount:
+                        IncomeTransactionDataProvider.incomeaccountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -32,7 +32,7 @@ class IncomeScreen extends StatelessWidget {
                           children: [
                             Text(
                               IncomeTransactionDataProvider
-                                  .incomeaccountList[index].accountname,
+                                  .incomeaccountList[index].categoryname,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
@@ -48,7 +48,7 @@ class IncomeScreen extends StatelessWidget {
                           children: [
                             Text(
                               IncomeTransactionDataProvider
-                                  .incomeaccountList[index].categoryname,
+                                  .incomeaccountList[index].accountname,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),

@@ -1,4 +1,6 @@
-import 'package:financify/notifierclass/account_notifier.dart';
+import 'package:financify/db/transaction_db.dart';
+import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:financify/widgets/account_add_popup.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +57,12 @@ class EditAllAccounts extends StatelessWidget {
                                 IconButton(
                                     onPressed: () {
                                       AccountDataProvider.dBDeleteAccount(
-                                          AccountDataProvider.accountList[index].id);
+                                          AccountDataProvider
+                                              .accountList[index].id);
+                                      // TransactionDB().deleteTransaction(
+                                      //     AccountDataProvider
+                                      //         .accountList[index].accBalance);
+                                      // Provider.of<TransactionDataProvider>(context, listen: false).dBtoTransaction();
                                     },
                                     icon: const Icon(
                                       Icons.delete,

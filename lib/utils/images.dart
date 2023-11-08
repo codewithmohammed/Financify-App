@@ -8,6 +8,7 @@ class ImgIcons {
   static const String iconperson = 'assets/images/IconPerson.png';
   static const String iconcash = 'assets/images/IconCash.png';
   static const String iconcoin = 'assets/images/IconCoins.png';
+   static const String iconfilter = 'assets/images/filter.png';
 }
 
 class NavICons {

@@ -17,6 +17,21 @@ class TransactionDB implements TransactionDBFunctions {
     await transactionDB.clear();
   }
 
+  Future<void> deleteTransaction(String value) async {
+    final transactionDB =
+        await Hive.openBox<TransactionModel>(TRANSACTION_DB_NAME);
+    final keysToDelete = <int>[];
+    for (var i = 0; i < transactionDB.length; i++) {
+      final item = transactionDB.getAt(i);
+      if (item != null && item.accountname == value) {
+        keysToDelete.add(i);
+      }
+    }
+    for (var key in keysToDelete) {
+      await transactionDB.deleteAt(key);
+    }
+  }
+
   @override
   Future<List<TransactionModel>> getTransaction() async {
     final transactionDB =

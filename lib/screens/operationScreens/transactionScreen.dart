@@ -1,10 +1,6 @@
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
-import 'package:financify/notifierclass/expensetransaction_notifier.dart';
-import 'package:financify/notifierclass/account_notifier.dart';
-import 'package:financify/notifierclass/incometransaction_notifier.dart';
-import 'package:financify/notifierclass/record_notifier.dart';
-import 'package:financify/notifierclass/transaction_notifier.dart';
-import 'package:financify/notifierclass/transferTransaction_notifier.dart';
+import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/screens/operationScreens/expenseScreen.dart';
 import 'package:financify/screens/operationScreens/incomeScreen.dart';
 import 'package:financify/screens/operationScreens/transferScreen.dart';
@@ -39,12 +35,12 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
       print("First tab selected");
     } else if (_tabController.index == 1) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
-        Provider.of<TransactionDataProvider>(context, listen: false).type =
+      Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.expense;
       print("Second tab selected");
     } else if (_tabController.index == 2) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
-        Provider.of<TransactionDataProvider>(context, listen: false).type =
+      Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.transfer;
       print("Third tab selected");
     }
@@ -93,11 +89,10 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
             actions: [
               IconButton(
                 onPressed: () async {
+                  final accountProvider =
+                      Provider.of<AccountDataProvider>(context, listen: false);
                   if (_tabController.index == 0) {
                     final incomeprovider = Provider.of<TransactionDataProvider>(
-                        context,
-                        listen: false);
-                    final accountProvider = Provider.of<AccountDataProvider>(
                         context,
                         listen: false);
                     if (incomeprovider.categoryController.text.isEmpty) {
@@ -126,9 +121,7 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                     final expenseprovider =
                         Provider.of<TransactionDataProvider>(context,
                             listen: false);
-                    final accountProvider = Provider.of<AccountDataProvider>(
-                        context,
-                        listen: false);
+
                     if (expenseprovider.categoryController.text.isEmpty) {
                       print('The Category must be selected');
                     }
@@ -143,10 +136,8 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                       print('The date must be given');
                     }
                     if (expenseprovider.dateController.text.isNotEmpty &&
-                        expenseprovider
-                            .amountController.text.isNotEmpty &&
-                        expenseprovider
-                            .accountnameController.text.isNotEmpty &&
+                        expenseprovider.amountController.text.isNotEmpty &&
+                        expenseprovider.accountnameController.text.isNotEmpty &&
                         expenseprovider.categoryController.text.isNotEmpty) {
                       expenseprovider.setid();
                       await expenseprovider.transactionToDB();
@@ -158,28 +149,21 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                     final transferprovider =
                         Provider.of<TransactionDataProvider>(context,
                             listen: false);
-                    final accountProvider = Provider.of<AccountDataProvider>(
-                        context,
-                        listen: false);
                     if (transferprovider
                         .fromaccountnameController.text.isEmpty) {
                       print('The Category must be selected');
                     }
-                    if (transferprovider
-                        .toaccountnameController.text.isEmpty) {
+                    if (transferprovider.toaccountnameController.text.isEmpty) {
                       print('Account must not be empty');
                     }
-                    if (transferprovider
-                        .amountController.text.isEmpty) {
+                    if (transferprovider.amountController.text.isEmpty) {
                       print('the amount must not be empty');
                     }
                     if (transferprovider.dateController.text.isEmpty) {
                       print('The date must be given');
                     }
-                    if (transferprovider
-                            .dateController.text.isNotEmpty &&
-                        transferprovider
-                            .amountController.text.isNotEmpty &&
+                    if (transferprovider.dateController.text.isNotEmpty &&
+                        transferprovider.amountController.text.isNotEmpty &&
                         transferprovider
                             .fromaccountnameController.text.isNotEmpty &&
                         transferprovider

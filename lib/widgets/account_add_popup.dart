@@ -1,4 +1,4 @@
-import 'package:financify/notifierclass/account_notifier.dart';
+import 'package:financify/providers/account_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
