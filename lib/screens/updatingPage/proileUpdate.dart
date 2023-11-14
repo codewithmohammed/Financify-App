@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
@@ -14,12 +15,12 @@ class ProfileUpdateScreen extends StatefulWidget {
 }
 
 class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
-
   @override
   void initState() {
-       Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
+    Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
     super.initState();
   }
+
   @override
   void didChangeDependencies() {
     Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
@@ -32,7 +33,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
-          builder: ((context, ProfileDataProvider, child) => SafeArea(
+          builder: ((context, profiledataprovider, child) => SafeArea(
                 child: Stack(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,11 +49,11 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                       TextButton(
                           onPressed: () async {
                             if (nameKey.currentState!.validate() &&
-                                ProfileDataProvider.imageData != null) {
-                              ProfileDataProvider.setProfileName(
-                                  ProfileDataProvider.nameController.text
+                                profiledataprovider.imageData != null) {
+                              profiledataprovider.setProfileName(
+                                  profiledataprovider.nameController.text
                                       .toString());
-                                      ProfileDataProvider.profileToBD();
+                              profiledataprovider.profileToBD();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
@@ -99,10 +100,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                     ],
                                     color: AppTheme.darkblue,
                                     borderRadius: BorderRadius.circular(100)),
-                                child: ProfileDataProvider.imageData != null
+                                child: profiledataprovider.imageData != null
                                     ? ClipOval(
-                                        child: Image.file(
-                                            ProfileDataProvider.imageData!,
+                                        child: Image.memory(
+                                            profiledataprovider.imageData!,
                                             fit: BoxFit.cover))
                                     : Image.asset(
                                         ImgIcons.iconperson,
@@ -157,7 +158,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                                             final fileImage = File(
                                                                 returnedcamera!
                                                                     .path);
-                                                            ProfileDataProvider
+                                                            profiledataprovider
                                                                 .setProfilePic(
                                                                     fileImage);
                                                           },
@@ -176,7 +177,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                                                 File(
                                                                     returnedImage!
                                                                         .path);
-                                                            ProfileDataProvider
+                                                            profiledataprovider
                                                                 .setProfilePic(
                                                                     fileImage);
                                                           },
@@ -207,7 +208,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                 child: TextFormField(
                                   autovalidateMode: AutovalidateMode.always,
                                   controller:
-                                      ProfileDataProvider.nameController,
+                                      profiledataprovider.nameController,
                                   style: const TextStyle(
                                       color: AppTheme.mainTextColor),
                                   decoration: const InputDecoration(

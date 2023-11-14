@@ -29,11 +29,17 @@ class SettingScreen extends StatelessWidget {
               tileColor: AppTheme.listTileColor,
               title: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Change Your Profile',style: TextStyle(color: AppTheme.mainTextColor))],
+                children: [
+                  Text('Change Your Profile',
+                      style: TextStyle(color: AppTheme.mainTextColor))
+                ],
               ),
               subtitle: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Change your Profile Pic and Name',style: TextStyle(color: AppTheme.settingSubtitleColor))],
+                children: [
+                  Text('Change your Profile Pic and Name',
+                      style: TextStyle(color: AppTheme.settingSubtitleColor))
+                ],
               ),
               leading: Container(
                   height: 50,
@@ -54,11 +60,19 @@ class SettingScreen extends StatelessWidget {
               tileColor: AppTheme.listTileColor,
               title: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Edit All the Accounts',style: TextStyle(color: AppTheme.mainTextColor),)],
+                children: [
+                  Text(
+                    'Edit All the Accounts',
+                    style: TextStyle(color: AppTheme.mainTextColor),
+                  )
+                ],
               ),
               subtitle: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Edit all the account balance and name \nif needed.',style: TextStyle(color: AppTheme.settingSubtitleColor))],
+                children: [
+                  Text('Edit all the account balance and name \nif needed.',
+                      style: TextStyle(color: AppTheme.settingSubtitleColor))
+                ],
               ),
               leading: Container(
                   height: 50,
@@ -79,11 +93,19 @@ class SettingScreen extends StatelessWidget {
               tileColor: AppTheme.listTileColor,
               title: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Change the Currency',style: TextStyle(color: AppTheme.mainTextColor),)],
+                children: [
+                  Text(
+                    'Change the Currency',
+                    style: TextStyle(color: AppTheme.mainTextColor),
+                  )
+                ],
               ),
               subtitle: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('change the base currency to your wish.',style: TextStyle(color: AppTheme.settingSubtitleColor))],
+                children: [
+                  Text('change the base currency to your wish.',
+                      style: TextStyle(color: AppTheme.settingSubtitleColor))
+                ],
               ),
               leading: Container(
                   height: 50,
@@ -104,14 +126,21 @@ class SettingScreen extends StatelessWidget {
               tileColor: AppTheme.listTileColor,
               title: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Delete all data',style: TextStyle(color: AppTheme.mainTextColor),)],
+                children: [
+                  Text(
+                    'Delete all data',
+                    style: TextStyle(color: AppTheme.mainTextColor),
+                  )
+                ],
               ),
               subtitle: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                      '''Delete all the app data,this will lose \nall your data from
-the beginning of the app''',style: TextStyle(color: AppTheme.settingSubtitleColor),)
+                    '''Delete all the app data,this will lose \nall your data from
+the beginning of the app''',
+                    style: TextStyle(color: AppTheme.settingSubtitleColor),
+                  )
                 ],
               ),
               leading: Container(

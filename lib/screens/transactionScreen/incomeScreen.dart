@@ -10,14 +10,13 @@ class IncomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionDataProvider>(
-        builder: ((context, IncomeTransactionDataProvider, child) => Scaffold(
+        builder: ((context, incomedataprovider, child) => Scaffold(
               backgroundColor: AppTheme.backgroundColor,
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount:
-                        IncomeTransactionDataProvider.incomeaccountList.length,
+                    itemCount: incomedataprovider.incomeaccountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -31,13 +30,13 @@ class IncomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              IncomeTransactionDataProvider
+                              incomedataprovider
                                   .incomeaccountList[index].categoryname,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
                             Text(
-                              IncomeTransactionDataProvider
+                              incomedataprovider
                                   .incomeaccountList[index].amount,
                               style: const TextStyle(color: Colors.green),
                             )
@@ -47,13 +46,13 @@ class IncomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              IncomeTransactionDataProvider
+                              incomedataprovider
                                   .incomeaccountList[index].accountname,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
                             Text(
-                              IncomeTransactionDataProvider
+                              incomedataprovider
                                   .incomeaccountList[index].transactiondate,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),

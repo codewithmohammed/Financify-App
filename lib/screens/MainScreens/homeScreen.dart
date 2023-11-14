@@ -1,14 +1,11 @@
-import 'package:financify/db/account_db.dart';
-import 'package:financify/db/profile_db.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:financify/widgets/account_add_popup.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:financify/widgets/homeScreenWidget/piecharts.dart';
+import 'package:financify/widgets/homeScreenWidget/totalaccountschart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,16 +16,44 @@ class HomeScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: AppTheme.darkblue,
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () async {
-            final sharedPrefs = await SharedPreferences.getInstance();
-            sharedPrefs.setString('SAVE_KEY_LOGIN', 'false');
-            AccountDB().clearAccount();
-            ProfileDB().clearProfile();
-          },
-          color: AppTheme.primaryColor,
+        leading: SizedBox(
+          height: 200,
+          child: PopupMenuButton(
+            onOpened: () {},
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            color: AppTheme.listTileColor,
+            position: PopupMenuPosition.under,
+            itemBuilder: (ctx) => [
+              PopupMenuItem(
+                  onTap: () {
+                    // bottomSheet(context);
+                  },
+                  height: 40,
+                  child: const Row(
+                    children: [
+                      // Switch(value: true, onChanged: (){})
+                    ],
+                  )),
+            ],
+            child: const Icon(
+              Icons.menu,
+              color: AppTheme.primaryColor,
+            ),
+          ),
         ),
+
+        // IconButton(
+        //   icon: const Icon(Icons.menu),
+        //   onPressed: () async {
+        //     final sharedPrefs = await SharedPreferences.getInstance();
+        //     sharedPrefs.setString('SAVE_KEY_LOGIN', 'false');
+        //     TransactionDB().clearTransaction();
+        //     AccountDB().clearAccount();
+        //     ProfileDB().clearProfile();
+        //   },
+        //   color: AppTheme.primaryColor,
+        // ),
         title: const Text(
           'HOME',
           style: TextStyle(color: AppTheme.primaryColor),
@@ -37,7 +62,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppTheme.backgroundColor,
       body: SingleChildScrollView(
         child: Consumer<AccountDataProvider>(
-            builder: ((context, AccountDataProvider, child) => SafeArea(
+            builder: ((context, acoountdataprovider, child) => SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -72,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                                                   crossAxisSpacing: 10.0,
                                                   mainAxisSpacing: 10.0,
                                                   childAspectRatio: 4),
-                                          itemCount: AccountDataProvider
+                                          itemCount: acoountdataprovider
                                               .accountList.length,
                                           itemBuilder: (BuildContext context,
                                               int index) {
@@ -91,20 +116,16 @@ class HomeScreen extends StatelessWidget {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(AccountDataProvider
+                                                      Text(acoountdataprovider
                                                           .accountList[index]
                                                           .accName),
                                                       Consumer<
                                                               ProfileDataProvider>(
                                                           builder: ((context,
-                                                                  ProfileDataProvider,
+                                                                  profileDataProvider,
                                                                   child) =>
-                                                              Text(AccountDataProvider
-                                                                      .accountList[
-                                                                          index]
-                                                                      .accBalance +
-                                                                  ProfileDataProvider
-                                                                      .currencyCode)))
+                                                              Text(
+                                                                  '${acoountdataprovider.accountList[index].accBalance}\t${profileDataProvider.currencyCode}')))
                                                     ],
                                                   ),
                                                 ));
@@ -131,158 +152,8 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              height: 50,
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                color: AppTheme.darkblue,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12)),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Text(
-                                  'Total Amount',
-                                  style: TextStyle(
-                                      color: AppTheme.mainTextColor,
-                                      fontSize: 20),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 350,
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                color: AppTheme.darkblue,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    bottomRight: Radius.circular(12)),
-                              ),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Consumer<ProfileDataProvider>(
-                                      builder: ((context, ProfileDataProvider,
-                                              child) =>
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Text(
-                                                'Balance',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        AppTheme.mainTextColor),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    ProfileDataProvider
-                                                        .currencyCode,
-                                                    style: const TextStyle(
-                                                        fontSize: 20,
-                                                        color: AppTheme
-                                                            .mainTextColor),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    AccountDataProvider.accTotal
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                        fontSize: 20,
-                                                        color: Color.fromARGB(
-                                                            255, 76, 201, 81)),
-                                                  ),
-                                                ],
-                                              ),
-                                              const Text(
-                                                'Expense',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        AppTheme.mainTextColor),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    ProfileDataProvider
-                                                        .currencyCode,
-                                                    style: const TextStyle(
-                                                        fontSize: 20,
-                                                        color: AppTheme
-                                                            .mainTextColor),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Consumer<
-                                                          TransactionDataProvider>(
-                                                      builder: ((context,
-                                                              TransactionDataProvider,
-                                                              child) =>
-                                                          Text(
-                                                            TransactionDataProvider
-                                                                .accExpense
-                                                                .toString(),
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        20,
-                                                                    color: Colors
-                                                                        .red),
-                                                          ))),
-                                                ],
-                                              ),
-                                            ],
-                                          ))),
-                                  Consumer<TransactionDataProvider>(
-                                      builder: ((context,
-                                              TransactionDataProvider, child) =>
-                                          PieChart(
-                                              swapAnimationDuration:
-                                                  const Duration(
-                                                      milliseconds: 750),
-                                              PieChartData(
-                                                  sectionsSpace: 0,
-                                                  centerSpaceRadius: 120,
-                                                  sections: [
-                                                    PieChartSectionData(
-                                                        titleStyle: const TextStyle(
-                                                            color: AppTheme
-                                                                .mainTextColor),
-                                                        value:
-                                                            AccountDataProvider
-                                                                .accTotal,
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            255, 64, 232, 70)),
-                                                    PieChartSectionData(
-                                                        titleStyle: const TextStyle(
-                                                            color: AppTheme
-                                                                .mainTextColor),
-                                                        value:
-                                                            TransactionDataProvider
-                                                                .accExpense,
-                                                        color: Colors.red)
-                                                  ])))),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        const PieChartBox(),
+                        const AccountsPieChartBox()
                       ],
                     ),
                   ),

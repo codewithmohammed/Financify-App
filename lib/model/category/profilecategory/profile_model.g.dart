@@ -18,23 +18,26 @@ class ProfileModelAdapter extends TypeAdapter<ProfileModel> {
     };
     return ProfileModel(
       id: fields[0] as int,
-      name: fields[1] as String,
-      currencyCode: fields[2] as String,
-      currencyCountry: fields[3] as String,
+      imageData: fields[1] as Uint8List,
+      name: fields[2] as String,
+      currencyCode: fields[3] as String,
+      currencyCountry: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProfileModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.imageData)
       ..writeByte(2)
-      ..write(obj.currencyCode)
+      ..write(obj.name)
       ..writeByte(3)
+      ..write(obj.currencyCode)
+      ..writeByte(4)
       ..write(obj.currencyCountry);
   }
 

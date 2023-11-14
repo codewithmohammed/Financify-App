@@ -10,7 +10,7 @@ class TransactionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3, // Specify the number of tabs
+        length: 3,
         child: Scaffold(
           backgroundColor: AppTheme.backgroundColor,
           appBar: AppBar(

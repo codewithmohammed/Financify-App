@@ -10,14 +10,13 @@ class ExpenseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionDataProvider>(
-        builder: ((context, ExpenseTransactionDataProvider, child) => Scaffold(
+        builder: ((context, expensedataprovider, child) => Scaffold(
               backgroundColor: AppTheme.backgroundColor,
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount: ExpenseTransactionDataProvider
-                        .expenseaccountList.length,
+                    itemCount: expensedataprovider.expenseaccountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -31,13 +30,13 @@ class ExpenseScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              ExpenseTransactionDataProvider
+                              expensedataprovider
                                   .expenseaccountList[index].accountname,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
                             Text(
-                              ExpenseTransactionDataProvider
+                              expensedataprovider
                                   .expenseaccountList[index].amount,
                               style: const TextStyle(color: Colors.red),
                             )
@@ -47,13 +46,13 @@ class ExpenseScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              ExpenseTransactionDataProvider
+                              expensedataprovider
                                   .expenseaccountList[index].categoryname,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
                             Text(
-                              ExpenseTransactionDataProvider
+                              expensedataprovider
                                   .expenseaccountList[index].transactiondate,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),

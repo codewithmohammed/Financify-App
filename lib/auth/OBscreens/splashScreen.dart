@@ -1,5 +1,5 @@
 import 'package:financify/screens/MainScreens/mainScreen.dart';
-import 'package:financify/screens/profileset/profilescreen.dart';
+import 'package:financify/auth/profileset/profilescreen.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

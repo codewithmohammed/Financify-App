@@ -1,6 +1,7 @@
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/utils/category.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -24,20 +25,10 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
-    List<String> incomeCategories = [
-      'Salary',
-      'Freelance Income',
-      'Rental Income',
-      'Investment Income',
-      'Gift Income',
-      'Reimbursements',
-      'Refunds',
-    ];
-
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<TransactionDataProvider>(
-          builder: ((context, IncomeTransactionDataProvider, child) =>
+          builder: ((context, incometransactiondataprovider, child) =>
               (SafeArea(
                 child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -69,10 +60,10 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                           return null;
                                         },
                                         controller:
-                                            IncomeTransactionDataProvider
+                                            incometransactiondataprovider
                                                 .amountController,
                                         onChanged: (value) {
-                                          print(IncomeTransactionDataProvider
+                                          print(incometransactiondataprovider
                                               .amountController.text);
                                         },
                                         style: const TextStyle(
@@ -90,10 +81,10 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                     ),
                                   ),
                                   Consumer<ProfileDataProvider>(
-                                      builder: ((context, ProfileDataProvider,
+                                      builder: ((context, profiledataprovider,
                                               child) =>
                                           Text(
-                                            ProfileDataProvider.currencyCode,
+                                            profiledataprovider.currencyCode,
                                             style: const TextStyle(
                                                 color: AppTheme.mainTextColor,
                                                 fontSize: 30),
@@ -115,7 +106,7 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                           color: AppTheme.accentColor),
                                     ),
                                     Consumer<AccountDataProvider>(
-                                        builder: ((context, AccountDataProvider,
+                                        builder: ((context, accountdataprovider,
                                                 child) =>
                                             DropdownButtonHideUnderline(
                                               child: DropdownButton2<String>(
@@ -128,7 +119,7 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                         AppTheme.mainTextColor,
                                                   ),
                                                 ),
-                                                items: AccountDataProvider
+                                                items: accountdataprovider
                                                     .accountList
                                                     .map((accname) =>
                                                         accname.accName)
@@ -150,11 +141,11 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     accountselectedValue =
                                                         value;
                                                   });
-                                                  IncomeTransactionDataProvider
+                                                  incometransactiondataprovider
                                                       .accountnameController
                                                       .text = value!;
                                                   print(
-                                                      IncomeTransactionDataProvider
+                                                      incometransactiondataprovider
                                                           .accountnameController
                                                           .text);
                                                 },
@@ -271,18 +262,18 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                           if (selectedDate == null) {
                                             return;
                                           } else {
-                                            IncomeTransactionDataProvider
+                                            incometransactiondataprovider
                                                 .setTransactionDate(
                                                     selectedDate);
-                                            print(IncomeTransactionDataProvider
+                                            print(incometransactiondataprovider
                                                 .dateController.text);
                                           }
                                         },
                                         child: Text(
-                                          IncomeTransactionDataProvider
+                                          incometransactiondataprovider
                                                       .dateController.text !=
                                                   ''
-                                              ? IncomeTransactionDataProvider
+                                              ? incometransactiondataprovider
                                                   .dateController.text
                                               : 'Select',
                                           style: const TextStyle(
@@ -295,109 +286,131 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                     const Text('Category',
                                         style: TextStyle(
                                             color: AppTheme.accentColor)),
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        hint: const Text(
-                                          'Select Category',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: AppTheme.mainTextColor,
-                                          ),
-                                        ),
-                                        items: incomeCategories
-                                            .map((item) => DropdownMenuItem(
-                                                  value: item,
-                                                  child: Text(
-                                                    item,
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        color: AppTheme
-                                                            .mainTextColor),
+                                    Consumer<Category>(
+                                        builder: ((context, incomeCategories,
+                                                child) =>
+                                            DropdownButtonHideUnderline(
+                                              child: DropdownButton2<String>(
+                                                isExpanded: true,
+                                                hint: const Text(
+                                                  'Select Category',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        AppTheme.mainTextColor,
                                                   ),
-                                                ))
-                                            .toList(),
-                                        value: categoryselectedValue,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            categoryselectedValue = value;
-                                          });
-                                          IncomeTransactionDataProvider
-                                              .categoryController.text = value!;
-                                          print(IncomeTransactionDataProvider
-                                              .categoryController.text);
-                                        },
-                                        buttonStyleData: const ButtonStyleData(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 0),
-                                          height: 40,
-                                          width: 150,
-                                        ),
-                                        dropdownStyleData: DropdownStyleData(
-                                          maxHeight: 200,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            color: AppTheme.accentColor,
-                                          ),
-                                        ),
-                                        menuItemStyleData:
-                                            const MenuItemStyleData(
-                                          overlayColor:
-                                              MaterialStatePropertyAll(
-                                                  AppTheme.backgroundColor),
-                                          height: 40,
-                                        ),
-                                        dropdownSearchData: DropdownSearchData(
-                                          searchController:
-                                              categorytextEditingController,
-                                          searchInnerWidgetHeight: 50,
-                                          searchInnerWidget: Container(
-                                            height: 50,
-                                            padding: const EdgeInsets.only(
-                                              top: 8,
-                                              bottom: 4,
-                                              right: 8,
-                                              left: 8,
-                                            ),
-                                            child: TextFormField(
-                                              expands: true,
-                                              maxLines: null,
-                                              controller:
-                                                  categorytextEditingController,
-                                              decoration: InputDecoration(
-                                                isDense: true,
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 8,
                                                 ),
-                                                hintText:
-                                                    'Search for an item...',
-                                                hintStyle: const TextStyle(
-                                                    fontSize: 12),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                items: incomeCategories
+                                                    .incomeCategories
+                                                    .map((item) =>
+                                                        DropdownMenuItem(
+                                                          value: item,
+                                                          child: Text(
+                                                            item,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                color: AppTheme
+                                                                    .mainTextColor),
+                                                          ),
+                                                        ))
+                                                    .toList(),
+                                                value: categoryselectedValue,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    categoryselectedValue =
+                                                        value;
+                                                  });
+                                                  incometransactiondataprovider
+                                                      .categoryController
+                                                      .text = value!;
+                                                  print(
+                                                      incometransactiondataprovider
+                                                          .categoryController
+                                                          .text);
+                                                },
+                                                buttonStyleData:
+                                                    const ButtonStyleData(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 0),
+                                                  height: 40,
+                                                  width: 150,
                                                 ),
+                                                dropdownStyleData:
+                                                    DropdownStyleData(
+                                                  maxHeight: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: AppTheme.accentColor,
+                                                  ),
+                                                ),
+                                                menuItemStyleData:
+                                                    const MenuItemStyleData(
+                                                  overlayColor:
+                                                      MaterialStatePropertyAll(
+                                                          AppTheme
+                                                              .backgroundColor),
+                                                  height: 40,
+                                                ),
+                                                dropdownSearchData:
+                                                    DropdownSearchData(
+                                                  searchController:
+                                                      categorytextEditingController,
+                                                  searchInnerWidgetHeight: 50,
+                                                  searchInnerWidget: Container(
+                                                    height: 50,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      top: 8,
+                                                      bottom: 4,
+                                                      right: 8,
+                                                      left: 8,
+                                                    ),
+                                                    child: TextFormField(
+                                                      expands: true,
+                                                      maxLines: null,
+                                                      controller:
+                                                          categorytextEditingController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 8,
+                                                        ),
+                                                        hintText:
+                                                            'Search for an item...',
+                                                        hintStyle:
+                                                            const TextStyle(
+                                                                fontSize: 12),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  searchMatchFn:
+                                                      (item, searchValue) {
+                                                    return item.value
+                                                        .toString()
+                                                        .toLowerCase()
+                                                        .contains(searchValue);
+                                                  },
+                                                ),
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    categorytextEditingController
+                                                        .clear();
+                                                  }
+                                                },
                                               ),
-                                            ),
-                                          ),
-                                          searchMatchFn: (item, searchValue) {
-                                            return item.value
-                                                .toString()
-                                                .toLowerCase()
-                                                .contains(searchValue);
-                                          },
-                                        ),
-                                        onMenuStateChange: (isOpen) {
-                                          if (!isOpen) {
-                                            categorytextEditingController
-                                                .clear();
-                                          }
-                                        },
-                                      ),
-                                    )
+                                            )))
                                   ],
                                 )
                               ],
@@ -407,7 +420,7 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                             height: 80,
                             child: TextFormField(
                               controller:
-                                  IncomeTransactionDataProvider.noteController,
+                                  incometransactiondataprovider.noteController,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                               decoration: const InputDecoration(

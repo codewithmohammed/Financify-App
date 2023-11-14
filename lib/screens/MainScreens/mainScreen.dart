@@ -1,5 +1,8 @@
-
 import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/screens/operationScreens/transactionScreen.dart';
+
+import 'package:financify/transition/fadetransition.dart';
+
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +16,8 @@ class Mainscreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
-            builder: ((context, ProfileDataProvider, child) =>
-                ProfileDataProvider.pages[ProfileDataProvider.pageIndex])),
+            builder: ((context, profileDataProvider, child) =>
+                profileDataProvider.pages[profileDataProvider.pageIndex])),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: SafeArea(
             child: SizedBox(
@@ -28,7 +31,8 @@ class Mainscreen extends StatelessWidget {
                       side: BorderSide(style: BorderStyle.solid)),
                   backgroundColor: AppTheme.primaryColor,
                   onPressed: () {
-                    Navigator.pushNamed(context, 'TransactionOperation');
+                    Navigator.of(context).push(
+                        FadeRoute(page: const TransactionOperationScreen()));
                   },
                   child: const Icon(
                     Icons.add,
@@ -39,7 +43,7 @@ class Mainscreen extends StatelessWidget {
           ),
         )),
         bottomNavigationBar: Consumer<ProfileDataProvider>(
-            builder: ((context, ProfileDataProvider, child) => SafeArea(
+            builder: ((context, profileDataProvider, child) => SafeArea(
                   child: Container(
                     height: 70,
                     margin:
@@ -52,48 +56,48 @@ class Mainscreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            ProfileDataProvider.changePages(0);
+                            profileDataProvider.changePages(0);
                           },
                           child: SizedBox(
                             width: 40,
                             child: Image.asset(
-                                ProfileDataProvider.pageIndex == 0
+                                profileDataProvider.pageIndex == 0
                                     ? NavICons.iconHome
                                     : NavICons.iconHomeUn),
                           ),
                         ),
                         InkWell(
                           onTap: () {
-                            ProfileDataProvider.changePages(1);
+                            profileDataProvider.changePages(1);
                           },
                           child: SizedBox(
                             width: 40,
                             child: Image.asset(
-                                ProfileDataProvider.pageIndex == 1
+                                profileDataProvider.pageIndex == 1
                                     ? NavICons.iconWatch
                                     : NavICons.iconWatchUn),
                           ),
                         ),
                         InkWell(
                           onTap: () {
-                            ProfileDataProvider.changePages(2);
+                            profileDataProvider.changePages(2);
                           },
                           child: SizedBox(
                             width: 40,
                             child: Image.asset(
-                                ProfileDataProvider.pageIndex == 2
+                                profileDataProvider.pageIndex == 2
                                     ? NavICons.iconLoop
                                     : NavICons.iconLoopUn),
                           ),
                         ),
                         InkWell(
                           onTap: () {
-                            ProfileDataProvider.changePages(3);
+                            profileDataProvider.changePages(3);
                           },
                           child: SizedBox(
                             width: 40,
                             child: Image.asset(
-                                ProfileDataProvider.pageIndex == 3
+                                profileDataProvider.pageIndex == 3
                                     ? NavICons.iconSetting
                                     : NavICons.iconSettingUn),
                           ),

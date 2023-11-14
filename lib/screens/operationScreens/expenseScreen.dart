@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/utils/category.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,27 +25,10 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
-    List<String> expenseCategories = [
-      'Housing',
-      'Utilities',
-      'Groceries',
-      'Transportation',
-      'Health Care',
-      'Insurance',
-      'Education',
-      'Entertainment',
-      'Dining Out',
-      'Shopping',
-      'Personal Care',
-      'Debt Payments',
-      'Charitable Donations',
-      'Taxes',
-      'Miscellaneous',
-    ];
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<TransactionDataProvider>(
-          builder: ((context, ExpenseTransactionDataProvider, child) =>
+          builder: ((context, expensedatatransactionprovider, child) =>
               (SafeArea(
                 child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -76,10 +60,10 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                           return null;
                                         },
                                         controller:
-                                            ExpenseTransactionDataProvider
+                                            expensedatatransactionprovider
                                                 .amountController,
                                         onChanged: (value) {
-                                          print(ExpenseTransactionDataProvider
+                                          print(expensedatatransactionprovider
                                               .amountController.text);
                                         },
                                         style: const TextStyle(
@@ -97,10 +81,10 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                     ),
                                   ),
                                   Consumer<ProfileDataProvider>(
-                                      builder: ((context, ProfileDataProvider,
+                                      builder: ((context, profiledataprovider,
                                               child) =>
                                           Text(
-                                            ProfileDataProvider.currencyCode,
+                                            profiledataprovider.currencyCode,
                                             style: const TextStyle(
                                                 color: AppTheme.mainTextColor,
                                                 fontSize: 30),
@@ -157,12 +141,13 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                     accountselectedValue =
                                                         value;
                                                   });
-                                                  ExpenseTransactionDataProvider
+                                                  expensedatatransactionprovider
                                                       .accountnameController
                                                       .text = value!;
-                                                  print(ExpenseTransactionDataProvider
-                                                      .accountnameController
-                                                      .text);
+                                                  print(
+                                                      expensedatatransactionprovider
+                                                          .accountnameController
+                                                          .text);
                                                 },
                                                 buttonStyleData:
                                                     const ButtonStyleData(
@@ -277,19 +262,18 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                           if (selectedDate == null) {
                                             return;
                                           } else {
-                                            ExpenseTransactionDataProvider
+                                            expensedatatransactionprovider
                                                 .setTransactionDate(
                                                     selectedDate);
-                                            print(ExpenseTransactionDataProvider
+                                            print(expensedatatransactionprovider
                                                 .dateController.text);
                                           }
                                         },
                                         child: Text(
-                                          ExpenseTransactionDataProvider
-                                                      .dateController
-                                                      .text !=
+                                          expensedatatransactionprovider
+                                                      .dateController.text !=
                                                   ''
-                                              ? ExpenseTransactionDataProvider
+                                              ? expensedatatransactionprovider
                                                   .dateController.text
                                               : 'Select',
                                           style: const TextStyle(
@@ -302,109 +286,131 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                     const Text('Category',
                                         style: TextStyle(
                                             color: AppTheme.accentColor)),
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        hint: const Text(
-                                          'Select Category',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: AppTheme.mainTextColor,
-                                          ),
-                                        ),
-                                        items: expenseCategories
-                                            .map((item) => DropdownMenuItem(
-                                                  value: item,
-                                                  child: Text(
-                                                    item,
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        color: AppTheme
-                                                            .mainTextColor),
+                                    Consumer<Category>(
+                                        builder: ((context, expenseCategories,
+                                                child) =>
+                                            DropdownButtonHideUnderline(
+                                              child: DropdownButton2<String>(
+                                                isExpanded: true,
+                                                hint: const Text(
+                                                  'Select Category',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        AppTheme.mainTextColor,
                                                   ),
-                                                ))
-                                            .toList(),
-                                        value: categoryselectedValue,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            categoryselectedValue = value;
-                                          });
-                                          ExpenseTransactionDataProvider
-                                              .categoryController.text = value!;
-                                          print(ExpenseTransactionDataProvider
-                                              .categoryController.text);
-                                        },
-                                        buttonStyleData: const ButtonStyleData(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 0),
-                                          height: 40,
-                                          width: 150,
-                                        ),
-                                        dropdownStyleData: DropdownStyleData(
-                                          maxHeight: 200,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            color: AppTheme.accentColor,
-                                          ),
-                                        ),
-                                        menuItemStyleData:
-                                            const MenuItemStyleData(
-                                          overlayColor:
-                                              MaterialStatePropertyAll(
-                                                  AppTheme.backgroundColor),
-                                          height: 40,
-                                        ),
-                                        dropdownSearchData: DropdownSearchData(
-                                          searchController:
-                                              categorytextEditingController,
-                                          searchInnerWidgetHeight: 50,
-                                          searchInnerWidget: Container(
-                                            height: 50,
-                                            padding: const EdgeInsets.only(
-                                              top: 8,
-                                              bottom: 4,
-                                              right: 8,
-                                              left: 8,
-                                            ),
-                                            child: TextFormField(
-                                              expands: true,
-                                              maxLines: null,
-                                              controller:
-                                                  categorytextEditingController,
-                                              decoration: InputDecoration(
-                                                isDense: true,
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 8,
                                                 ),
-                                                hintText:
-                                                    'Search for an item...',
-                                                hintStyle: const TextStyle(
-                                                    fontSize: 12),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                                items: expenseCategories
+                                                    .expenseCategories
+                                                    .map((item) =>
+                                                        DropdownMenuItem(
+                                                          value: item,
+                                                          child: Text(
+                                                            item,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                color: AppTheme
+                                                                    .mainTextColor),
+                                                          ),
+                                                        ))
+                                                    .toList(),
+                                                value: categoryselectedValue,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    categoryselectedValue =
+                                                        value;
+                                                  });
+                                                  expensedatatransactionprovider
+                                                      .categoryController
+                                                      .text = value!;
+                                                  print(
+                                                      expensedatatransactionprovider
+                                                          .categoryController
+                                                          .text);
+                                                },
+                                                buttonStyleData:
+                                                    const ButtonStyleData(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 0),
+                                                  height: 40,
+                                                  width: 150,
                                                 ),
+                                                dropdownStyleData:
+                                                    DropdownStyleData(
+                                                  maxHeight: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: AppTheme.accentColor,
+                                                  ),
+                                                ),
+                                                menuItemStyleData:
+                                                    const MenuItemStyleData(
+                                                  overlayColor:
+                                                      MaterialStatePropertyAll(
+                                                          AppTheme
+                                                              .backgroundColor),
+                                                  height: 40,
+                                                ),
+                                                dropdownSearchData:
+                                                    DropdownSearchData(
+                                                  searchController:
+                                                      categorytextEditingController,
+                                                  searchInnerWidgetHeight: 50,
+                                                  searchInnerWidget: Container(
+                                                    height: 50,
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      top: 8,
+                                                      bottom: 4,
+                                                      right: 8,
+                                                      left: 8,
+                                                    ),
+                                                    child: TextFormField(
+                                                      expands: true,
+                                                      maxLines: null,
+                                                      controller:
+                                                          categorytextEditingController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        isDense: true,
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 8,
+                                                        ),
+                                                        hintText:
+                                                            'Search for an item...',
+                                                        hintStyle:
+                                                            const TextStyle(
+                                                                fontSize: 12),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  searchMatchFn:
+                                                      (item, searchValue) {
+                                                    return item.value
+                                                        .toString()
+                                                        .toLowerCase()
+                                                        .contains(searchValue);
+                                                  },
+                                                ),
+                                                onMenuStateChange: (isOpen) {
+                                                  if (!isOpen) {
+                                                    categorytextEditingController
+                                                        .clear();
+                                                  }
+                                                },
                                               ),
-                                            ),
-                                          ),
-                                          searchMatchFn: (item, searchValue) {
-                                            return item.value
-                                                .toString()
-                                                .toLowerCase()
-                                                .contains(searchValue);
-                                          },
-                                        ),
-                                        onMenuStateChange: (isOpen) {
-                                          if (!isOpen) {
-                                            categorytextEditingController
-                                                .clear();
-                                          }
-                                        },
-                                      ),
-                                    )
+                                            )))
                                   ],
                                 )
                               ],
@@ -414,7 +420,7 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                             height: 80,
                             child: TextFormField(
                               controller:
-                                  ExpenseTransactionDataProvider.noteController,
+                                  expensedatatransactionprovider.noteController,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                               decoration: const InputDecoration(

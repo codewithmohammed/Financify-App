@@ -20,7 +20,7 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                 title: const Text('Add Account'),
                 children: [
                   Consumer<AccountDataProvider>(
-                      builder: ((context, AccountDataProvider, child) =>
+                      builder: ((context, accountdataprovider, child) =>
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SingleChildScrollView(
@@ -32,7 +32,7 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (value) {
-                                      final listAccounts = AccountDataProvider
+                                      final listAccounts = accountdataprovider
                                           .accountList
                                           .map((accname) => accname.accName)
                                           .toList();
@@ -83,7 +83,7 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                     ),
                   ),
                   Consumer<AccountDataProvider>(
-                      builder: ((context, AccountDataProvider, child) => Row(
+                      builder: ((context, accountdataprovider, child) => Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
@@ -95,12 +95,12 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                                   onPressed: () async {
                                     if (nameKey.currentState!.validate() &&
                                         numberKey.currentState!.validate()) {
-                                      AccountDataProvider.setId();
-                                      AccountDataProvider.accNameSet(
+                                      accountdataprovider.setId();
+                                      accountdataprovider.accNameSet(
                                           accountNameController.text);
-                                      AccountDataProvider.accBalanaceSet(
+                                      accountdataprovider.accBalanaceSet(
                                           accountBalanceController.text);
-                                      await AccountDataProvider.accountToDB();
+                                      await accountdataprovider.accountToDB();
                                       Navigator.of(context).pop();
                                     }
                                   },
@@ -114,35 +114,33 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
               return SimpleDialog(
                 title: const Text('Update Account'),
                 children: [
-                  Consumer<AccountDataProvider>(
-                      builder: ((context, AccountDataProvider, child) =>
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(
-                              child: SizedBox(
-                                height: 50,
-                                child: Form(
-                                  key: nameKey,
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (value) {
-                                      for (var account in listAccounts) {
-                                        if (account == value) {
-                                          return 'The account name already exists';
-                                        }
-                                      }
-                                      return null;
-                                    },
-                                    controller: accountNameController,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Account Name',
-                                        border: OutlineInputBorder()),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        height: 50,
+                        child: Form(
+                          key: nameKey,
+                          child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              for (var account in listAccounts) {
+                                if (account == value) {
+                                  return 'The account name already exists';
+                                }
+                              }
+                              return null;
+                            },
+                            controller: accountNameController,
+                            decoration: const InputDecoration(
+                                hintText: 'Account Name',
+                                border: OutlineInputBorder()),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -170,7 +168,7 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                     ),
                   ),
                   Consumer<AccountDataProvider>(
-                      builder: ((context, AccountDataProvider, child) => Row(
+                      builder: ((context, accountdataprovider, child) => Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
@@ -182,12 +180,13 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                                   onPressed: () async {
                                     if (nameKey.currentState!.validate() &&
                                         numberKey.currentState!.validate()) {
-                                      AccountDataProvider.updateId(id);
-                                      AccountDataProvider.accNameSet(
+                                      accountdataprovider.updateId(id);
+                                      accountdataprovider.accNameSet(
                                           accountNameController.text);
-                                      AccountDataProvider.accBalanaceSet(
+                                      accountdataprovider.accBalanaceSet(
                                           accountBalanceController.text);
-                                      await AccountDataProvider.accountToDB()
+                                      await accountdataprovider
+                                          .accountToDB()
                                           .then((value) =>
                                               Navigator.of(context).pop());
                                     }

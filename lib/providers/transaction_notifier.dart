@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 class TransactionDataProvider extends ChangeNotifier {
   double accExpense = 0;
   List<TransactionModel> accountList = [];
+  List<TransactionModel> searchaccountList = [];
+  List<TransactionModel> fromaccounts = [];
+  List<TransactionModel> filteredaccountList = [];
   List<TransactionModel> incomeaccountList = [];
   List<TransactionModel> expenseaccountList = [];
   List<TransactionModel> transferaccountList = [];
@@ -20,6 +23,258 @@ class TransactionDataProvider extends ChangeNotifier {
   TextEditingController categoryController = TextEditingController();
   TextEditingController noteController = TextEditingController();
 
+  final List<String> filtertype = [
+    'Income',
+    'Expense',
+    'Transfer',
+  ];
+  TransactionCategoryType? filteringtype;
+  TextEditingController selectedaccountValue = TextEditingController();
+  TextEditingController selectedaDateValue = TextEditingController();
+  TextEditingController selectedaCategoryValue = TextEditingController();
+
+  filterSelection() {
+    if (filteringtype != null ||
+        selectedaccountValue.text.isNotEmpty ||
+        selectedaDateValue.text.isNotEmpty ||
+        selectedaCategoryValue.text.isNotEmpty) {
+      searchaccountList.clear();
+      filterByFilteringType();
+      filterByAccountName();
+      filterByDateValue();
+      filterByCategoryName();
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   // Combination 1
+      //   searchaccountList.where((element) =>
+      //       element.accountname == selectedaccountValue.text &&
+      //       element.transactiondate == selectedaDateValue.text &&
+      //       element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   // Combination 2
+      //   searchaccountList.where((element) =>
+      //       element.accountname == selectedaccountValue.text &&
+      //       element.transactiondate == selectedaDateValue.text);
+      // }
+
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   // Combination 3
+      //   searchaccountList.where((element) =>
+      //       element.accountname == selectedaccountValue.text &&
+      //       element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   // Combination 4
+      //   searchaccountList.where(
+      //       (element) => element.accountname == selectedaccountValue.text);
+      // }
+      // // Combination 5
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   searchaccountList.where((element) =>
+      //       element.transactiondate == selectedaDateValue.text &&
+      //       element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // // Combination 6
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   searchaccountList.where(
+      //       (element) => element.transactiondate == selectedaDateValue.text);
+      // }
+
+      // // Combination 7
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   searchaccountList.where(
+      //       (element) => element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // // Combination 8
+      // if (filteringtype != null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   searchaccountList;
+      // }
+
+      // // Combination 9
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   searchaccountList.where((element) =>
+      //       element.accountname == selectedaccountValue.text &&
+      //       element.transactiondate == selectedaDateValue.text &&
+      //       element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // // Combination 10
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   searchaccountList.where((element) =>
+      //       element.accountname == selectedaccountValue.text &&
+      //       element.transactiondate == selectedaDateValue.text);
+      // }
+
+      // // Combination 11
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   searchaccountList.where((element) =>
+      //       element.accountname == selectedaccountValue.text &&
+      //       element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // // Combination 12
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isNotEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   searchaccountList.where(
+      //       (element) => element.accountname == selectedaccountValue.text);
+      // }
+
+      // // Combination 13
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   searchaccountList.where((element) =>
+      //       element.transactiondate == selectedaDateValue.text &&
+      //       element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // // Combination 14
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isNotEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   searchaccountList.where(
+      //       (element) => element.transactiondate == selectedaDateValue.text);
+      // }
+
+      // // Combination 15
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isNotEmpty) {
+      //   searchaccountList.where(
+      //       (element) => element.categoryname == selectedaCategoryValue.text);
+      // }
+
+      // if (filteringtype == null &&
+      //     selectedaccountValue.text.isEmpty &&
+      //     selectedaDateValue.text.isEmpty &&
+      //     selectedaCategoryValue.text.isEmpty) {
+      //   searchaccountList;
+      // }
+    } else {
+      searchaccountList.addAll(accountList);
+    }
+    filteredaccountList = searchaccountList.toSet().toList();
+    notifyListeners();
+  }
+
+  filterClear() {
+    filteringtype = null;
+    selectedaccountValue.clear();
+    selectedaDateValue.clear();
+    selectedaCategoryValue.clear();
+    notifyListeners();
+  }
+
+  filterByFilteringType() {
+    if (filteringtype != null) {
+      searchaccountList.addAll(accountList
+          .where((element) => element.type == filteringtype)
+          .toList());
+    } else {
+      return;
+    }
+  }
+
+  filterByAccountName() {
+    if (selectedaccountValue.text.isNotEmpty) {
+      searchaccountList.addAll(accountList
+          .where((element) => element.accountname == selectedaccountValue.text)
+          .toList());
+    } else {
+      return;
+    }
+  }
+
+  filterByDateValue() {
+    if (selectedaDateValue.text.isNotEmpty) {
+      searchaccountList.addAll(accountList
+          .where(
+              (element) => element.transactiondate == selectedaDateValue.text)
+          .toList());
+    } else {
+      return;
+    }
+  }
+
+  filterByCategoryName() {
+    if (selectedaCategoryValue.text.isNotEmpty) {
+      searchaccountList.addAll(accountList
+          .where(
+              (element) => element.categoryname == selectedaCategoryValue.text)
+          .toList());
+    } else {
+      return;
+    }
+  }
+
+  setSelectedtypeValue(String value) {
+    if (value == 'Income') {
+      filteringtype = TransactionCategoryType.income;
+    } else if (value == 'Expense') {
+      filteringtype = TransactionCategoryType.expense;
+    } else {
+      filteringtype = TransactionCategoryType.transfer;
+    }
+  }
+
+  setSelecteddateValue(String value) {
+    selectedaDateValue.text = value;
+    notifyListeners();
+  }
+
+  setSelectedAccountValue(String value) {
+    selectedaccountValue.text = value;
+    print(selectedaccountValue.text);
+    notifyListeners();
+  }
+
+  setSelectedCategoryValue(String value) {
+    selectedaCategoryValue.text = value;
+    notifyListeners();
+  }
+
   void setid() {
     id = DateTime.now().millisecondsSinceEpoch.toString();
   }
@@ -29,10 +284,42 @@ class TransactionDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void runFilter(String enteredKeyword){
+  void runFilter(String enteredKeyword) {
     if (enteredKeyword.trim().isEmpty) {
-      // accountList = students;
+      searchaccountList = accountList;
+    } else {
+      searchaccountList = accountList
+          .where((element) =>
+              element.accountname
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.accountnote
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.categoryname
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.fromaccountname
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.toaccountname
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.transactiondate
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              element.amount
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()))
+          .toList();
     }
+    filteredaccountList = searchaccountList.toSet().toList();
+    notifyListeners();
+  }
+
+  cancelSearch() {
+    filteredaccountList = accountList;
+    notifyListeners();
   }
 
   Future<void> transactionToDB() async {
@@ -60,6 +347,12 @@ class TransactionDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteTransaction(String deleteID) async {
+    final transactionDB = TransactionDB();
+    transactionDB.deleteTransaction(deleteID);
+     await dBtoTransaction();
+  }
+
   Future<void> dBtoTransaction() async {
     final transactionDB = TransactionDB();
     final listofTransaction = await transactionDB.getTransaction();
@@ -67,8 +360,11 @@ class TransactionDataProvider extends ChangeNotifier {
     incomeaccountList.clear();
     expenseaccountList.clear();
     transferaccountList.clear();
-    accountList = listofTransaction.toList();
+    filteredaccountList = accountList = listofTransaction.toList();
     accountList.sort((first, second) {
+      return second.transactiondate.compareTo(first.transactiondate);
+    });
+    filteredaccountList.sort((first, second) {
       return second.transactiondate.compareTo(first.transactiondate);
     });
     incomeaccountList = listofTransaction
@@ -101,6 +397,7 @@ class TransactionDataProvider extends ChangeNotifier {
       required TransactionCategoryType type}) async {
     final accountDB = AccountDB();
     List<AccountModel> listofaccountmodel = await accountDB.getAccount();
+    
     if (type == TransactionCategoryType.expense) {
       for (var account in listofaccountmodel) {
         if (account.accName == accountName) {
@@ -124,27 +421,37 @@ class TransactionDataProvider extends ChangeNotifier {
         }
       }
     } else if (type == TransactionCategoryType.transfer) {
-      for (var account in listofaccountmodel) {
-        if (account.accName == toaccountname) {
-          double accountBalance = double.parse(account.accBalance);
-          double transfercalculated = double.parse(amounttoBeOperated);
-          final sum = (accountBalance + transfercalculated).toString();
-          final accountmodel = AccountModel(
-              id: account.id, accName: account.accName, accBalance: sum);
-          await accountDB.insertAccount(accountmodel);
-        }
-        if (account.accName == fromaccountname) {
-          double accountBalance = double.parse(account.accBalance);
-          double transfercalculated = double.parse(amounttoBeOperated);
-          final sum = (accountBalance - transfercalculated).toString();
-          final accountmodel = AccountModel(
-              id: account.id, accName: account.accName, accBalance: sum);
-          await accountDB.insertAccount(accountmodel);
-        } else {
-          return;
-        }
+  for (var account in listofaccountmodel) {
+    if (account.accName == toaccountname) {
+      try {
+        double accountBalance = double.parse(account.accBalance);
+        double transfercalculated = double.parse(amounttoBeOperated);
+        final sum = (accountBalance + transfercalculated).toString();
+        final accountmodel = AccountModel(
+            id: account.id, accName: account.accName, accBalance: sum);
+        await accountDB.insertAccount(accountmodel);
+      } catch (e) {
+        // print('Error parsing values for toaccount: $e');
       }
     }
+  }
+
+  for (var account in listofaccountmodel) {
+    if (account.accName == fromaccountname) {
+      try {
+        double accountBalance = double.parse(account.accBalance);
+        double transfercalculated = double.parse(amounttoBeOperated);
+        final sum = (accountBalance - transfercalculated).toString();
+        final accountmodel = AccountModel(
+            id: account.id, accName: account.accName, accBalance: sum);
+        await accountDB.insertAccount(accountmodel);
+      } catch (e) {
+        // print('Error parsing values for fromaccount: $e');
+      }
+    }
+  }
+}
+
   }
 
   void clearAll() {
@@ -155,6 +462,17 @@ class TransactionDataProvider extends ChangeNotifier {
     dateController.clear();
     categoryController.clear();
     noteController.clear();
+    notifyListeners();
+  }
+
+  void disposecontrollers() {
+    accountnameController.dispose();
+    amountController.dispose();
+    toaccountnameController.dispose();
+    fromaccountnameController.dispose();
+    dateController.dispose();
+    categoryController.dispose();
+    noteController.dispose();
     notifyListeners();
   }
 }

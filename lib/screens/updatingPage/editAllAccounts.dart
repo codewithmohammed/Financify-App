@@ -1,6 +1,4 @@
-import 'package:financify/db/transaction_db.dart';
 import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:financify/widgets/account_add_popup.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,14 @@ class EditAllAccounts extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppTheme.primaryColor,
+            )),
         backgroundColor: AppTheme.darkblue,
         title: const Text(
           'Edit All the Account',
@@ -21,11 +27,11 @@ class EditAllAccounts extends StatelessWidget {
         ),
       ),
       body: Consumer<AccountDataProvider>(
-          builder: ((context, AccountDataProvider, child) => SafeArea(
+          builder: ((context, accountdataprovider, child) => SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount: AccountDataProvider.accountList.length,
+                    itemCount: accountdataprovider.accountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -33,7 +39,7 @@ class EditAllAccounts extends StatelessWidget {
                       return ListTile(
                         onTap: () {
                           showAccountAddPopup(context, true,
-                              AccountDataProvider.accountList[index].id);
+                              accountdataprovider.accountList[index].id);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
@@ -43,24 +49,24 @@ class EditAllAccounts extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              AccountDataProvider.accountList[index].accName,
+                              accountdataprovider.accountList[index].accName,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
                             Row(
                               children: [
                                 Text(
-                                  AccountDataProvider
+                                  accountdataprovider
                                       .accountList[index].accBalance,
                                   style: const TextStyle(color: Colors.green),
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      AccountDataProvider.dBDeleteAccount(
-                                          AccountDataProvider
+                                      accountdataprovider.dBDeleteAccount(
+                                          accountdataprovider
                                               .accountList[index].id);
                                       // TransactionDB().deleteTransaction(
-                                      //     AccountDataProvider
+                                      //     accountdataprovider
                                       //         .accountList[index].accBalance);
                                       // Provider.of<TransactionDataProvider>(context, listen: false).dBtoTransaction();
                                     },

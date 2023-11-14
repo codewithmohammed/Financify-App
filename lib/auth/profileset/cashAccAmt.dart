@@ -1,4 +1,3 @@
-
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
@@ -15,7 +14,7 @@ class CashAccSet extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<AccountDataProvider>(
-          builder: ((context, AccountDataProvider, child) => SafeArea(
+          builder: ((context, accountdataprovider, child) => SafeArea(
                   child: Stack(
                 children: [
                   Row(
@@ -24,17 +23,17 @@ class CashAccSet extends StatelessWidget {
                       TextButton(
                           onPressed: () async {
                             if (amountController.text.isEmpty) {
-                              AccountDataProvider.accBalanaceSet('0');
-                              AccountDataProvider.accountToDB();
+                              accountdataprovider.accBalanaceSet('0');
+                              accountdataprovider.accountToDB();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 100));
                               Navigator.pushNamedAndRemoveUntil(
                                   context, 'MainPage', (route) => false);
                             } else {
-                              AccountDataProvider.accBalanaceSet(
-                                  amountController.text);
-                              AccountDataProvider.accountToDB();
+                              accountdataprovider
+                                  .accBalanaceSet(amountController.text);
+                              accountdataprovider.accountToDB();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 100));
@@ -116,10 +115,10 @@ class CashAccSet extends StatelessWidget {
                             Padding(
                                 padding: const EdgeInsets.only(top: 5),
                                 child: Consumer<ProfileDataProvider>(
-                                    builder: ((context, ProfileDataProvider,
+                                    builder: ((context, profiledataprovider,
                                             child) =>
                                         Text(
-                                          ProfileDataProvider.currencyCode,
+                                          profiledataprovider.currencyCode,
                                           style: const TextStyle(
                                               color: AppTheme.mainTextColor,
                                               fontSize: 20),

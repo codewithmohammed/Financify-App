@@ -1,5 +1,4 @@
 import 'package:currency_picker/currency_picker.dart';
-import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
@@ -19,7 +18,7 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: Consumer<ProfileDataProvider>(
-        builder: ((context, ProfileDataProvider, child) => SafeArea(
+        builder: ((context, profiledataprovider, child) => SafeArea(
               child: Center(
                 child: Column(
                   children: [
@@ -70,8 +69,8 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                           showFlag: true,
                           showCurrencyName: true,
                           onSelect: (Currency currency) {
-                            ProfileDataProvider.replaceCurrency(currency.code);
-                            ProfileDataProvider.replaceCountry(currency.name);
+                            profiledataprovider.replaceCurrency(currency.code);
+                            profiledataprovider.replaceCountry(currency.name);
                             print('Selected currency: ${currency.code}');
                             print('Selected currency: ${currency.name}');
                           },
@@ -98,7 +97,7 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                                 Row(
                                   children: [
                                     Text(
-                                      ProfileDataProvider.currencyCode,
+                                      profiledataprovider.currencyCode,
                                       style: const TextStyle(
                                           color: AppTheme.mainTextColor),
                                     ),
@@ -106,7 +105,7 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                                       width: 5,
                                     ),
                                     Text(
-                                      ProfileDataProvider.currencyCountry,
+                                      profiledataprovider.currencyCountry,
                                       style: const TextStyle(
                                           color: AppTheme.mainTextColor),
                                     ),
@@ -128,42 +127,36 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                             color: AppTheme.accentColor, fontSize: 12),
                       ),
                     ),
-                    Consumer<AccountDataProvider>(
-                        builder: ((context, AccountDataProvider, child) =>
-                            SizedBox(
-                                width: 350,
-                                height: 54,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    ProfileDataProvider.profileToBD();
-                                    Navigator.of(context).pop();
-                                  },
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(17.0),
-                                    )),
-                                    textStyle: MaterialStateProperty.all(
-                                        const TextStyle(
-                                            color: AppTheme.accentColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900)),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            AppTheme.mainTextColor),
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            AppTheme.black),
-                                    surfaceTintColor:
-                                        MaterialStateProperty.all<Color>(
-                                            AppTheme.primaryColor),
-                                  ),
-                                  child: const Text(
-                                    'CONFIRM',
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ))))
+                    SizedBox(
+                        width: 350,
+                        height: 54,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            profiledataprovider.profileToBD();
+                            Navigator.of(context).pop();
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(17.0),
+                            )),
+                            textStyle: MaterialStateProperty.all(
+                                const TextStyle(
+                                    color: AppTheme.accentColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900)),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                AppTheme.mainTextColor),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                AppTheme.black),
+                            surfaceTintColor: MaterialStateProperty.all<Color>(
+                                AppTheme.primaryColor),
+                          ),
+                          child: const Text(
+                            'CONFIRM',
+                            style: TextStyle(fontSize: 25),
+                          ),
+                        ))
                   ],
                 ),
               ),

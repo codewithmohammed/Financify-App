@@ -5,22 +5,22 @@ import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TypeDropdownwidget extends StatefulWidget {
-  const TypeDropdownwidget({super.key});
+class CategoryDropdownwidget extends StatefulWidget {
+  const CategoryDropdownwidget({super.key});
 
   @override
-  State<TypeDropdownwidget> createState() => _TypeDropdownwidgetState();
+  State<CategoryDropdownwidget> createState() => _CategoryDropdownwidgetState();
 }
 
-class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
-  String? typeselectedValue;
+class _CategoryDropdownwidgetState extends State<CategoryDropdownwidget> {
+  String? categoryselectedValue;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          'Type',
+          'By Category',
           style: TextStyle(color: AppTheme.mainTextColor),
         ),
         Consumer<TransactionDataProvider>(
@@ -29,13 +29,15 @@ class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
                     child: DropdownButton2<String>(
                       isExpanded: true,
                       hint: const Text(
-                        'Select type',
+                        'Select Category',
                         style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.mainTextColor,
                         ),
                       ),
-                      items: transactiondataprovider.filtertype
+                      items: transactiondataprovider.accountList
+                          .map((e) => e.categoryname)
+                          .toSet()
                           .map((String item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
@@ -47,14 +49,15 @@ class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
                                 ),
                               ))
                           .toList(),
-                      value: typeselectedValue,
+                      value: categoryselectedValue,
                       onChanged: (String? value) {
                         Provider.of<WidgetNotifier>(context, listen: false)
                             .changeToDone();
                         setState(() {
-                          typeselectedValue = value;
+                          categoryselectedValue = value;
                         });
-                        transactiondataprovider.setSelectedtypeValue(value!);
+                        transactiondataprovider
+                            .setSelectedCategoryValue(value!);
                       },
                       dropdownStyleData: DropdownStyleData(
                         maxHeight: 200,

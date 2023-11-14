@@ -5,37 +5,39 @@ import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TypeDropdownwidget extends StatefulWidget {
-  const TypeDropdownwidget({super.key});
+class DateDropdownwidget extends StatefulWidget {
+  const DateDropdownwidget({super.key});
 
   @override
-  State<TypeDropdownwidget> createState() => _TypeDropdownwidgetState();
+  State<DateDropdownwidget> createState() => _DateDropdownwidgetState();
 }
 
-class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
-  String? typeselectedValue;
+class _DateDropdownwidgetState extends State<DateDropdownwidget> {
+  String? dateselectedValue;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          'Type',
+          'By date',
           style: TextStyle(color: AppTheme.mainTextColor),
         ),
         Consumer<TransactionDataProvider>(
-            builder: ((context, transactiondataprovider, child) => Center(
+            builder: ((context, TransactionDataProvider, child) => Center(
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       isExpanded: true,
                       hint: const Text(
-                        'Select type',
+                        'Select date',
                         style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.mainTextColor,
                         ),
                       ),
-                      items: transactiondataprovider.filtertype
+                      items: TransactionDataProvider.accountList
+                          .map((e) => e.transactiondate)
+                          .toSet()
                           .map((String item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
@@ -47,14 +49,14 @@ class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
                                 ),
                               ))
                           .toList(),
-                      value: typeselectedValue,
+                      value: dateselectedValue,
                       onChanged: (String? value) {
                         Provider.of<WidgetNotifier>(context, listen: false)
                             .changeToDone();
                         setState(() {
-                          typeselectedValue = value;
+                          dateselectedValue = value;
                         });
-                        transactiondataprovider.setSelectedtypeValue(value!);
+                        TransactionDataProvider.setSelecteddateValue(value!);
                       },
                       dropdownStyleData: DropdownStyleData(
                         maxHeight: 200,

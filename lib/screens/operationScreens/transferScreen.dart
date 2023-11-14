@@ -32,7 +32,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: Consumer<TransactionDataProvider>(
-          builder: ((context, TransferTransactionDataProvider, child) =>
+          builder: ((context, transfertransactiondataprovider, child) =>
               SafeArea(
                 child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -60,10 +60,10 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                           return null;
                                         },
                                         controller:
-                                            TransferTransactionDataProvider
+                                            transfertransactiondataprovider
                                                 .amountController,
                                         onChanged: (value) {
-                                          print(TransferTransactionDataProvider
+                                          print(transfertransactiondataprovider
                                               .amountController.text);
                                         },
                                         style: const TextStyle(
@@ -143,10 +143,10 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                   if (value == null) {
                                                     return;
                                                   }
-                                                  TransferTransactionDataProvider
+                                                  transfertransactiondataprovider
                                                       .fromaccountnameController
                                                       .text = value;
-                                                  print(TransferTransactionDataProvider
+                                                  print(transfertransactiondataprovider
                                                       .fromaccountnameController
                                                       .text);
                                                 },
@@ -264,21 +264,19 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                           if (selectedDate == null) {
                                             return;
                                           } else {
-                                            TransferTransactionDataProvider
+                                            transfertransactiondataprovider
                                                 .setTransactionDate(
                                                     selectedDate);
                                             print(
-                                                TransferTransactionDataProvider
-                                                    .dateController
-                                                    .text);
+                                                transfertransactiondataprovider
+                                                    .dateController.text);
                                           }
                                         },
                                         child: Text(
-                                          TransferTransactionDataProvider
-                                                      .dateController
-                                                      .text !=
+                                          transfertransactiondataprovider
+                                                      .dateController.text !=
                                                   ''
-                                              ? TransferTransactionDataProvider
+                                              ? transfertransactiondataprovider
                                                   .dateController.text
                                               : 'Select',
                                           style: const TextStyle(
@@ -328,15 +326,15 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                     showPopup(
                                                         context,
                                                         AccountDataProvider,
-                                                        TransferTransactionDataProvider);
+                                                        transfertransactiondataprovider);
                                                   } else {
                                                     setState(() {
                                                       toselectedValue = value;
                                                     });
-                                                    TransferTransactionDataProvider
+                                                    transfertransactiondataprovider
                                                         .toaccountnameController
                                                         .text = value!;
-                                                    print(TransferTransactionDataProvider
+                                                    print(transfertransactiondataprovider
                                                         .toaccountnameController
                                                         .text);
                                                   }
@@ -433,7 +431,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                           SizedBox(
                             height: 80,
                             child: TextFormField(
-                              controller: TransferTransactionDataProvider
+                              controller: transfertransactiondataprovider
                                   .noteController,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
@@ -454,7 +452,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
   Future<dynamic> showPopup(
       BuildContext context,
       AccountDataProvider AccountDataProvider,
-     TransactionDataProvider TransferTransactionDataProvider) {
+      TransactionDataProvider transfertransactiondataprovider) {
     return showDialog(
         context: context,
         builder: (ctx) {
@@ -507,10 +505,12 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                         // setState(() {
                         // toselectedValue = _accountnamecontroller.text;
                         // });
-                      if(accountnameKey.currentState!.validate()){TransferTransactionDataProvider
-                            .toaccountnameController
-                            .text = _accountnamecontroller.text;
-                        Navigator.of(context).pop();};
+                        if (accountnameKey.currentState!.validate()) {
+                          transfertransactiondataprovider
+                              .toaccountnameController
+                              .text = _accountnamecontroller.text;
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: const Text('SET NAME'))
                 ],

@@ -10,14 +10,13 @@ class TransferScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionDataProvider>(
-        builder: ((context, TransferTransactionDataProvider, child) => Scaffold(
+        builder: ((context, transferdataprovider, child) => Scaffold(
               backgroundColor: AppTheme.backgroundColor,
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount: TransferTransactionDataProvider
-                        .transferaccountList.length,
+                    itemCount: transferdataprovider.transferaccountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -31,13 +30,13 @@ class TransferScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              TransferTransactionDataProvider
+                              transferdataprovider
                                   .transferaccountList[index].accountnote,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),
                             ),
                             Text(
-                              TransferTransactionDataProvider
+                              transferdataprovider
                                   .transferaccountList[index].amount,
                               style: const TextStyle(color: Colors.blue),
                             )
@@ -49,7 +48,7 @@ class TransferScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  TransferTransactionDataProvider
+                                  transferdataprovider
                                       .transferaccountList[index]
                                       .fromaccountname,
                                   style: const TextStyle(
@@ -58,7 +57,7 @@ class TransferScreen extends StatelessWidget {
                                 const Icon(Icons.arrow_right_alt_outlined,
                                     color: Colors.blue),
                                 Text(
-                                  TransferTransactionDataProvider
+                                  transferdataprovider
                                       .transferaccountList[index].toaccountname,
                                   style: const TextStyle(
                                       color: AppTheme.mainTextColor),
@@ -66,7 +65,7 @@ class TransferScreen extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              TransferTransactionDataProvider
+                              transferdataprovider
                                   .transferaccountList[index].transactiondate,
                               style: const TextStyle(
                                   color: AppTheme.mainTextColor),

@@ -16,7 +16,7 @@ class ProfileSetScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
-          builder: ((context, ProfileDataProvider, child) => SafeArea(
+          builder: ((context, profileDataProvider, child) => SafeArea(
                 child: Stack(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -25,10 +25,10 @@ class ProfileSetScreen extends StatelessWidget {
                           onPressed: () async {
                             // ProfileDB().clearProfile();
                             if (nameKey.currentState!.validate() &&
-                                ProfileDataProvider.imageData != null) {
-                              ProfileDataProvider.setProfileName(
-                                  nameController.text.toString());
-                              ProfileDataProvider.profileToBD();
+                                profileDataProvider.imageData != null) {
+                              profileDataProvider
+                                  .setProfileName(nameController.text);
+                              // profileDataProvider.profileToBD();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
@@ -76,10 +76,10 @@ class ProfileSetScreen extends StatelessWidget {
                                     ],
                                     color: AppTheme.darkblue,
                                     borderRadius: BorderRadius.circular(100)),
-                                child: ProfileDataProvider.imageData != null
+                                child: profileDataProvider.imageData != null
                                     ? ClipOval(
-                                        child: Image.file(
-                                            ProfileDataProvider.imageData!,
+                                        child: Image.memory(
+                                            profileDataProvider.imageData!,
                                             fit: BoxFit.cover))
                                     : Image.asset(
                                         ImgIcons.iconperson,
@@ -134,7 +134,7 @@ class ProfileSetScreen extends StatelessWidget {
                                                             final fileImage = File(
                                                                 returnedcamera!
                                                                     .path);
-                                                            ProfileDataProvider
+                                                            profileDataProvider
                                                                 .setProfilePic(
                                                                     fileImage);
                                                           },
@@ -153,7 +153,7 @@ class ProfileSetScreen extends StatelessWidget {
                                                                 File(
                                                                     returnedImage!
                                                                         .path);
-                                                            ProfileDataProvider
+                                                            profileDataProvider
                                                                 .setProfilePic(
                                                                     fileImage);
                                                           },

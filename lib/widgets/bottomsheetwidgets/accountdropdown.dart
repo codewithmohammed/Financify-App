@@ -1,13 +1,20 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/filter_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/providers/widgetnotifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AccountDropdownwidget extends StatelessWidget {
+class AccountDropdownwidget extends StatefulWidget {
   const AccountDropdownwidget({super.key});
 
+  @override
+  State<AccountDropdownwidget> createState() => _AccountDropdownwidgetState();
+}
+
+class _AccountDropdownwidgetState extends State<AccountDropdownwidget> {
+  String? accountselectedValue;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,13 +24,13 @@ class AccountDropdownwidget extends StatelessWidget {
           'By Account',
           style: TextStyle(color: AppTheme.mainTextColor),
         ),
-        Consumer<FilterNotifier>(
-            builder: ((context, FilterNotifier, child) => Center(
+        Consumer<TransactionDataProvider>(
+            builder: ((context, transactiondataprovider, child) => Center(
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       isExpanded: true,
                       hint: const Text(
-                        'Select Item',
+                        'Select Account',
                         style: TextStyle(
                           fontSize: 14,
                           color: AppTheme.mainTextColor,
@@ -44,9 +51,14 @@ class AccountDropdownwidget extends StatelessWidget {
                                 ),
                               ))
                           .toList(),
-                      value: FilterNotifier.selectedaccountValue,
+                      value: accountselectedValue,
                       onChanged: (String? value) {
-                        FilterNotifier.setSelectedAccountValue(value);
+                        Provider.of<WidgetNotifier>(context, listen: false)
+                            .changeToDone();
+                        setState(() {
+                          accountselectedValue = value;
+                        });
+                        transactiondataprovider.setSelectedAccountValue(value!);
                       },
                       dropdownStyleData: DropdownStyleData(
                         maxHeight: 200,

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:financify/db/profile_db.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
 import 'package:financify/screens/MainScreens/homeScreen.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class ProfileDataProvider extends ChangeNotifier {
   int id = 1;
   TextEditingController nameController = TextEditingController();
-  File? imageData;
+  Uint8List? imageData;
   String currencyCode = 'ABC';
   String currencyCountry = 'Select Your Country Currency';
 
@@ -40,9 +40,9 @@ class ProfileDataProvider extends ChangeNotifier {
   }
 
   void setProfilePic(
-    File? imageSelected,
-  ) {
-    imageData = imageSelected;
+    File imageSelected,
+  ) async{
+    imageData = await imageSelected.readAsBytes();
     notifyListeners();
   }
 
@@ -60,6 +60,7 @@ class ProfileDataProvider extends ChangeNotifier {
       return;
     }
     nameController.text = profiledata.name;
+    imageData = profiledata.imageData;
     currencyCode = profiledata.currencyCode;
     currencyCountry = profiledata.currencyCountry;
     notifyListeners();
@@ -68,6 +69,7 @@ class ProfileDataProvider extends ChangeNotifier {
   void profileToBD() async {
     final profilevalue = ProfileModel(
         id: id,
+        imageData: imageData!,
         name: nameController.text,
         currencyCode: currencyCode,
         currencyCountry: currencyCountry);

@@ -20,7 +20,7 @@ class _CurrencySelectState extends State<CurrencySelect> {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       body: Consumer<ProfileDataProvider>(
-        builder: ((context, ProfileDataProvider, child) => SafeArea(
+        builder: ((context, profiledataprovider, child) => SafeArea(
               child: Center(
                 child: Column(
                   children: [
@@ -71,8 +71,8 @@ class _CurrencySelectState extends State<CurrencySelect> {
                           showFlag: true,
                           showCurrencyName: true,
                           onSelect: (Currency currency) {
-                            ProfileDataProvider.replaceCurrency(currency.code);
-                            ProfileDataProvider.replaceCountry(currency.name);
+                            profiledataprovider.replaceCurrency(currency.code);
+                            profiledataprovider.replaceCountry(currency.name);
                             print('Selected currency: ${currency.code}');
                             print('Selected currency: ${currency.name}');
                           },
@@ -99,7 +99,7 @@ class _CurrencySelectState extends State<CurrencySelect> {
                                 Row(
                                   children: [
                                     Text(
-                                      ProfileDataProvider.currencyCode,
+                                      profiledataprovider.currencyCode,
                                       style: const TextStyle(
                                           color: AppTheme.mainTextColor),
                                     ),
@@ -107,7 +107,7 @@ class _CurrencySelectState extends State<CurrencySelect> {
                                       width: 5,
                                     ),
                                     Text(
-                                      ProfileDataProvider.currencyCountry,
+                                      profiledataprovider.currencyCountry,
                                       style: const TextStyle(
                                           color: AppTheme.mainTextColor),
                                     ),
@@ -130,18 +130,18 @@ class _CurrencySelectState extends State<CurrencySelect> {
                       ),
                     ),
                     Consumer<AccountDataProvider>(
-                        builder: ((context, AccountDataProvider, child) =>
+                        builder: ((context, accountDataProvider, child) =>
                             SizedBox(
                                 width: 350,
                                 height: 54,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    AccountDataProvider.accountToDB();
+                                    accountDataProvider.accountToDB();
                                     final sharedPrefs =
                                         await SharedPreferences.getInstance();
                                     await sharedPrefs.setString(
                                         'SAVE_KEY_LOGIN', 'true');
-                                    ProfileDataProvider.profileToBD();
+                                    profiledataprovider.profileToBD();
                                     Navigator.pushNamedAndRemoveUntil(context,
                                         'CashAccountAmt', (route) => false);
                                   },
