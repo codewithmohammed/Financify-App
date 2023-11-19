@@ -1,6 +1,7 @@
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -8,9 +9,10 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     PageController controller = PageController();
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: appTheme.backgroundColor,
       body: Stack(children: [
         PageView(
           controller: controller,
@@ -35,11 +37,11 @@ class OnboardingScreen extends StatelessWidget {
         Container(
           alignment: const AlignmentDirectional(0, 0.7),
           child: SmoothPageIndicator(
-              effect: const JumpingDotEffect(
+              effect: JumpingDotEffect(
                   dotHeight: 10,
                   dotWidth: 10,
-                  activeDotColor: AppTheme.primaryColor,
-                  dotColor: AppTheme.mainTextColor),
+                  activeDotColor: appTheme.primaryColor,
+                  dotColor: appTheme.mainTextColor),
               controller: controller,
               count: 3),
         ),
@@ -51,8 +53,8 @@ class OnboardingScreen extends StatelessWidget {
                   context, 'Profileset', (route) => false);
             },
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppTheme.primaryColor,
-              side: const BorderSide(color: AppTheme.primaryColor),
+              foregroundColor: appTheme.primaryColor,
+              side: BorderSide(color: appTheme.primaryColor),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -67,6 +69,7 @@ class OnboardingScreen extends StatelessWidget {
 
 Widget onboarding(
     String image, String title, String subtitle, BuildContext context) {
+          final appTheme = Provider.of<AppTheme>(context, listen: true);
   double screenHeight = MediaQuery.of(context).size.height;
   double screenWidth = MediaQuery.of(context).size.width;
   return Padding(
@@ -89,7 +92,7 @@ Widget onboarding(
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: AppTheme.mainTextColor,
+                color: appTheme.mainTextColor,
                 fontSize: screenWidth * 0.05,
                 fontFamily: 'Test',
                 fontWeight: FontWeight.w900),

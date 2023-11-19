@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 
 class Category extends ChangeNotifier {
-  List<String> incomeCategories = [
-    'Salary',
-    'Freelance Income',
-    'Rental Income',
-    'Investment Income',
-    'Gift Income',
-    'Reimbursements',
-    'Refunds',
-  ];
+List<String> incomeCategories = [
+  'Salary',
+  'Freelance Income',
+  'Rental Income',
+  'Investment Income',
+  'Gift Income',
+  'Reimbursements',
+  'Refunds',
+  'Dividend Income',
+  'Interest Income',
+  'Business Income',
+  'Royalty Income',
+  'Alimony',
+  'Capital Gains',
+  'Scholarship',
+  'Lottery Winnings',
+];
+
 
   List<String> expenseCategories = [
     'Housing',

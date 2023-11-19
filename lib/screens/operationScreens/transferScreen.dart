@@ -29,8 +29,9 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
 
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: appTheme.backgroundColor,
       body: Consumer<TransactionDataProvider>(
           builder: ((context, transfertransactiondataprovider, child) =>
               SafeArea(
@@ -62,31 +63,28 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                         controller:
                                             transfertransactiondataprovider
                                                 .amountController,
-                                        onChanged: (value) {
-                                          print(transfertransactiondataprovider
-                                              .amountController.text);
-                                        },
-                                        style: const TextStyle(
+                                        onChanged: (value) {},
+                                        style: TextStyle(
                                             fontSize: 50,
-                                            color: AppTheme.mainTextColor),
-                                        decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(
+                                            color: appTheme.mainTextColor),
+                                        decoration: InputDecoration(
+                                            border: const UnderlineInputBorder(
                                                 borderSide: BorderSide.none),
                                             hintText: "0",
                                             hintStyle: TextStyle(
-                                                color: AppTheme.mainTextColor)),
+                                                color: appTheme.mainTextColor)),
                                         keyboardType: const TextInputType
                                             .numberWithOptions(),
                                       ),
                                     ),
                                   ),
                                   Consumer<ProfileDataProvider>(
-                                      builder: ((context, ProfileDataProvider,
+                                      builder: ((context, profileDataProvider,
                                               child) =>
                                           Text(
-                                            ProfileDataProvider.currencyCode,
-                                            style: const TextStyle(
-                                                color: AppTheme.mainTextColor,
+                                            profileDataProvider.currencyCode,
+                                            style: TextStyle(
+                                                color: appTheme.mainTextColor,
                                                 fontSize: 30),
                                           ))),
                                 ],
@@ -100,26 +98,26 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                               children: [
                                 Column(
                                   children: [
-                                    const Text(
+                                    Text(
                                       'From Account',
                                       style: TextStyle(
-                                          color: AppTheme.accentColor),
+                                          color: appTheme.accentColor),
                                     ),
                                     Consumer<AccountDataProvider>(
-                                        builder: ((context, AccountDataProvider,
+                                        builder: ((context, accountDataProvider,
                                                 child) =>
                                             DropdownButtonHideUnderline(
                                               child: DropdownButton2<String>(
                                                 isExpanded: true,
-                                                hint: const Text(
+                                                hint: Text(
                                                   'Select Account',
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color:
-                                                        AppTheme.mainTextColor,
+                                                        appTheme.mainTextColor,
                                                   ),
                                                 ),
-                                                items: AccountDataProvider
+                                                items: accountDataProvider
                                                     .accountList
                                                     .map((account) =>
                                                         account.accName)
@@ -128,9 +126,9 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                           value: item,
                                                           child: Text(
                                                             item,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                                 fontSize: 14,
-                                                                color: AppTheme
+                                                                color: appTheme
                                                                     .mainTextColor),
                                                           ),
                                                         ))
@@ -146,9 +144,6 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                   transfertransactiondataprovider
                                                       .fromaccountnameController
                                                       .text = value;
-                                                  print(transfertransactiondataprovider
-                                                      .fromaccountnameController
-                                                      .text);
                                                 },
                                                 buttonStyleData:
                                                     const ButtonStyleData(
@@ -164,14 +159,14 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             4),
-                                                    color: AppTheme.accentColor,
+                                                    color: appTheme.accentColor,
                                                   ),
                                                 ),
                                                 menuItemStyleData:
-                                                    const MenuItemStyleData(
+                                                    MenuItemStyleData(
                                                   overlayColor:
                                                       MaterialStatePropertyAll(
-                                                          AppTheme
+                                                          appTheme
                                                               .backgroundColor),
                                                   height: 40,
                                                 ),
@@ -238,9 +233,9 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                 ),
                                 Column(
                                   children: [
-                                    const Text('Date',
+                                    Text('Date',
                                         style: TextStyle(
-                                            color: AppTheme.accentColor)),
+                                            color: appTheme.accentColor)),
                                     TextButton(
                                         onPressed: () async {
                                           final selectedDate =
@@ -253,11 +248,11 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                           ).then((pickedDate) {
                                             String? formattedDate;
                                             if (pickedDate != null) {
-                                              formattedDate =
-                                                  DateFormat('d/M/y').format(
+                                              formattedDate = DateFormat(
+                                                      'dd/MMM/yyyy')
+                                                  .format(
                                                       pickedDate); // Format the date without leading zeros
-                                              print(
-                                                  formattedDate); // Use this formattedDate where needed
+                                              // Use this formattedDate where needed
                                             }
                                             return formattedDate;
                                           });
@@ -267,9 +262,6 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                             transfertransactiondataprovider
                                                 .setTransactionDate(
                                                     selectedDate);
-                                            print(
-                                                transfertransactiondataprovider
-                                                    .dateController.text);
                                           }
                                         },
                                         child: Text(
@@ -279,64 +271,63 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                               ? transfertransactiondataprovider
                                                   .dateController.text
                                               : 'Select',
-                                          style: const TextStyle(
-                                              color: AppTheme.mainTextColor),
+                                          style: TextStyle(
+                                              color: appTheme.mainTextColor),
                                         ))
                                   ],
                                 ),
                                 Column(
                                   children: [
-                                    const Text(
+                                    Text(
                                       'To Account',
                                       style: TextStyle(
-                                          color: AppTheme.accentColor),
+                                          color: appTheme.accentColor),
                                     ),
                                     Consumer<AccountDataProvider>(
-                                        builder: ((context, AccountDataProvider,
+                                        builder: ((context, accountDataProvider,
                                                 child) =>
                                             DropdownButtonHideUnderline(
                                               child: DropdownButton2<String>(
                                                 isExpanded: true,
-                                                hint: const Text(
-                                                  'Select Account',
+                                                hint: Text(
+                                                  transfertransactiondataprovider
+                                                          .toaccountnameController
+                                                          .text
+                                                          .isNotEmpty
+                                                      ? transfertransactiondataprovider
+                                                          .toaccountnameController
+                                                          .text
+                                                      : 'Select Account',
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color:
-                                                        AppTheme.mainTextColor,
+                                                        appTheme.mainTextColor,
                                                   ),
                                                 ),
-                                                items: AccountDataProvider
+                                                items: accountDataProvider
                                                     .toaccountList
                                                     .map((item) =>
                                                         DropdownMenuItem(
                                                           value: item,
                                                           child: Text(
                                                             item,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                                 fontSize: 14,
-                                                                color: AppTheme
+                                                                color: appTheme
                                                                     .mainTextColor),
                                                           ),
                                                         ))
                                                     .toList(),
-                                                value: toselectedValue,
                                                 onChanged: (value) {
                                                   if (value ==
                                                       'choose another account') {
                                                     showPopup(
                                                         context,
-                                                        AccountDataProvider,
+                                                        accountDataProvider,
                                                         transfertransactiondataprovider);
                                                   } else {
-                                                    setState(() {
-                                                      toselectedValue = value;
-                                                    });
                                                     transfertransactiondataprovider
-                                                        .toaccountnameController
-                                                        .text = value!;
-                                                    print(transfertransactiondataprovider
-                                                        .toaccountnameController
-                                                        .text);
+                                                        .setToaccount(value!);
                                                   }
                                                 },
                                                 buttonStyleData:
@@ -353,14 +344,14 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             4),
-                                                    color: AppTheme.accentColor,
+                                                    color: appTheme.accentColor,
                                                   ),
                                                 ),
                                                 menuItemStyleData:
-                                                    const MenuItemStyleData(
+                                                    MenuItemStyleData(
                                                   overlayColor:
                                                       MaterialStatePropertyAll(
-                                                          AppTheme
+                                                          appTheme
                                                               .backgroundColor),
                                                   height: 40,
                                                 ),
@@ -433,13 +424,12 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                             child: TextFormField(
                               controller: transfertransactiondataprovider
                                   .noteController,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
-                              decoration: const InputDecoration(
+                              style: TextStyle(color: appTheme.mainTextColor),
+                              decoration: InputDecoration(
                                   hintText: 'Write Any Note',
                                   hintStyle:
-                                      TextStyle(color: AppTheme.accentColor),
-                                  border: OutlineInputBorder()),
+                                      TextStyle(color: appTheme.accentColor),
+                                  border: const OutlineInputBorder()),
                             ),
                           )
                         ],
@@ -451,7 +441,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
 
   Future<dynamic> showPopup(
       BuildContext context,
-      AccountDataProvider AccountDataProvider,
+      AccountDataProvider accountDataProvider,
       TransactionDataProvider transfertransactiondataprovider) {
     return showDialog(
         context: context,
@@ -470,7 +460,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                         controller: _accountnamecontroller,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          final listAccounts = AccountDataProvider.accountList
+                          final listAccounts = accountDataProvider.accountList
                               .map((accname) => accname.accName)
                               .toList();
                           for (var account in listAccounts) {
@@ -502,13 +492,9 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                       child: const Text('CLOSE')),
                   ElevatedButton(
                       onPressed: () async {
-                        // setState(() {
-                        // toselectedValue = _accountnamecontroller.text;
-                        // });
                         if (accountnameKey.currentState!.validate()) {
                           transfertransactiondataprovider
-                              .toaccountnameController
-                              .text = _accountnamecontroller.text;
+                              .setToaccount(_accountnamecontroller.text);
                           Navigator.of(context).pop();
                         }
                       },

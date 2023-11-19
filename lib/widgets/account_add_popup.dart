@@ -1,15 +1,13 @@
+import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Future<void> showAccountAddPopup(BuildContext context, bool update,
-    [String id = '0']) async {
+    [AccountModel? accountModel]) async {
   TextEditingController accountNameController = TextEditingController();
   TextEditingController accountBalanceController = TextEditingController();
-  final listAccounts = Provider.of<AccountDataProvider>(context, listen: false)
-      .accountList
-      .map((accname) => accname.accName)
-      .toList(); // Convert the mapped values to a list
+
   final nameKey = GlobalKey<FormState>();
   final numberKey = GlobalKey<FormState>();
   showDialog(
@@ -23,35 +21,32 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                       builder: ((context, accountdataprovider, child) =>
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(
-                              child: SizedBox(
-                                height: 50,
-                                child: Form(
-                                  key: nameKey,
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    validator: (value) {
-                                      final listAccounts = accountdataprovider
-                                          .accountList
-                                          .map((accname) => accname.accName)
-                                          .toList();
-                                      for (var account in listAccounts) {
-                                        if (account == value) {
-                                          return 'The account name already exists';
-                                        }
+                            child: SizedBox(
+                              height: 50,
+                              child: Form(
+                                key: nameKey,
+                                child: TextFormField(
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  validator: (value) {
+                                    final listAccounts = accountdataprovider
+                                        .accountList
+                                        .map((accname) => accname.accName)
+                                        .toList();
+                                    for (var account in listAccounts) {
+                                      if (account == value) {
+                                        return 'The account name already exists';
                                       }
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return 'The account Name Cannot be Empty';
-                                      }
-                                      return null;
-                                    },
-                                    controller: accountNameController,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Account Name',
-                                        border: OutlineInputBorder()),
-                                  ),
+                                    }
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'The account Name Cannot be Empty';
+                                    }
+                                    return null;
+                                  },
+                                  controller: accountNameController,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Account Name',
+                                      border: OutlineInputBorder()),
                                 ),
                               ),
                             ),
@@ -100,8 +95,10 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                                           accountNameController.text);
                                       accountdataprovider.accBalanaceSet(
                                           accountBalanceController.text);
-                                      await accountdataprovider.accountToDB();
-                                      Navigator.of(context).pop();
+                                      await accountdataprovider
+                                          .accountToDB()
+                                          .then((value) =>
+                                              Navigator.of(context).pop());
                                     }
                                   },
                                   child: const Text('ADD ACCOUNT'))
@@ -111,32 +108,26 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
               );
             }
           : (ctx) {
+              accountBalanceController.text = accountModel!.accBalance;
+              accountNameController.text = accountModel.accName;
               return SimpleDialog(
                 title: const Text('Update Account'),
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        height: 50,
-                        child: Form(
-                          key: nameKey,
-                          child: TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              for (var account in listAccounts) {
-                                if (account == value) {
-                                  return 'The account name already exists';
-                                }
-                              }
-                              return null;
-                            },
-                            controller: accountNameController,
-                            decoration: const InputDecoration(
-                                hintText: 'Account Name',
-                                border: OutlineInputBorder()),
-                          ),
+                    child: SizedBox(
+                      height: 50,
+                      child: Form(
+                        key: nameKey,
+                        child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            return null;
+                          },
+                          controller: accountNameController,
+                          decoration: const InputDecoration(
+                              hintText: 'Account Name',
+                              border: OutlineInputBorder()),
                         ),
                       ),
                     ),
@@ -180,7 +171,8 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                                   onPressed: () async {
                                     if (nameKey.currentState!.validate() &&
                                         numberKey.currentState!.validate()) {
-                                      accountdataprovider.updateId(id);
+                                      accountdataprovider
+                                          .updateId(accountModel.id);
                                       accountdataprovider.accNameSet(
                                           accountNameController.text);
                                       accountdataprovider.accBalanaceSet(

@@ -14,26 +14,31 @@ class AccountDropdownwidget extends StatefulWidget {
 }
 
 class _AccountDropdownwidgetState extends State<AccountDropdownwidget> {
+  
   String? accountselectedValue;
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'By Account',
-          style: TextStyle(color: AppTheme.mainTextColor),
+          style: TextStyle(color: appTheme.mainTextColor),
         ),
         Consumer<TransactionDataProvider>(
             builder: ((context, transactiondataprovider, child) => Center(
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       isExpanded: true,
-                      hint: const Text(
-                        'Select Account',
+                      hint: Text(
+                        transactiondataprovider
+                                .selectedaccountValue.text.isNotEmpty
+                            ? transactiondataprovider.selectedaccountValue.text
+                            : 'Select Account',
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppTheme.mainTextColor,
+                          color: appTheme.mainTextColor,
                         ),
                       ),
                       items: Provider.of<AccountDataProvider>(context,
@@ -44,8 +49,8 @@ class _AccountDropdownwidgetState extends State<AccountDropdownwidget> {
                                 value: item,
                                 child: Text(
                                   item,
-                                  style: const TextStyle(
-                                    color: AppTheme.mainTextColor,
+                                  style: TextStyle(
+                                    color: appTheme.mainTextColor,
                                     fontSize: 14,
                                   ),
                                 ),
@@ -64,19 +69,19 @@ class _AccountDropdownwidgetState extends State<AccountDropdownwidget> {
                         maxHeight: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
-                          color: AppTheme.darkblue,
+                          color: appTheme.darkblue,
                         ),
                       ),
-                      buttonStyleData: const ButtonStyleData(
+                      buttonStyleData: ButtonStyleData(
                         overlayColor:
-                            MaterialStatePropertyAll(AppTheme.mainTextColor),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                            MaterialStatePropertyAll(appTheme.mainTextColor),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         height: 40,
                         width: 140,
                       ),
-                      menuItemStyleData: const MenuItemStyleData(
+                      menuItemStyleData: MenuItemStyleData(
                         overlayColor:
-                            MaterialStatePropertyAll(AppTheme.mainTextColor),
+                            MaterialStatePropertyAll(appTheme.mainTextColor),
                         height: 40,
                       ),
                     ),

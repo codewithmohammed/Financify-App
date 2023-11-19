@@ -1,13 +1,12 @@
-import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 
 class WidgetNotifier extends ChangeNotifier {
-  Color? cusOutlineButtonColor = AppTheme.primaryColor;
+  Color? cusOutlineButtonColor = const Color.fromRGBO(201, 146, 0, 1);
   String cusOutlineText = 'Done';
 
   changeToDone() {
     cusOutlineText = 'Done';
-    cusOutlineButtonColor = AppTheme.primaryColor;
+    cusOutlineButtonColor = const Color.fromRGBO(201, 146, 0, 1);
     notifyListeners();
   }
 

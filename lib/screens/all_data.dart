@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/providers/updateData_Provider.dart';
+import 'package:financify/providers/updatedataprovider.dart';
 import 'package:financify/utils/category.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,7 @@ class AllTransactionData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     TextEditingController textfieldcontroller = TextEditingController();
     textfieldcontroller.text =
         Provider.of<UpdateDataProvider>(context, listen: true).accountAmount;
@@ -22,21 +23,21 @@ class AllTransactionData extends StatelessWidget {
         Provider.of<UpdateDataProvider>(context, listen: true).transactionNote;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: appTheme.backgroundColor,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
-              color: AppTheme.primaryColor,
+              color: appTheme.primaryColor,
             )),
-        title: const Text(
+        title: Text(
           'All Records',
-          style: TextStyle(color: AppTheme.primaryColor),
+          style: TextStyle(color: appTheme.primaryColor),
         ),
-        backgroundColor: AppTheme.darkblue,
+        backgroundColor: appTheme.darkblue,
         actions: [
           Consumer<UpdateDataProvider>(
             builder: (context, updateDataProvider, child) => IconButton(
@@ -51,20 +52,21 @@ class AllTransactionData extends StatelessWidget {
           ),
           Consumer<UpdateDataProvider>(
               builder: ((context, updateDataProvider, child) => IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.check,
-                      color: AppTheme.primaryColor,
+                      color: appTheme.primaryColor,
                     ),
                     onPressed: () async {
                       updateDataProvider
                           .updateAccountBalance(textfieldcontroller.text);
                       updateDataProvider
                           .updateAccountNote(textfieldnotecontroller.text);
-                      await updateDataProvider.updatetransactionToDB();
-                      await Provider.of<TransactionDataProvider>(context,
-                              listen: false)
-                          .dBtoTransaction();
-                      Navigator.of(context).pop();
+                      await updateDataProvider.updatetransactionToDB().then(
+                          (value) async => await Provider.of<
+                                      TransactionDataProvider>(context,
+                                  listen: false)
+                              .dBtoTransaction()
+                              .then((value) => Navigator.of(context).pop()));
                     },
                   ))),
         ],
@@ -87,13 +89,13 @@ class AllTransactionData extends StatelessWidget {
                                                 TransactionCategoryType.transfer
                                             ? updateDataProvider.fromaccountName
                                             : updateDataProvider.categoryName,
-                                        style: const TextStyle(
-                                            color: AppTheme.mainTextColor),
+                                        style: TextStyle(
+                                            color: appTheme.mainTextColor),
                                       ),
                                       isExpanded: true,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 14,
-                                          color: AppTheme.mainTextColor),
+                                          color: appTheme.mainTextColor),
                                       items: updateDataProvider.type ==
                                               TransactionCategoryType.expense
                                           ? categorydataprovider
@@ -102,9 +104,9 @@ class AllTransactionData extends StatelessWidget {
                                                     value: item,
                                                     child: Text(
                                                       item,
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                           fontSize: 14,
-                                                          color: AppTheme
+                                                          color: appTheme
                                                               .mainTextColor),
                                                     ),
                                                   ))
@@ -112,15 +114,15 @@ class AllTransactionData extends StatelessWidget {
                                           : updateDataProvider.type ==
                                                   TransactionCategoryType.income
                                               ? categorydataprovider
-                                                  .expenseCategories
+                                                  .incomeCategories
                                                   .map((item) =>
                                                       DropdownMenuItem(
                                                         value: item,
                                                         child: Text(
                                                           item,
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                               fontSize: 14,
-                                                              color: AppTheme
+                                                              color: appTheme
                                                                   .mainTextColor),
                                                         ),
                                                       ))
@@ -132,9 +134,9 @@ class AllTransactionData extends StatelessWidget {
                                                         value: item,
                                                         child: Text(
                                                           item,
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                               fontSize: 14,
-                                                              color: AppTheme
+                                                              color: appTheme
                                                                   .mainTextColor),
                                                         ),
                                                       ))
@@ -160,13 +162,12 @@ class AllTransactionData extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(4),
-                                          color: AppTheme.accentColor,
+                                          color: appTheme.accentColor,
                                         ),
                                       ),
-                                      menuItemStyleData:
-                                          const MenuItemStyleData(
+                                      menuItemStyleData: MenuItemStyleData(
                                         overlayColor: MaterialStatePropertyAll(
-                                            AppTheme.backgroundColor),
+                                            appTheme.backgroundColor),
                                         height: 40,
                                       ),
                                     )))))),
@@ -179,21 +180,20 @@ class AllTransactionData extends StatelessWidget {
                                         TransactionCategoryType.transfer
                                     ? updateDataProvider.toaccountName
                                     : updateDataProvider.accountName,
-                                style: const TextStyle(
-                                    color: AppTheme.mainTextColor),
+                                style: TextStyle(color: appTheme.mainTextColor),
                               ),
                               isExpanded: true,
-                              style: const TextStyle(
-                                  fontSize: 14, color: AppTheme.mainTextColor),
+                              style: TextStyle(
+                                  fontSize: 14, color: appTheme.mainTextColor),
                               items: accountdataprovider.accountList
                                   .map((e) => e.accName)
                                   .map((item) => DropdownMenuItem(
                                         value: item,
                                         child: Text(
                                           item,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 14,
-                                              color: AppTheme.mainTextColor),
+                                              color: appTheme.mainTextColor),
                                         ),
                                       ))
                                   .toList(),
@@ -215,18 +215,18 @@ class AllTransactionData extends StatelessWidget {
                                 maxHeight: 200,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  color: AppTheme.accentColor,
+                                  color: appTheme.accentColor,
                                 ),
                               ),
-                              menuItemStyleData: const MenuItemStyleData(
+                              menuItemStyleData: MenuItemStyleData(
                                 overlayColor: MaterialStatePropertyAll(
-                                    AppTheme.backgroundColor),
+                                    appTheme.backgroundColor),
                                 height: 40,
                               ),
                             )))),
                     Row(children: [
-                      const Text('Date',
-                          style: TextStyle(color: AppTheme.accentColor)),
+                      Text('Date',
+                          style: TextStyle(color: appTheme.accentColor)),
                       TextButton(
                           onPressed: () async {
                             final selectedDate = await showDatePicker(
@@ -240,8 +240,6 @@ class AllTransactionData extends StatelessWidget {
                               if (pickedDate != null) {
                                 formattedDate = DateFormat('d/M/y').format(
                                     pickedDate); // Format the date without leading zeros
-                                print(
-                                    formattedDate); // Use this formattedDate where needed
                               }
                               return formattedDate;
                             });
@@ -250,21 +248,19 @@ class AllTransactionData extends StatelessWidget {
                             } else {
                               updateDataProvider
                                   .setTransactionupdateDate(selectedDate);
-                              print(updateDataProvider.transactionDate);
                             }
                           },
                           child: Text(
                             updateDataProvider.transactionDate != ''
                                 ? updateDataProvider.transactionDate
                                 : 'Select',
-                            style:
-                                const TextStyle(color: AppTheme.mainTextColor),
+                            style: TextStyle(color: appTheme.mainTextColor),
                           )),
                     ]),
                     TextFormField(
                       keyboardType: TextInputType.number,
                       controller: textfieldcontroller,
-                      style: const TextStyle(color: AppTheme.mainTextColor),
+                      style: TextStyle(color: appTheme.mainTextColor),
                       decoration: const InputDecoration(
                           hintText: 'Amount',
                           hintStyle: TextStyle(
@@ -274,7 +270,7 @@ class AllTransactionData extends StatelessWidget {
                       height: 400,
                       child: TextFormField(
                         controller: textfieldnotecontroller,
-                        style: const TextStyle(color: AppTheme.mainTextColor),
+                        style: TextStyle(color: appTheme.mainTextColor),
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Amount',

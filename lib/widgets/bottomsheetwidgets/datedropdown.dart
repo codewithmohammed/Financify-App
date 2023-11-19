@@ -16,65 +16,66 @@ class _DateDropdownwidgetState extends State<DateDropdownwidget> {
   String? dateselectedValue;
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'By date',
-          style: TextStyle(color: AppTheme.mainTextColor),
+          style: TextStyle(color: appTheme.mainTextColor),
         ),
         Consumer<TransactionDataProvider>(
-            builder: ((context, TransactionDataProvider, child) => Center(
+            builder: ((context, transactionDataProvider, child) => Center(
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       isExpanded: true,
-                      hint: const Text(
-                        'Select date',
+                      hint: Text(
+                        transactionDataProvider
+                                .selectedaDateValue.text.isNotEmpty
+                            ? transactionDataProvider.selectedaDateValue.text
+                            : 'Select date',
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppTheme.mainTextColor,
+                          color: appTheme.mainTextColor,
                         ),
                       ),
-                      items: TransactionDataProvider.accountList
+                      items: transactionDataProvider.accountList
                           .map((e) => e.transactiondate)
                           .toSet()
                           .map((String item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
                                   item,
-                                  style: const TextStyle(
-                                    color: AppTheme.mainTextColor,
+                                  style: TextStyle(
+                                    color: appTheme.mainTextColor,
                                     fontSize: 14,
                                   ),
                                 ),
                               ))
                           .toList(),
-                      value: dateselectedValue,
                       onChanged: (String? value) {
                         Provider.of<WidgetNotifier>(context, listen: false)
                             .changeToDone();
-                        setState(() {
-                          dateselectedValue = value;
-                        });
-                        TransactionDataProvider.setSelecteddateValue(value!);
+
+                        transactionDataProvider.setSelecteddateValue(value!);
                       },
                       dropdownStyleData: DropdownStyleData(
                         maxHeight: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
-                          color: AppTheme.darkblue,
+                          color: appTheme.darkblue,
                         ),
                       ),
-                      buttonStyleData: const ButtonStyleData(
+                      buttonStyleData: ButtonStyleData(
                         overlayColor:
-                            MaterialStatePropertyAll(AppTheme.mainTextColor),
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                            MaterialStatePropertyAll(appTheme.mainTextColor),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         height: 40,
                         width: 140,
                       ),
-                      menuItemStyleData: const MenuItemStyleData(
+                      menuItemStyleData: MenuItemStyleData(
                         overlayColor:
-                            MaterialStatePropertyAll(AppTheme.mainTextColor),
+                            MaterialStatePropertyAll(appTheme.mainTextColor),
                         height: 40,
                       ),
                     ),

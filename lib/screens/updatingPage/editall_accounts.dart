@@ -9,21 +9,22 @@ class EditAllAccounts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: appTheme.backgroundColor,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
-              color: AppTheme.primaryColor,
+              color: appTheme.primaryColor,
             )),
-        backgroundColor: AppTheme.darkblue,
-        title: const Text(
+        backgroundColor: appTheme.darkblue,
+        title: Text(
           'Edit All the Account',
-          style: TextStyle(color: AppTheme.primaryColor),
+          style: TextStyle(color: appTheme.primaryColor),
         ),
       ),
       body: Consumer<AccountDataProvider>(
@@ -39,26 +40,25 @@ class EditAllAccounts extends StatelessWidget {
                       return ListTile(
                         onTap: () {
                           showAccountAddPopup(context, true,
-                              accountdataprovider.accountList[index].id);
+                              accountdataprovider.accountList[index]);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
                         ),
-                        tileColor: AppTheme.listTileColor,
+                        tileColor: appTheme.listTileColor,
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               accountdataprovider.accountList[index].accName,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
+                              style: TextStyle(color: appTheme.mainTextColor),
                             ),
                             Row(
                               children: [
                                 Text(
                                   accountdataprovider
                                       .accountList[index].accBalance,
-                                  style: const TextStyle(color: Colors.green),
+                                  style: const TextStyle(color: Color.fromARGB(255, 43, 236, 49)),
                                 ),
                                 IconButton(
                                     onPressed: () {

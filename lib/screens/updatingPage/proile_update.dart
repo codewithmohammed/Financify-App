@@ -7,31 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class ProfileUpdateScreen extends StatefulWidget {
+class ProfileUpdateScreen extends StatelessWidget {
   const ProfileUpdateScreen({super.key});
 
   @override
-  State<ProfileUpdateScreen> createState() => _ProfileUpdateScreenState();
-}
-
-class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
-  @override
-  void initState() {
-    Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    Provider.of<ProfileDataProvider>(context, listen: false).dBToName();
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     final nameKey = GlobalKey<FormState>();
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
+        backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
           builder: ((context, profiledataprovider, child) => SafeArea(
                 child: Stack(children: [
@@ -42,9 +26,9 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: const Text(
+                          child: Text(
                             'CLOSE',
-                            style: TextStyle(color: AppTheme.primaryColor),
+                            style: TextStyle(color: appTheme.primaryColor),
                           )),
                       TextButton(
                           onPressed: () async {
@@ -56,15 +40,16 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                               profiledataprovider.profileToBD();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
-                                  const Duration(milliseconds: 200));
-                              Navigator.pop(context);
+                                      const Duration(milliseconds: 200))
+                                  .then((value) => Navigator.of(context).pop());
+                       
                             } else {
                               return;
                             }
                           },
-                          child: const Text(
+                          child: Text(
                             'UPDATE',
-                            style: TextStyle(color: AppTheme.primaryColor),
+                            style: TextStyle(color: appTheme.primaryColor),
                             textAlign: TextAlign.right,
                           )),
                     ],
@@ -73,14 +58,14 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Set up your',
-                            style: TextStyle(color: AppTheme.mainTextColor)),
+                        Text('Set up your',
+                            style: TextStyle(color: appTheme.mainTextColor)),
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text('Profile Picture',
+                        Text('Profile Picture',
                             style: TextStyle(
-                                color: AppTheme.mainTextColor,
+                                color: appTheme.mainTextColor,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900)),
                         const SizedBox(
@@ -92,13 +77,13 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                 width: 200,
                                 height: 200,
                                 decoration: BoxDecoration(
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                           blurRadius: 1,
-                                          color: AppTheme.primaryColor,
-                                          offset: Offset(0, 5))
+                                          color: appTheme.primaryColor,
+                                          offset: const Offset(0, 5))
                                     ],
-                                    color: AppTheme.darkblue,
+                                    color: appTheme.darkblue,
                                     borderRadius: BorderRadius.circular(100)),
                                 child: profiledataprovider.imageData != null
                                     ? ClipOval(
@@ -116,7 +101,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                    color: AppTheme.mainTextColor,
+                                    color: appTheme.mainTextColor,
                                     borderRadius: BorderRadius.circular(20)),
                                 child: IconButton(
                                   icon: const Icon(Icons.edit),
@@ -200,7 +185,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         SingleChildScrollView(
                           child: Container(
                               decoration: BoxDecoration(
-                                  color: AppTheme.black,
+                                  color: appTheme.black,
                                   borderRadius: BorderRadius.circular(10)),
                               width: 350,
                               child: Form(
@@ -209,15 +194,15 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                   autovalidateMode: AutovalidateMode.always,
                                   controller:
                                       profiledataprovider.nameController,
-                                  style: const TextStyle(
-                                      color: AppTheme.mainTextColor),
-                                  decoration: const InputDecoration(
+                                  style:
+                                      TextStyle(color: appTheme.mainTextColor),
+                                  decoration: InputDecoration(
                                       hintText: 'What Should we call you?',
                                       hintStyle: TextStyle(
-                                          color: AppTheme.accentColor),
+                                          color: appTheme.accentColor),
                                       prefixIcon: Icon(
                                         Icons.person_outlined,
-                                        color: AppTheme.accentColor,
+                                        color: appTheme.accentColor,
                                       ),
                                       border: InputBorder.none),
                                 ),

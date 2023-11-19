@@ -1,8 +1,8 @@
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/screens/operationScreens/expenseScreen.dart';
-import 'package:financify/screens/operationScreens/incomeScreen.dart';
+import 'package:financify/screens/operationScreens/expense_screen.dart';
+import 'package:financify/screens/operationScreens/income_screen.dart';
 import 'package:financify/screens/operationScreens/transferScreen.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
@@ -32,47 +32,45 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.income;
-      print("First tab selected");
     } else if (_tabController.index == 1) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.expense;
-      print("Second tab selected");
     } else if (_tabController.index == 2) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.transfer;
-      print("Third tab selected");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return DefaultTabController(
         length: 3,
         child: Scaffold(
-          backgroundColor: AppTheme.backgroundColor,
+          backgroundColor: appTheme.backgroundColor,
           appBar: AppBar(
             bottom: TabBar(
               controller: _tabController,
-              dividerColor: AppTheme.darkblue,
-              indicatorColor: AppTheme.primaryColor,
+              dividerColor: appTheme.darkblue,
+              indicatorColor: appTheme.primaryColor,
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 5,
-              tabs: const [
+              tabs: [
                 Tab(
                   child: Text(
                     'INCOME',
-                    style: TextStyle(color: AppTheme.mainTextColor),
+                    style: TextStyle(color: appTheme.mainTextColor),
                   ),
                 ),
                 Tab(
                   child: Text('EXPENSE',
-                      style: TextStyle(color: AppTheme.mainTextColor)),
+                      style: TextStyle(color: appTheme.mainTextColor)),
                 ),
                 Tab(
                   child: Text('TRANSFER',
-                      style: TextStyle(color: AppTheme.mainTextColor)),
+                      style: TextStyle(color: appTheme.mainTextColor)),
                 ),
               ],
             ),
@@ -84,103 +82,88 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                 Navigator.of(context).pop();
               },
               icon: const Icon(Icons.close, size: 40),
-              color: AppTheme.primaryColor,
+              color: appTheme.primaryColor,
             ),
             actions: [
               IconButton(
                 onPressed: () async {
                   final accountProvider =
                       Provider.of<AccountDataProvider>(context, listen: false);
+                  final incomeExpenseprovider =
+                      Provider.of<TransactionDataProvider>(context,
+                          listen: false);
+                  if (incomeExpenseprovider.type ==
+                          TransactionCategoryType.income ||
+                      incomeExpenseprovider.type ==
+                          TransactionCategoryType.expense) {
+                    if (incomeExpenseprovider.categoryController.text.isEmpty ||
+                        incomeExpenseprovider
+                            .accountnameController.text.isEmpty ||
+                        incomeExpenseprovider.dateController.text.isEmpty ||
+                        incomeExpenseprovider.amountController.text.isEmpty) {
+                      showSnackBar(
+                          context, 'Please fill in all required fields.');
+                    }
+                  }
                   if (_tabController.index == 0) {
-                    final incomeprovider = Provider.of<TransactionDataProvider>(
-                        context,
-                        listen: false);
-                    if (incomeprovider.categoryController.text.isEmpty) {
-                      print('The Category must be selected');
-                    }
-                    if (incomeprovider.accountnameController.text.isEmpty) {
-                      print('Account must not be empty');
-                    }
-                    if (incomeprovider.amountController.text.isEmpty) {
-                      print('the amount must not be empty');
-                    }
-                    if (incomeprovider.dateController.text.isEmpty) {
-                      print('The date must be given');
-                    }
-                    if (incomeprovider.dateController.text.isNotEmpty &&
-                        incomeprovider.amountController.text.isNotEmpty &&
-                        incomeprovider.accountnameController.text.isNotEmpty &&
-                        incomeprovider.categoryController.text.isNotEmpty) {
-                      incomeprovider.setid();
-                      await incomeprovider.transactionToDB();
+                    if (incomeExpenseprovider.dateController.text.isNotEmpty &&
+                        incomeExpenseprovider
+                            .amountController.text.isNotEmpty &&
+                        incomeExpenseprovider
+                            .accountnameController.text.isNotEmpty &&
+                        incomeExpenseprovider
+                            .categoryController.text.isNotEmpty) {
+                      incomeExpenseprovider.setid();
+                      await incomeExpenseprovider.transactionToDB();
                       await accountProvider.dBToAccount();
-                      incomeprovider.clearAll();
-                      Navigator.of(context).pop();
+                      incomeExpenseprovider.clearAll();
+                      popit();
+                      showSnackBar(
+                          context, 'Your Transaction is Added Successfully');
                     }
                   } else if (_tabController.index == 1) {
-                    final expenseprovider =
-                        Provider.of<TransactionDataProvider>(context,
-                            listen: false);
-
-                    if (expenseprovider.categoryController.text.isEmpty) {
-                      print('The Category must be selected');
-                    }
-                    if (expenseprovider.accountnameController.text.isEmpty) {
-                      print('Account must not be empty');
-                    }
-
-                    if (expenseprovider.amountController.text.isEmpty) {
-                      print('the amount must not be empty');
-                    }
-                    if (expenseprovider.dateController.text.isEmpty) {
-                      print('The date must be given');
-                    }
-                    if (expenseprovider.dateController.text.isNotEmpty &&
-                        expenseprovider.amountController.text.isNotEmpty &&
-                        expenseprovider.accountnameController.text.isNotEmpty &&
-                        expenseprovider.categoryController.text.isNotEmpty) {
-                      expenseprovider.setid();
-                      await expenseprovider.transactionToDB();
+                    if (incomeExpenseprovider.dateController.text.isNotEmpty &&
+                        incomeExpenseprovider
+                            .amountController.text.isNotEmpty &&
+                        incomeExpenseprovider
+                            .accountnameController.text.isNotEmpty &&
+                        incomeExpenseprovider
+                            .categoryController.text.isNotEmpty) {
+                      incomeExpenseprovider.setid();
+                      await incomeExpenseprovider.transactionToDB();
                       await accountProvider.dBToAccount();
-                      expenseprovider.clearAll();
-                      Navigator.of(context).pop();
+                      incomeExpenseprovider.clearAll();
+                      popit();
+                      showSnackBar(
+                          context, 'Your Transaction is Added Successfully');
                     }
                   } else if (_tabController.index == 2) {
                     final transferprovider =
                         Provider.of<TransactionDataProvider>(context,
                             listen: false);
                     if (transferprovider
-                        .fromaccountnameController.text.isEmpty) {
-                      print('The Category must be selected');
-                    }
-                    if (transferprovider.toaccountnameController.text.isEmpty) {
-                      print('Account must not be empty');
-                    }
-                    if (transferprovider.amountController.text.isEmpty) {
-                      print('the amount must not be empty');
-                    }
-                    if (transferprovider.dateController.text.isEmpty) {
-                      print('The date must be given');
-                    }
-                    if (transferprovider.dateController.text.isNotEmpty &&
-                        transferprovider.amountController.text.isNotEmpty &&
-                        transferprovider
-                            .fromaccountnameController.text.isNotEmpty &&
-                        transferprovider
-                            .toaccountnameController.text.isNotEmpty) {
+                            .fromaccountnameController.text.isEmpty ||
+                        transferprovider.toaccountnameController.text.isEmpty ||
+                        transferprovider.amountController.text.isEmpty ||
+                        transferprovider.dateController.text.isEmpty) {
+                      showSnackBar(
+                          context, 'Please fill in all required fields.');
+                    } else {
                       transferprovider.setid();
                       await transferprovider.transactionToDB();
                       await accountProvider.dBToAccount();
                       transferprovider.clearAll();
-                      Navigator.of(context).pop();
+                      popit();
+                      showSnackBar(
+                          context, 'Your Transaction is Added Successfully');
                     }
                   }
                 },
                 icon: const Icon(Icons.check, size: 40),
-                color: AppTheme.primaryColor,
+                color: appTheme.primaryColor,
               )
             ],
-            backgroundColor: AppTheme.darkblue,
+            backgroundColor: appTheme.darkblue,
           ),
           body: TabBarView(
             controller: _tabController,
@@ -199,4 +182,22 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
     _tabController.dispose();
     super.dispose();
   }
+
+  void popit() {
+    Navigator.of(context).pop();
+  }
+}
+
+void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(message),
+      duration: const Duration(seconds: 2), // Adjust the duration as needed
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {},
+      ),
+    ),
+  );
 }

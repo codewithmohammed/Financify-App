@@ -4,19 +4,20 @@ import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ExpenseScreen extends StatelessWidget {
-  const ExpenseScreen({super.key});
+class TransferScreen extends StatelessWidget {
+  const TransferScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Consumer<TransactionDataProvider>(
-        builder: ((context, expensedataprovider, child) => Scaffold(
-              backgroundColor: AppTheme.backgroundColor,
+        builder: ((context, transferdataprovider, child) => Scaffold(
+              backgroundColor: appTheme.backgroundColor,
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-                    itemCount: expensedataprovider.expenseaccountList.length,
+                    itemCount: transferdataprovider.transferaccountList.length,
                     itemBuilder: (
                       context,
                       index,
@@ -25,37 +26,48 @@ class ExpenseScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
                         ),
-                        tileColor: AppTheme.listTileColor,
+                        tileColor: appTheme.listTileColor,
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              expensedataprovider
-                                  .expenseaccountList[index].accountname,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
+                              transferdataprovider
+                                  .transferaccountList[index].accountnote,
+                              style: TextStyle(color: appTheme.mainTextColor),
                             ),
                             Text(
-                              expensedataprovider
-                                  .expenseaccountList[index].amount,
-                              style: const TextStyle(color: Colors.red),
+                              transferdataprovider
+                                  .transferaccountList[index].amount,
+                              style: const TextStyle(color: Colors.blue),
                             )
                           ],
                         ),
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              expensedataprovider
-                                  .expenseaccountList[index].categoryname,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
+                            Row(
+                              children: [
+                                Text(
+                                  transferdataprovider
+                                      .transferaccountList[index]
+                                      .fromaccountname,
+                                  style:
+                                      TextStyle(color: appTheme.mainTextColor),
+                                ),
+                                const Icon(Icons.arrow_right_alt_outlined,
+                                    color: Colors.blue),
+                                Text(
+                                  transferdataprovider
+                                      .transferaccountList[index].toaccountname,
+                                  style:
+                                      TextStyle(color: appTheme.mainTextColor),
+                                )
+                              ],
                             ),
                             Text(
-                              expensedataprovider
-                                  .expenseaccountList[index].transactiondate,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
+                              transferdataprovider
+                                  .transferaccountList[index].transactiondate,
+                              style: TextStyle(color: appTheme.mainTextColor),
                             )
                           ],
                         ),
@@ -63,11 +75,11 @@ class ExpenseScreen extends StatelessWidget {
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                                color: AppTheme.darkblue,
+                                color: appTheme.darkblue,
                                 borderRadius: BorderRadius.circular(25)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(NavICons.iconExpense),
+                              child: Image.asset(NavICons.iconTransfer),
                             )),
                       );
                     },

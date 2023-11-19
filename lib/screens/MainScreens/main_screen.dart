@@ -1,4 +1,6 @@
+import 'package:financify/model/category/transactioncategory/transaction_model.dart';
 import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/screens/operationScreens/transactionScreen.dart';
 
 import 'package:financify/transition/fadetransition.dart';
@@ -13,8 +15,9 @@ class Mainscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
+        backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
             builder: ((context, profileDataProvider, child) =>
                 profileDataProvider.pages[profileDataProvider.pageIndex])),
@@ -29,14 +32,16 @@ class Mainscreen extends StatelessWidget {
               child: FloatingActionButton(
                   shape: const CircleBorder(
                       side: BorderSide(style: BorderStyle.solid)),
-                  backgroundColor: AppTheme.primaryColor,
+                  backgroundColor: appTheme.primaryColor,
                   onPressed: () {
+                    Provider.of<TransactionDataProvider>(context, listen: false)
+                        .type = TransactionCategoryType.income;
                     Navigator.of(context).push(
                         FadeRoute(page: const TransactionOperationScreen()));
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.add,
-                    color: AppTheme.backgroundColor,
+                    color: appTheme.backgroundColor,
                     size: 50,
                   )),
             ),
@@ -48,9 +53,10 @@ class Mainscreen extends StatelessWidget {
                     height: 70,
                     margin:
                         const EdgeInsets.only(right: 12, left: 12, bottom: 8),
-                    decoration: const BoxDecoration(
-                        color: AppTheme.darkblue,
-                        borderRadius: BorderRadius.all(Radius.circular(56))),
+                    decoration: BoxDecoration(
+                        color: appTheme.darkblue,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(56))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

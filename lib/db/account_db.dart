@@ -19,7 +19,7 @@ class AccountDB implements AccountDBFunctions {
   @override
   Future<void> clearAccount() async {
     final accountDB = await Hive.openBox<AccountModel>(accountDBName);
-    accountDB.clear();
+    await accountDB.clear();
   }
 
   @override

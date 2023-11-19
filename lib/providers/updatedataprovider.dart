@@ -63,7 +63,6 @@ class UpdateDataProvider extends ChangeNotifier {
     final double initial = double.parse(initialAmount);
     final double updatedamount = double.parse(accountAmount);
     final double amounttoBeOperated = (initial - updatedamount).abs();
-    print(amounttoBeOperated);
     String? sum;
     if (type == TransactionCategoryType.expense) {
       for (var account in listofaccountmodel) {

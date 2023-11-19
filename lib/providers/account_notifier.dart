@@ -3,6 +3,7 @@ import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:flutter/Material.dart';
 
 class AccountDataProvider extends ChangeNotifier {
+      final accountDB = AccountDB();
   List<AccountModel> accountList = [];
   List<String> toaccountList = [];
   String id = DateTime.now().millisecondsSinceEpoch.toString();
@@ -11,6 +12,12 @@ class AccountDataProvider extends ChangeNotifier {
   TextEditingController accNameController = TextEditingController();
   TextEditingController accBalanceController = TextEditingController();
   double accTotal = 0;
+
+  Future<void> deleteAccount() async {
+    await accountDB.clearAccount();
+    await dBToAccount();
+    notifyListeners();
+  }
 
   void setId() {
     id = DateTime.now().millisecondsSinceEpoch.toString();
@@ -31,22 +38,20 @@ class AccountDataProvider extends ChangeNotifier {
   }
 
   Future<void> dBToAccount() async {
-    final accountDB = AccountDB();
     final getaccountLists = await accountDB.getAccount();
-    print(getaccountLists);
+   
     accountList.clear();
     toaccountList.clear();
     accountList = getaccountLists;
     toaccountList = getaccountLists.map((e) => e.accName).toList();
     toaccountList.add('choose another account');
-    print(toaccountList);
+  
     accTotal = sumofAccounts(getaccountLists);
     notifyListeners();
-    print('object');
+  
   }
 
   Future<void> dBDeleteAccount(String index) async {
-    final accountDB = AccountDB();
     await accountDB.deleteAccount(index);
     dBToAccount();
   }
@@ -63,7 +68,6 @@ class AccountDataProvider extends ChangeNotifier {
   Future<void> accountToDB() async {
     final accountvalue =
         AccountModel(id: id, accName: accName, accBalance: accBalance);
-    final accountDB = AccountDB();
     await accountDB.insertAccount(accountvalue);
     await dBToAccount();
   }

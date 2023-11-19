@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
@@ -10,9 +11,11 @@ class CashAccSet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     TextEditingController amountController = TextEditingController();
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
+        backgroundColor: appTheme.backgroundColor,
         body: Consumer<AccountDataProvider>(
           builder: ((context, accountdataprovider, child) => SafeArea(
                   child: Stack(
@@ -28,22 +31,18 @@ class CashAccSet extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 100));
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, 'MainPage', (route) => false);
                             } else {
                               accountdataprovider
                                   .accBalanaceSet(amountController.text);
                               accountdataprovider.accountToDB();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
-                                  const Duration(milliseconds: 100));
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, 'MainPage', (route) => false);
+                                  const Duration(milliseconds: 100)).then((value) => toMainPage(context));
                             }
                           },
-                          child: const Text(
+                          child: Text(
                             'NEXT',
-                            style: TextStyle(color: AppTheme.primaryColor),
+                            style: TextStyle(color: appTheme.primaryColor),
                             textAlign: TextAlign.right,
                           )),
                     ],
@@ -58,38 +57,38 @@ class CashAccSet extends StatelessWidget {
                             width: 200,
                             height: 200,
                             decoration: BoxDecoration(
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                       blurRadius: 1,
-                                      color: AppTheme.primaryColor,
-                                      offset: Offset(0, 5))
+                                      color: appTheme.primaryColor,
+                                      offset: const Offset(0, 5))
                                 ],
-                                color: AppTheme.darkblue,
+                                color: appTheme.darkblue,
                                 borderRadius: BorderRadius.circular(100)),
                             child: Image.asset(
                               ImgIcons.iconcoin,
                               scale: 4,
                             )),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 50),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50),
                           child: SizedBox(
                             child: Center(
                               child: Text(
                                 'Set up your cash balance',
                                 style: TextStyle(
                                     fontSize: 20,
-                                    color: AppTheme.mainTextColor,
+                                    color: appTheme.mainTextColor,
                                     fontWeight: FontWeight.w900),
                               ),
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 50),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 50),
                           child: Text(
                             'How much cash do you have in your physical wallet?',
                             style: TextStyle(
-                              color: AppTheme.accentColor,
+                              color: appTheme.accentColor,
                               fontSize: 15,
                             ),
                           ),
@@ -104,11 +103,11 @@ class CashAccSet extends StatelessWidget {
                                   decoration: InputDecoration(
                                       hintText: 'AMOUNT',
                                       hintStyle: TextStyle(
-                                          color: AppTheme.mainTextColor
+                                          color: appTheme.mainTextColor
                                               .withOpacity(0.2)),
                                       border: InputBorder.none),
-                                  style: const TextStyle(
-                                      color: AppTheme.mainTextColor,
+                                  style: TextStyle(
+                                      color: appTheme.mainTextColor,
                                       fontSize: 25),
                                   keyboardType: TextInputType.number,
                                 )),
@@ -119,8 +118,8 @@ class CashAccSet extends StatelessWidget {
                                             child) =>
                                         Text(
                                           profiledataprovider.currencyCode,
-                                          style: const TextStyle(
-                                              color: AppTheme.mainTextColor,
+                                          style: TextStyle(
+                                              color: appTheme.mainTextColor,
                                               fontSize: 20),
                                         ))))
                           ],
@@ -131,5 +130,9 @@ class CashAccSet extends StatelessWidget {
                 ],
               ))),
         ));
+  }
+
+  void toMainPage(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(context, 'MainPage', (route) => false);
   }
 }

@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:financify/db/profile_db.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
-import 'package:financify/screens/MainScreens/homeScreen.dart';
-import 'package:financify/screens/MainScreens/recordScreen.dart';
-import 'package:financify/screens/MainScreens/settingScreen.dart';
-import 'package:financify/screens/transactionScreen/transactionScreen.dart';
+import 'package:financify/screens/MainScreens/home_screen.dart';
+import 'package:financify/screens/MainScreens/record_screen.dart';
+import 'package:financify/screens/MainScreens/setting_screen.dart';
+import 'package:financify/screens/transactionScreen/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileDataProvider extends ChangeNotifier {
@@ -14,6 +14,12 @@ class ProfileDataProvider extends ChangeNotifier {
   Uint8List? imageData;
   String currencyCode = 'ABC';
   String currencyCountry = 'Select Your Country Currency';
+
+  Future<void> deleteProfile() async {
+    final profiledb = ProfileDB();
+    await profiledb.clearProfile();
+   await dBToName();
+  }
 
   void replaceCurrency(String selectedCode) {
     currencyCode = selectedCode;
@@ -41,7 +47,7 @@ class ProfileDataProvider extends ChangeNotifier {
 
   void setProfilePic(
     File imageSelected,
-  ) async{
+  ) async {
     imageData = await imageSelected.readAsBytes();
     notifyListeners();
   }
@@ -53,16 +59,18 @@ class ProfileDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void dBToName() async {
+  Future<void> dBToName() async {
     final profileDB = ProfileDB();
     final profiledata = await profileDB.getProfile();
-    if (profiledata == null) {
-      return;
+    if (profiledata != null) {
+      nameController.text = profiledata.name;
+      imageData = profiledata.imageData;
+      currencyCode = profiledata.currencyCode;
+      currencyCountry = profiledata.currencyCountry;
+    } else {
+      imageData = null;
+      notifyListeners();
     }
-    nameController.text = profiledata.name;
-    imageData = profiledata.imageData;
-    currencyCode = profiledata.currencyCode;
-    currencyCountry = profiledata.currencyCountry;
     notifyListeners();
   }
 

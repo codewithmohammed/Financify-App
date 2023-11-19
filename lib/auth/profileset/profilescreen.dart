@@ -11,10 +11,11 @@ class ProfileSetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     final nameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
+        backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
           builder: ((context, profileDataProvider, child) => SafeArea(
                 child: Stack(children: [
@@ -32,15 +33,15 @@ class ProfileSetScreen extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, 'CurrencySelect', (route) => false);
+                             await Future.delayed(
+                                  const Duration(milliseconds: 100)).then((value) => toSelectCurrency(context));
                             } else {
                               return;
                             }
                           },
-                          child: const Text(
+                          child: Text(
                             'NEXT',
-                            style: TextStyle(color: AppTheme.primaryColor),
+                            style: TextStyle(color: appTheme.primaryColor),
                             textAlign: TextAlign.right,
                           )),
                     ],
@@ -49,14 +50,14 @@ class ProfileSetScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Set up your',
-                            style: TextStyle(color: AppTheme.mainTextColor)),
+                        Text('Set up your',
+                            style: TextStyle(color: appTheme.mainTextColor)),
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text('Profile Picture',
+                        Text('Profile Picture',
                             style: TextStyle(
-                                color: AppTheme.mainTextColor,
+                                color: appTheme.mainTextColor,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900)),
                         const SizedBox(
@@ -68,13 +69,13 @@ class ProfileSetScreen extends StatelessWidget {
                                 width: 200,
                                 height: 200,
                                 decoration: BoxDecoration(
-                                    boxShadow: const [
+                                    boxShadow: [
                                       BoxShadow(
                                           blurRadius: 1,
-                                          color: AppTheme.primaryColor,
-                                          offset: Offset(0, 5))
+                                          color: appTheme.primaryColor,
+                                          offset: const Offset(0, 5))
                                     ],
-                                    color: AppTheme.darkblue,
+                                    color: appTheme.darkblue,
                                     borderRadius: BorderRadius.circular(100)),
                                 child: profileDataProvider.imageData != null
                                     ? ClipOval(
@@ -92,12 +93,13 @@ class ProfileSetScreen extends StatelessWidget {
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                    color: AppTheme.mainTextColor,
+                                    color: appTheme.mainTextColor,
                                     borderRadius: BorderRadius.circular(20)),
                                 child: IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () {
                                     showModalBottomSheet(
+                                        backgroundColor: appTheme.darkblue,
                                         context: context,
                                         builder: (builder) => Container(
                                               height: 100,
@@ -111,10 +113,12 @@ class ProfileSetScreen extends StatelessWidget {
                                               ),
                                               child: Column(
                                                 children: [
-                                                  const Text(
+                                                  Text(
                                                     'Choose Profile Photo',
-                                                    style:
-                                                        TextStyle(fontSize: 20),
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: appTheme
+                                                            .mainTextColor),
                                                   ),
                                                   const SizedBox(
                                                     height: 20,
@@ -179,7 +183,7 @@ class ProfileSetScreen extends StatelessWidget {
                               Center(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: AppTheme.black,
+                                      color: appTheme.black,
                                       borderRadius: BorderRadius.circular(10)),
                                   width: 350,
                                   height: 50,
@@ -204,15 +208,15 @@ class ProfileSetScreen extends StatelessWidget {
                                       }
                                     },
                                     controller: nameController,
-                                    style: const TextStyle(
-                                        color: AppTheme.mainTextColor),
-                                    decoration: const InputDecoration(
+                                    style: TextStyle(
+                                        color: appTheme.mainTextColor),
+                                    decoration: InputDecoration(
                                         hintText: 'What Should we call you?',
                                         hintStyle: TextStyle(
-                                            color: AppTheme.accentColor),
+                                            color: appTheme.accentColor),
                                         prefixIcon: Icon(
                                           Icons.person_outlined,
-                                          color: AppTheme.accentColor,
+                                          color: appTheme.accentColor,
                                         ),
                                         border: InputBorder.none),
                                   ),
@@ -227,5 +231,10 @@ class ProfileSetScreen extends StatelessWidget {
                 ]),
               )),
         ));
+  }
+  
+  toSelectCurrency(BuildContext context) {
+       Navigator.pushNamedAndRemoveUntil(
+                                  context, 'CurrencySelect', (route) => false);
   }
 }

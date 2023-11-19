@@ -15,8 +15,9 @@ class UpdateCurrencySelect extends StatefulWidget {
 class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: appTheme.backgroundColor,
       body: Consumer<ProfileDataProvider>(
         builder: ((context, profiledataprovider, child) => SafeArea(
               child: Center(
@@ -29,26 +30,26 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                         width: 200,
                         height: 200,
                         decoration: BoxDecoration(
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                   blurRadius: 1,
-                                  color: AppTheme.primaryColor,
-                                  offset: Offset(0, 5))
+                                  color: appTheme.primaryColor,
+                                  offset: const Offset(0, 5))
                             ],
-                            color: AppTheme.darkblue,
+                            color: appTheme.darkblue,
                             borderRadius: BorderRadius.circular(100)),
                         child: Image.asset(
                           ImgIcons.iconcash,
                           scale: 4,
                         )),
-                    const SizedBox(
+                    SizedBox(
                       height: 100,
                       child: Center(
                         child: Text(
                           'Select base currency',
                           style: TextStyle(
                               fontSize: 20,
-                              color: AppTheme.mainTextColor,
+                              color: appTheme.mainTextColor,
                               fontWeight: FontWeight.w900),
                         ),
                       ),
@@ -58,21 +59,19 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                       onTap: () {
                         showCurrencyPicker(
                           theme: CurrencyPickerThemeData(
-                              backgroundColor: AppTheme.backgroundColor,
+                              backgroundColor: appTheme.backgroundColor,
                               currencySignTextStyle:
-                                  const TextStyle(color: AppTheme.primaryColor),
+                                  TextStyle(color: appTheme.primaryColor),
                               subtitleTextStyle:
-                                  const TextStyle(color: AppTheme.primaryColor),
-                              titleTextStyle: const TextStyle(
-                                  color: AppTheme.mainTextColor)),
+                                  TextStyle(color: appTheme.primaryColor),
+                              titleTextStyle:
+                                  TextStyle(color: appTheme.mainTextColor)),
                           context: context,
                           showFlag: true,
                           showCurrencyName: true,
                           onSelect: (Currency currency) {
                             profiledataprovider.replaceCurrency(currency.code);
                             profiledataprovider.replaceCountry(currency.name);
-                            print('Selected currency: ${currency.code}');
-                            print('Selected currency: ${currency.name}');
                           },
                         );
                       },
@@ -84,7 +83,7 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                                     blurRadius: 5,
                                     blurStyle: BlurStyle.normal)
                               ],
-                              color: AppTheme.black,
+                              color: appTheme.black,
                               borderRadius: BorderRadius.circular(5)),
                           width: 350,
                           height: 60,
@@ -98,33 +97,33 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                                   children: [
                                     Text(
                                       profiledataprovider.currencyCode,
-                                      style: const TextStyle(
-                                          color: AppTheme.mainTextColor),
+                                      style: TextStyle(
+                                          color: appTheme.mainTextColor),
                                     ),
                                     const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
                                       profiledataprovider.currencyCountry,
-                                      style: const TextStyle(
-                                          color: AppTheme.mainTextColor),
+                                      style: TextStyle(
+                                          color: appTheme.mainTextColor),
                                     ),
                                   ],
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.arrow_drop_down,
-                                  color: AppTheme.mainTextColor,
+                                  color: appTheme.mainTextColor,
                                 )
                               ],
                             ),
                           )),
                     )),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 250),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40, bottom: 250),
                       child: Text(
                         'Your base currency  should be ideally be the one you use most \noften.  Your balance & statistics will be shown in this currency.',
                         style: TextStyle(
-                            color: AppTheme.accentColor, fontSize: 12),
+                            color: appTheme.accentColor, fontSize: 12),
                       ),
                     ),
                     SizedBox(
@@ -140,17 +139,16 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(17.0),
                             )),
-                            textStyle: MaterialStateProperty.all(
-                                const TextStyle(
-                                    color: AppTheme.accentColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900)),
+                            textStyle: MaterialStateProperty.all(TextStyle(
+                                color: appTheme.accentColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900)),
                             foregroundColor: MaterialStateProperty.all<Color>(
-                                AppTheme.mainTextColor),
+                                appTheme.mainTextColor),
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                AppTheme.black),
+                                appTheme.black),
                             surfaceTintColor: MaterialStateProperty.all<Color>(
-                                AppTheme.primaryColor),
+                                appTheme.primaryColor),
                           ),
                           child: const Text(
                             'CONFIRM',

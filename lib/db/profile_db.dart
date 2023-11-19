@@ -26,7 +26,7 @@ class ProfileDB implements ProfileDBFunctions {
   @override
   Future<void> clearProfile() async {
     final profileDB = await Hive.openBox<ProfileModel>(profileDBName);
-    profileDB.clear();
+    await profileDB.clear();
   }
 }
 

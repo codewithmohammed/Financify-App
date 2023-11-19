@@ -25,8 +25,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
+        final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
+        backgroundColor: appTheme.backgroundColor,
         body: Consumer<TransactionDataProvider>(
           builder: ((context, incometransactiondataprovider, child) =>
               (SafeArea(
@@ -39,9 +40,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.add,
-                                color: AppTheme.mainTextColor,
+                                color: appTheme.mainTextColor,
                                 size: 50,
                               ),
                               Row(
@@ -62,19 +63,16 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                         controller:
                                             incometransactiondataprovider
                                                 .amountController,
-                                        onChanged: (value) {
-                                          print(incometransactiondataprovider
-                                              .amountController.text);
-                                        },
-                                        style: const TextStyle(
+                                        onChanged: (value) {},
+                                        style: TextStyle(
                                             fontSize: 50,
-                                            color: AppTheme.mainTextColor),
-                                        decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(
+                                            color: appTheme.mainTextColor),
+                                        decoration: InputDecoration(
+                                            border: const UnderlineInputBorder(
                                                 borderSide: BorderSide.none),
                                             hintText: "0",
                                             hintStyle: TextStyle(
-                                                color: AppTheme.mainTextColor)),
+                                                color: appTheme.mainTextColor)),
                                         keyboardType: const TextInputType
                                             .numberWithOptions(),
                                       ),
@@ -85,8 +83,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                               child) =>
                                           Text(
                                             profiledataprovider.currencyCode,
-                                            style: const TextStyle(
-                                                color: AppTheme.mainTextColor,
+                                            style: TextStyle(
+                                                color: appTheme.mainTextColor,
                                                 fontSize: 30),
                                           ))),
                                 ],
@@ -100,10 +98,10 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                               children: [
                                 Column(
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Account',
                                       style: TextStyle(
-                                          color: AppTheme.accentColor),
+                                          color: appTheme.accentColor),
                                     ),
                                     Consumer<AccountDataProvider>(
                                         builder: ((context, accountdataprovider,
@@ -111,12 +109,12 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                             DropdownButtonHideUnderline(
                                               child: DropdownButton2<String>(
                                                 isExpanded: true,
-                                                hint: const Text(
+                                                hint: Text(
                                                   'Select Account',
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color:
-                                                        AppTheme.mainTextColor,
+                                                        appTheme.mainTextColor,
                                                   ),
                                                 ),
                                                 items: accountdataprovider
@@ -128,9 +126,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                           value: item,
                                                           child: Text(
                                                             item,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                                 fontSize: 14,
-                                                                color: AppTheme
+                                                                color: appTheme
                                                                     .mainTextColor),
                                                           ),
                                                         ))
@@ -144,10 +142,6 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                   incometransactiondataprovider
                                                       .accountnameController
                                                       .text = value!;
-                                                  print(
-                                                      incometransactiondataprovider
-                                                          .accountnameController
-                                                          .text);
                                                 },
                                                 buttonStyleData:
                                                     const ButtonStyleData(
@@ -163,14 +157,14 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             4),
-                                                    color: AppTheme.accentColor,
+                                                    color: appTheme.accentColor,
                                                   ),
                                                 ),
                                                 menuItemStyleData:
-                                                    const MenuItemStyleData(
+                                                    MenuItemStyleData(
                                                   overlayColor:
                                                       MaterialStatePropertyAll(
-                                                          AppTheme
+                                                          appTheme
                                                               .backgroundColor),
                                                   height: 40,
                                                 ),
@@ -236,9 +230,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                 ),
                                 Column(
                                   children: [
-                                    const Text('Date',
+                                    Text('Date',
                                         style: TextStyle(
-                                            color: AppTheme.accentColor)),
+                                            color: appTheme.accentColor)),
                                     TextButton(
                                         onPressed: () async {
                                           final selectedDate =
@@ -251,11 +245,10 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                           ).then((pickedDate) {
                                             String? formattedDate;
                                             if (pickedDate != null) {
-                                              formattedDate =
-                                                  DateFormat('d/M/y').format(
+                                              formattedDate = formattedDate =
+                                                  DateFormat('dd/MMM/yyyy').format(
                                                       pickedDate); // Format the date without leading zeros
-                                              print(
-                                                  formattedDate); // Use this formattedDate where needed
+                                              // Use this formattedDate where needed
                                             }
                                             return formattedDate;
                                           });
@@ -265,8 +258,6 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                             incometransactiondataprovider
                                                 .setTransactionDate(
                                                     selectedDate);
-                                            print(incometransactiondataprovider
-                                                .dateController.text);
                                           }
                                         },
                                         child: Text(
@@ -276,28 +267,28 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                               ? incometransactiondataprovider
                                                   .dateController.text
                                               : 'Select',
-                                          style: const TextStyle(
-                                              color: AppTheme.mainTextColor),
+                                          style: TextStyle(
+                                              color: appTheme.mainTextColor),
                                         ))
                                   ],
                                 ),
                                 Column(
                                   children: [
-                                    const Text('Category',
+                                    Text('Category',
                                         style: TextStyle(
-                                            color: AppTheme.accentColor)),
+                                            color: appTheme.accentColor)),
                                     Consumer<Category>(
                                         builder: ((context, incomeCategories,
                                                 child) =>
                                             DropdownButtonHideUnderline(
                                               child: DropdownButton2<String>(
                                                 isExpanded: true,
-                                                hint: const Text(
+                                                hint: Text(
                                                   'Select Category',
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color:
-                                                        AppTheme.mainTextColor,
+                                                        appTheme.mainTextColor,
                                                   ),
                                                 ),
                                                 items: incomeCategories
@@ -307,9 +298,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                           value: item,
                                                           child: Text(
                                                             item,
-                                                            style: const TextStyle(
+                                                            style: TextStyle(
                                                                 fontSize: 14,
-                                                                color: AppTheme
+                                                                color: appTheme
                                                                     .mainTextColor),
                                                           ),
                                                         ))
@@ -323,10 +314,6 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                   incometransactiondataprovider
                                                       .categoryController
                                                       .text = value!;
-                                                  print(
-                                                      incometransactiondataprovider
-                                                          .categoryController
-                                                          .text);
                                                 },
                                                 buttonStyleData:
                                                     const ButtonStyleData(
@@ -342,14 +329,14 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             4),
-                                                    color: AppTheme.accentColor,
+                                                    color: appTheme.accentColor,
                                                   ),
                                                 ),
                                                 menuItemStyleData:
-                                                    const MenuItemStyleData(
+                                                    MenuItemStyleData(
                                                   overlayColor:
                                                       MaterialStatePropertyAll(
-                                                          AppTheme
+                                                          appTheme
                                                               .backgroundColor),
                                                   height: 40,
                                                 ),
@@ -421,13 +408,12 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                             child: TextFormField(
                               controller:
                                   incometransactiondataprovider.noteController,
-                              style: const TextStyle(
-                                  color: AppTheme.mainTextColor),
-                              decoration: const InputDecoration(
+                              style: TextStyle(color: appTheme.mainTextColor),
+                              decoration: InputDecoration(
                                   hintText: 'Write Any Note',
                                   hintStyle:
-                                      TextStyle(color: AppTheme.accentColor),
-                                  border: OutlineInputBorder()),
+                                      TextStyle(color: appTheme.accentColor),
+                                  border: const OutlineInputBorder()),
                             ),
                           )
                         ],

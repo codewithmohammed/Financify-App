@@ -1,52 +1,48 @@
-import 'package:financify/screens/transactionScreen/expenseScreen.dart';
-import 'package:financify/screens/transactionScreen/incomeScreen.dart';
-import 'package:financify/screens/transactionScreen/transferScreen.dart';
+import 'package:financify/screens/transactionScreen/expense_screen.dart';
+import 'package:financify/screens/transactionScreen/income_screen.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransactionScreen extends StatelessWidget {
   const TransactionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
-          backgroundColor: AppTheme.backgroundColor,
+          backgroundColor: appTheme.backgroundColor,
           appBar: AppBar(
-            bottom: const TabBar(
-              dividerColor: AppTheme.darkblue,
-              indicatorColor: AppTheme.primaryColor,
+            bottom: TabBar(
+              dividerColor: appTheme.darkblue,
+              indicatorColor: appTheme.primaryColor,
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 5,
               tabs: [
                 Tab(
                   child: Text('INCOME',
-                      style: TextStyle(color: AppTheme.mainTextColor)),
+                      style: TextStyle(color: appTheme.mainTextColor)),
                 ),
                 Tab(
                   child: Text('EXPENSE',
-                      style: TextStyle(color: AppTheme.mainTextColor)),
-                ),
-                Tab(
-                  child: Text('TRANSFER',
-                      style: TextStyle(color: AppTheme.mainTextColor)),
+                      style: TextStyle(color: appTheme.mainTextColor)),
                 ),
               ],
             ),
             automaticallyImplyLeading: false,
             leading: const SizedBox(),
-            backgroundColor: AppTheme.darkblue,
-            title: const Text(
+            backgroundColor: appTheme.darkblue,
+            title: Text(
               'TRANSACTIONS',
-              style: TextStyle(color: AppTheme.primaryColor),
+              style: TextStyle(color: appTheme.primaryColor),
             ),
           ),
           body: const TabBarView(
             children: [
               IncomeScreen(),
               ExpenseScreen(),
-              TransferScreen(),
             ],
           ),
         ));
