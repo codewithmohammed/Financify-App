@@ -183,16 +183,19 @@ class _SwitchrowState extends State<Switchrow> {
             padding: const EdgeInsets.only(right: 8, left: 8),
             child: SizedBox(
               width: 40,
-              child: Switch(
-                  value: widget.appTheme.appthemeDarkMode,
-                  onChanged: (value) {
-                    if (value == false) {
-                      widget.appTheme.changeToLight();
-                    } else {
-                      widget.appTheme.changeToDark();
-                    }
-                    setState(() {});
-                  }),
+              child: Transform.scale(
+                scale: 0.7,
+                child: Switch(
+                    value: widget.appTheme.appthemeDarkMode,
+                    onChanged: (value) {
+                      if (value == false) {
+                        widget.appTheme.changeToLight();
+                      } else {
+                        widget.appTheme.changeToDark();
+                      }
+                      setState(() {});
+                    }),
+              ),
             ))
       ],
     );

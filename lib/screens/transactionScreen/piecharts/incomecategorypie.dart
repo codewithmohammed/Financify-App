@@ -13,7 +13,7 @@ class IncomesPieChartBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Provider.of<TransactionDataProvider>(context, listen: true)
             .incomeaccountList
             .isEmpty
@@ -108,6 +108,7 @@ class IncomesPieChartBox extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
+              
                   child: Column(
                     children: [
                       Row(

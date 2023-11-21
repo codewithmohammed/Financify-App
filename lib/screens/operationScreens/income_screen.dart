@@ -247,8 +247,7 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                             if (pickedDate != null) {
                                               formattedDate = formattedDate =
                                                   DateFormat('dd/MMM/yyyy').format(
-                                                      pickedDate); // Format the date without leading zeros
-                                              // Use this formattedDate where needed
+                                                      pickedDate);
                                             }
                                             return formattedDate;
                                           });

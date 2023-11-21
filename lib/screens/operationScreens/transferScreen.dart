@@ -29,7 +29,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
 
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
       backgroundColor: appTheme.backgroundColor,
       body: Consumer<TransactionDataProvider>(
@@ -248,11 +248,9 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                           ).then((pickedDate) {
                                             String? formattedDate;
                                             if (pickedDate != null) {
-                                              formattedDate = DateFormat(
-                                                      'dd/MMM/yyyy')
-                                                  .format(
-                                                      pickedDate); // Format the date without leading zeros
-                                              // Use this formattedDate where needed
+                                              formattedDate =
+                                                  DateFormat('dd/MMM/yyyy')
+                                                      .format(pickedDate);
                                             }
                                             return formattedDate;
                                           });

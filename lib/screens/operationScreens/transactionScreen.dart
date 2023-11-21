@@ -18,6 +18,20 @@ class TransactionOperationScreen extends StatefulWidget {
 
 class _TransactionOperationScreenState extends State<TransactionOperationScreen>
     with SingleTickerProviderStateMixin {
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: Text(message),
+        duration: const Duration(seconds: 2), // Adjust the duration as needed
+        action: SnackBarAction(
+          label: 'Close',
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   late TabController _tabController;
 
   @override
@@ -101,8 +115,7 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                             .accountnameController.text.isEmpty ||
                         incomeExpenseprovider.dateController.text.isEmpty ||
                         incomeExpenseprovider.amountController.text.isEmpty) {
-                      showSnackBar(
-                          context, 'Please fill in all required fields.');
+                      showSnackBar('Please fill in all required fields.');
                     }
                   }
                   if (_tabController.index == 0) {
@@ -118,8 +131,7 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                       await accountProvider.dBToAccount();
                       incomeExpenseprovider.clearAll();
                       popit();
-                      showSnackBar(
-                          context, 'Your Transaction is Added Successfully');
+                      showSnackBar('Your Transaction is Added Successfully');
                     }
                   } else if (_tabController.index == 1) {
                     if (incomeExpenseprovider.dateController.text.isNotEmpty &&
@@ -134,8 +146,7 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                       await accountProvider.dBToAccount();
                       incomeExpenseprovider.clearAll();
                       popit();
-                      showSnackBar(
-                          context, 'Your Transaction is Added Successfully');
+                      showSnackBar('Your Transaction is Added Successfully');
                     }
                   } else if (_tabController.index == 2) {
                     final transferprovider =
@@ -146,16 +157,14 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                         transferprovider.toaccountnameController.text.isEmpty ||
                         transferprovider.amountController.text.isEmpty ||
                         transferprovider.dateController.text.isEmpty) {
-                      showSnackBar(
-                          context, 'Please fill in all required fields.');
+                      showSnackBar('Please fill in all required fields.');
                     } else {
                       transferprovider.setid();
                       await transferprovider.transactionToDB();
                       await accountProvider.dBToAccount();
                       transferprovider.clearAll();
                       popit();
-                      showSnackBar(
-                          context, 'Your Transaction is Added Successfully');
+                      showSnackBar('Your Transaction is Added Successfully');
                     }
                   }
                 },
@@ -186,18 +195,4 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
   void popit() {
     Navigator.of(context).pop();
   }
-}
-
-void showSnackBar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(message),
-      duration: const Duration(seconds: 2), // Adjust the duration as needed
-      action: SnackBarAction(
-        label: 'Close',
-        onPressed: () {},
-      ),
-    ),
-  );
 }
