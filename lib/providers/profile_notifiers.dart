@@ -13,16 +13,22 @@ class ProfileDataProvider extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   Uint8List? imageData;
   String currencyCode = 'ABC';
+  String currencySymbol = '';
   String currencyCountry = 'Select Your Country Currency';
 
   Future<void> deleteProfile() async {
     final profiledb = ProfileDB();
     await profiledb.clearProfile();
-   await dBToName();
+    await dBToName();
   }
 
   void replaceCurrency(String selectedCode) {
     currencyCode = selectedCode;
+    notifyListeners();
+  }
+
+  void replaceCountrySymbol(String selectedSymbol) {
+    currencySymbol = selectedSymbol;
     notifyListeners();
   }
 
@@ -65,6 +71,7 @@ class ProfileDataProvider extends ChangeNotifier {
     if (profiledata != null) {
       nameController.text = profiledata.name;
       imageData = profiledata.imageData;
+      currencySymbol = profiledata.currencySymbol;
       currencyCode = profiledata.currencyCode;
       currencyCountry = profiledata.currencyCountry;
     } else {
@@ -80,6 +87,7 @@ class ProfileDataProvider extends ChangeNotifier {
         imageData: imageData!,
         name: nameController.text,
         currencyCode: currencyCode,
+        currencySymbol: currencySymbol,
         currencyCountry: currencyCountry);
     final profileDB = ProfileDB();
     profileDB.insertProfile(profilevalue);

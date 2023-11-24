@@ -52,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Provider.of<AppTheme>(context, listen: false).changeToLight();
     }
-    if (userLoggedIn == 'false') {
-      loginwait();
-    } else {
+    if (userLoggedIn == 'true') {
       await sharedPrefs.setString('SAVE_KEY_LOGIN', 'true');
       toMainScreen();
+    } else {
+      loginwait();
     }
   }
 

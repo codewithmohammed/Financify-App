@@ -16,7 +16,7 @@ class AppTheme extends ChangeNotifier {
     final theme = await SharedPreferences.getInstance();
     theme.setInt('mode', 1);
     appthemeDarkMode = false;
-    primaryColor = const Color.fromARGB(255, 253, 181, 0);
+    primaryColor = const Color.fromRGBO(201, 146, 0, 1);
     accentColor = const Color.fromRGBO(90, 82, 60, 1);
     backgroundColor = const Color.fromRGBO(204, 204, 204, 1);
     mainTextColor = Colors.black;

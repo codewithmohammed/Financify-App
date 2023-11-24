@@ -1,4 +1,5 @@
 import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:financify/widgets/account_add_popup.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ class EditAllAccounts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final transactionDataprovider =
+        Provider.of<TransactionDataProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: appTheme.backgroundColor,
       appBar: AppBar(
@@ -58,17 +61,54 @@ class EditAllAccounts extends StatelessWidget {
                                 Text(
                                   accountdataprovider
                                       .accountList[index].accBalance,
-                                  style: const TextStyle(color: Color.fromARGB(255, 43, 236, 49)),
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 43, 236, 49)),
                                 ),
                                 IconButton(
-                                    onPressed: () {
-                                      accountdataprovider.dBDeleteAccount(
-                                          accountdataprovider
-                                              .accountList[index].id);
-                                      // TransactionDB().deleteTransaction(
-                                      //     accountdataprovider
-                                      //         .accountList[index].accBalance);
-                                      // Provider.of<TransactionDataProvider>(context, listen: false).dBtoTransaction();
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext ctx) {
+                                          return AlertDialog(
+                                            title: const Text('Are you sure?'),
+                                            content: const Text(
+                                                'All the Transaction data from this account will be Deleted'),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text('CANCEL'),
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                              ),
+                                              Consumer<AccountDataProvider>(
+                                                  builder: ((context,
+                                                          accountDataProvider,
+                                                          child) =>
+                                                      TextButton(
+                                                        child: const Text(
+                                                            'DELETE'),
+                                                        onPressed: () async {
+                                                          await transactionDataprovider
+                                                              .deleteAllTransactionUnderAccount(
+                                                                  accountdataprovider
+                                                                      .accName);
+
+                                                          await accountdataprovider
+                                                              .dBDeleteAccount(
+                                                                  accountdataprovider
+                                                                      .accountList[
+                                                                          index]
+                                                                      .id)
+                                                              .then((value) =>
+                                                                  Navigator.of(
+                                                                          ctx)
+                                                                      .pop());
+                                                        },
+                                                      ))),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     icon: const Icon(
                                       Icons.delete,

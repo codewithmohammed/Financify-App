@@ -47,8 +47,8 @@ class TransactionDataProvider extends ChangeNotifier {
   List<TransactionModel> taxesExpenseList = [];
   List<TransactionModel> miscellaneousExpenseList = [];
 
-  List<String> listofincomeCategoryAdded = [];
-  List<String> listofexpenseCategoryAdded = [];
+  List<MapEntry<String, double>> listofincomeCategoryAdded = [];
+  List<MapEntry<String, double>> listofexpenseCategoryAdded = [];
 
   double? sumofincomesalary = 0;
   double? sumofincomefreelance = 0;
@@ -120,7 +120,6 @@ class TransactionDataProvider extends ChangeNotifier {
       filterByAccountName();
       filterByDateValue();
       filterByCategoryName();
-
     } else {
       searchaccountList.addAll(accountList);
     }
@@ -289,7 +288,7 @@ class TransactionDataProvider extends ChangeNotifier {
 
   Future<void> deleteTransaction(String deleteID) async {
     final transactionDB = TransactionDB();
-    transactionDB.deleteTransaction(deleteID);
+    await transactionDB.deleteTransaction(deleteID);
     await dBtoTransaction();
   }
 
@@ -320,12 +319,22 @@ class TransactionDataProvider extends ChangeNotifier {
           .toList();
     }
 
-    double calculateSum(
+    double calculateSumIncome(
         List<TransactionModel> transactionList, String category) {
-      listofincomeCategoryAdded.add(category);
-      return transactionList
+      final double calculatedsum = transactionList
           .map((e) => double.parse(e.amount))
           .fold(0, (value, element) => value + element);
+      listofincomeCategoryAdded.add(MapEntry(category, calculatedsum));
+      return calculatedsum;
+    }
+
+    double calculateSumExpense(
+        List<TransactionModel> transactionList, String category) {
+      final double calculatedsum = transactionList
+          .map((e) => double.parse(e.amount))
+          .fold(0, (value, element) => value + element);
+      listofexpenseCategoryAdded.add(MapEntry(category, calculatedsum));
+      return calculatedsum;
     }
 
     if (incomeaccountList.isNotEmpty) {
@@ -348,7 +357,7 @@ class TransactionDataProvider extends ChangeNotifier {
 
       salaryIncomeList = filterList(incomeaccountList, 'Salary');
       if (salaryIncomeList.isNotEmpty) {
-        sumofincomesalary = calculateSum(salaryIncomeList, 'Salary');
+        sumofincomesalary = calculateSumIncome(salaryIncomeList, 'Salary');
       } else {
         sumofincomesalary = 0;
       }
@@ -356,14 +365,15 @@ class TransactionDataProvider extends ChangeNotifier {
       freelanceIncomeList = filterList(incomeaccountList, 'Freelance Income');
       if (freelanceIncomeList.isNotEmpty) {
         sumofincomefreelance =
-            calculateSum(freelanceIncomeList, 'Freelance Income');
+            calculateSumIncome(freelanceIncomeList, 'Freelance Income');
       } else {
         sumofincomefreelance = 0;
       }
 
       rentalIncomeList = filterList(incomeaccountList, 'Rental Income');
       if (rentalIncomeList.isNotEmpty) {
-        sumofincomerental = calculateSum(rentalIncomeList, 'Rental Income');
+        sumofincomerental =
+            calculateSumIncome(rentalIncomeList, 'Rental Income');
       } else {
         sumofincomerental = 0;
       }
@@ -371,14 +381,14 @@ class TransactionDataProvider extends ChangeNotifier {
       investmentIncomeList = filterList(incomeaccountList, 'Investment Income');
       if (investmentIncomeList.isNotEmpty) {
         sumofincomeinvestment =
-            calculateSum(investmentIncomeList, 'Investment Income');
+            calculateSumIncome(investmentIncomeList, 'Investment Income');
       } else {
         sumofincomeinvestment = 0;
       }
 
       giftIncomeList = filterList(incomeaccountList, 'Gift Income');
       if (giftIncomeList.isNotEmpty) {
-        sumofincomegift = calculateSum(giftIncomeList, 'Gift Income');
+        sumofincomegift = calculateSumIncome(giftIncomeList, 'Gift Income');
       } else {
         sumofincomegift = 0;
       }
@@ -386,14 +396,14 @@ class TransactionDataProvider extends ChangeNotifier {
       reimbursementsList = filterList(incomeaccountList, 'Reimbursements');
       if (reimbursementsList.isNotEmpty) {
         sumofincomereimbursements =
-            calculateSum(reimbursementsList, 'Reimbursements');
+            calculateSumIncome(reimbursementsList, 'Reimbursements');
       } else {
         sumofincomereimbursements = 0;
       }
 
       refundsList = filterList(incomeaccountList, 'Refunds');
       if (refundsList.isNotEmpty) {
-        sumofincomerefunds = calculateSum(refundsList, 'Refunds');
+        sumofincomerefunds = calculateSumIncome(refundsList, 'Refunds');
       } else {
         sumofincomerefunds = 0;
       }
@@ -408,53 +418,55 @@ class TransactionDataProvider extends ChangeNotifier {
       lotteryWinningsList = filterList(incomeaccountList, 'Lottery Winnings');
       if (dividendIncomeList.isNotEmpty) {
         sumofincomedividend =
-            calculateSum(dividendIncomeList, 'Dividend Income');
+            calculateSumIncome(dividendIncomeList, 'Dividend Income');
       } else {
         sumofincomedividend = 0;
       }
 
       if (interestIncomeList.isNotEmpty) {
         sumofincomeinterest =
-            calculateSum(interestIncomeList, 'Interest Income');
+            calculateSumIncome(interestIncomeList, 'Interest Income');
       } else {
         sumofincomeinterest = 0;
       }
 
       if (businessIncomeList.isNotEmpty) {
         sumofincomebusiness =
-            calculateSum(businessIncomeList, 'Business Income');
+            calculateSumIncome(businessIncomeList, 'Business Income');
       } else {
         sumofincomebusiness = 0;
       }
 
       if (royaltyIncomeList.isNotEmpty) {
-        sumofincomeroyalty = calculateSum(royaltyIncomeList, 'Royalty Income');
+        sumofincomeroyalty =
+            calculateSumIncome(royaltyIncomeList, 'Royalty Income');
       } else {
         sumofincomeroyalty = 0;
       }
 
       if (alimonyList.isNotEmpty) {
-        sumofincomealimony = calculateSum(alimonyList, 'Alimony');
+        sumofincomealimony = calculateSumIncome(alimonyList, 'Alimony');
       } else {
         sumofincomealimony = 0;
       }
 
       if (capitalGainsList.isNotEmpty) {
         sumofincomecapitalGains =
-            calculateSum(capitalGainsList, 'Capital Gains');
+            calculateSumIncome(capitalGainsList, 'Capital Gains');
       } else {
         sumofincomecapitalGains = 0;
       }
 
       if (scholarshipList.isNotEmpty) {
-        sumofincomescholarship = calculateSum(scholarshipList, 'Scholarship');
+        sumofincomescholarship =
+            calculateSumIncome(scholarshipList, 'Scholarship');
       } else {
         sumofincomescholarship = 0;
       }
 
       if (lotteryWinningsList.isNotEmpty) {
         sumofincomelotteryWinnings =
-            calculateSum(lotteryWinningsList, 'Lottery Winnings');
+            calculateSumIncome(lotteryWinningsList, 'Lottery Winnings');
       } else {
         sumofincomelotteryWinnings = 0;
       }
@@ -485,21 +497,24 @@ class TransactionDataProvider extends ChangeNotifier {
 
       housingExpenseList = filterList(expenseaccountList, 'Housing');
       if (housingExpenseList.isNotEmpty) {
-        sumofexpensehousing = calculateSum(housingExpenseList, 'Housing');
+        sumofexpensehousing =
+            calculateSumExpense(housingExpenseList, 'Housing');
       } else {
         sumofexpensehousing = 0;
       }
 
       utilitiesExpenseList = filterList(expenseaccountList, 'Utilities');
       if (utilitiesExpenseList.isNotEmpty) {
-        sumofexpenseutilities = calculateSum(utilitiesExpenseList, 'Utilities');
+        sumofexpenseutilities =
+            calculateSumExpense(utilitiesExpenseList, 'Utilities');
       } else {
         sumofexpenseutilities = 0;
       }
 
       groceriesExpenseList = filterList(expenseaccountList, 'Groceries');
       if (groceriesExpenseList.isNotEmpty) {
-        sumofexpensegroceries = calculateSum(groceriesExpenseList, 'Groceries');
+        sumofexpensegroceries =
+            calculateSumExpense(groceriesExpenseList, 'Groceries');
       } else {
         sumofexpensegroceries = 0;
       }
@@ -508,7 +523,7 @@ class TransactionDataProvider extends ChangeNotifier {
           filterList(expenseaccountList, 'Transportation');
       if (transportationExpenseList.isNotEmpty) {
         sumofexpensetransportation =
-            calculateSum(transportationExpenseList, 'Transportation');
+            calculateSumExpense(transportationExpenseList, 'Transportation');
       } else {
         sumofexpensetransportation = 0;
       }
@@ -516,21 +531,23 @@ class TransactionDataProvider extends ChangeNotifier {
       healthCareExpenseList = filterList(expenseaccountList, 'Health Care');
       if (healthCareExpenseList.isNotEmpty) {
         sumofexpensehealthCare =
-            calculateSum(healthCareExpenseList, 'Health Care');
+            calculateSumExpense(healthCareExpenseList, 'Health Care');
       } else {
         sumofexpensehealthCare = 0;
       }
 
       insuranceExpenseList = filterList(expenseaccountList, 'Insurance');
       if (insuranceExpenseList.isNotEmpty) {
-        sumofexpenseinsurance = calculateSum(insuranceExpenseList, 'Insurance');
+        sumofexpenseinsurance =
+            calculateSumExpense(insuranceExpenseList, 'Insurance');
       } else {
         sumofexpenseinsurance = 0;
       }
 
       educationExpenseList = filterList(expenseaccountList, 'Education');
       if (educationExpenseList.isNotEmpty) {
-        sumofexpenseeducation = calculateSum(educationExpenseList, 'Education');
+        sumofexpenseeducation =
+            calculateSumExpense(educationExpenseList, 'Education');
       } else {
         sumofexpenseeducation = 0;
       }
@@ -539,7 +556,7 @@ class TransactionDataProvider extends ChangeNotifier {
           filterList(expenseaccountList, 'Entertainment');
       if (entertainmentExpenseList.isNotEmpty) {
         sumofexpenseentertainment =
-            calculateSum(entertainmentExpenseList, 'Entertainment');
+            calculateSumExpense(entertainmentExpenseList, 'Entertainment');
       } else {
         sumofexpenseentertainment = 0;
       }
@@ -547,14 +564,15 @@ class TransactionDataProvider extends ChangeNotifier {
       diningOutExpenseList = filterList(expenseaccountList, 'Dining Out');
       if (diningOutExpenseList.isNotEmpty) {
         sumofexpensediningOut =
-            calculateSum(diningOutExpenseList, 'Dining Out');
+            calculateSumExpense(diningOutExpenseList, 'Dining Out');
       } else {
         sumofexpensediningOut = 0;
       }
 
       shoppingExpenseList = filterList(expenseaccountList, 'Shopping');
       if (shoppingExpenseList.isNotEmpty) {
-        sumofexpenseshopping = calculateSum(shoppingExpenseList, 'Shopping');
+        sumofexpenseshopping =
+            calculateSumExpense(shoppingExpenseList, 'Shopping');
       } else {
         sumofexpenseshopping = 0;
       }
@@ -562,7 +580,7 @@ class TransactionDataProvider extends ChangeNotifier {
       personalCareExpenseList = filterList(expenseaccountList, 'Personal Care');
       if (personalCareExpenseList.isNotEmpty) {
         sumofexpensepersonalCare =
-            calculateSum(personalCareExpenseList, 'Personal Care');
+            calculateSumExpense(personalCareExpenseList, 'Personal Care');
       } else {
         sumofexpensepersonalCare = 0;
       }
@@ -570,7 +588,7 @@ class TransactionDataProvider extends ChangeNotifier {
       debtPaymentsExpenseList = filterList(expenseaccountList, 'Debt Payments');
       if (debtPaymentsExpenseList.isNotEmpty) {
         sumofexpensedeptPayments =
-            calculateSum(debtPaymentsExpenseList, 'Debt Payments');
+            calculateSumExpense(debtPaymentsExpenseList, 'Debt Payments');
       } else {
         sumofexpensedeptPayments = 0;
       }
@@ -578,7 +596,7 @@ class TransactionDataProvider extends ChangeNotifier {
       charitableDonationsExpenseList =
           filterList(expenseaccountList, 'Charitable Donations');
       if (charitableDonationsExpenseList.isNotEmpty) {
-        sumofexpensecharitableDonations = calculateSum(
+        sumofexpensecharitableDonations = calculateSumExpense(
             charitableDonationsExpenseList, 'Charitable Donations');
       } else {
         sumofexpensecharitableDonations = 0;
@@ -586,7 +604,7 @@ class TransactionDataProvider extends ChangeNotifier {
 
       taxesExpenseList = filterList(expenseaccountList, 'Taxes');
       if (taxesExpenseList.isNotEmpty) {
-        sumofexpensetaxes = calculateSum(taxesExpenseList, 'Taxes');
+        sumofexpensetaxes = calculateSumExpense(taxesExpenseList, 'Taxes');
       } else {
         sumofexpensetaxes = 0;
       }
@@ -595,7 +613,7 @@ class TransactionDataProvider extends ChangeNotifier {
           filterList(expenseaccountList, 'Miscellaneous');
       if (miscellaneousExpenseList.isNotEmpty) {
         sumofexpensemiscellaneous =
-            calculateSum(miscellaneousExpenseList, 'Miscellaneous');
+            calculateSumExpense(miscellaneousExpenseList, 'Miscellaneous');
       } else {
         sumofexpensemiscellaneous = 0;
       }
@@ -696,6 +714,22 @@ class TransactionDataProvider extends ChangeNotifier {
           }
         }
       }
+    }
+  }
+
+  Future<void> deleteAllTransactionUnderAccount(String accountname) async {
+    List<TransactionModel> deletingModels = accountList
+        .where((element) =>
+            element.accountname == accountname ||
+            element.fromaccountname == accountname ||
+            element.toaccountname == accountname)
+        .toList();
+    if (deletingModels.isNotEmpty) {
+      for (int i = 0; i < deletingModels.length; i++) {
+        await deleteTransaction(deletingModels[i].id);
+      }
+    } else {
+      return;
     }
   }
 

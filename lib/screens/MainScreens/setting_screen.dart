@@ -56,10 +56,12 @@ class SettingScreen extends StatelessWidget {
                                     child: Image.memory(
                                         profileDataProvider.imageData!,
                                         fit: BoxFit.cover))
-                                : Image.asset(
-                                    ImgIcons.iconperson,
-                                    scale: 4,
-                                  )),
+                                : ClipOval(
+                                  child: Image.asset(
+                                      ImgIcons.iconperson,
+                                      fit: BoxFit.contain
+                                    ),
+                                )),
                         Padding(
                           padding: const EdgeInsets.only(left: 50),
                           child: Column(

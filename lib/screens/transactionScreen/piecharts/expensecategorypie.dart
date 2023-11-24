@@ -10,9 +10,58 @@ class ExpensePieChartBox extends StatelessWidget {
     super.key,
   });
 
+  List<PieChartSectionData> getSections(BuildContext context) {
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final transactionDataProvider =
+        Provider.of<TransactionDataProvider>(context, listen: true);
+    int length = transactionDataProvider.listofexpenseCategoryAdded.length;
+    List<Color> colors = [
+      Colors.amber,
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.yellow,
+      Colors.teal,
+      Colors.pink,
+      Colors.red,
+      Colors.indigo,
+      Colors.brown,
+      Colors.cyan,
+      Colors.deepOrange,
+      Colors.lime,
+      Colors.blueGrey,
+      // Add more colors as needed
+    ];
+    List<PieChartSectionData> sections = List.generate(
+      length,
+      (index) {
+        String accBalanceString = transactionDataProvider
+            .listofexpenseCategoryAdded[index].value
+            .toString();
+        double accBalance = double.tryParse(accBalanceString) ?? 0.0;
+        return PieChartSectionData(
+          titlePositionPercentageOffset: 1.4,
+          color: colors[index],
+          value: accBalance,
+          radius: 100,
+          // title:
+          //     '''${accountProvider.accountList[index].accName} \n ${accountProvider.accountList[index].accBalance}''',
+          titleStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: appTheme.mainTextColor,
+          ),
+        );
+      },
+    );
+
+    return sections;
+  }
+
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Provider.of<TransactionDataProvider>(context, listen: true)
             .expenseaccountList
             .isEmpty
@@ -36,70 +85,7 @@ class ExpensePieChartBox extends StatelessWidget {
                                 startDegreeOffset: 50,
                                 sectionsSpace: 0,
                                 centerSpaceRadius: 0,
-                                sections: [
-                                  // Example function calls with different arguments and colors
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensehousing!,
-                                      Colors.amber),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpenseutilities!,
-                                      Colors.blue),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensegroceries!,
-                                      Colors.green),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensetransportation!,
-                                      Colors.orange),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensehealthCare!,
-                                      Colors.purple),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpenseinsurance!,
-                                      Colors.yellow),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpenseeducation!,
-                                      Colors.teal),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpenseentertainment!,
-                                      Colors.pink),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensediningOut!,
-                                      Colors.red),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpenseshopping!,
-                                      Colors.indigo),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensepersonalCare!,
-                                      Colors.brown),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensedeptPayments!,
-                                      Colors.cyan),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensecharitableDonations!,
-                                      Colors.deepOrange),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensetaxes!,
-                                      Colors.lime),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofexpensemiscellaneous!,
-                                      Colors.blueGrey),
-// Add more function calls as needed with different arguments and colors
-                                ])))),
+                                sections: getSections(context))))),
               ),
               Container(
                 height: 300,
@@ -112,60 +98,60 @@ class ExpensePieChartBox extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          piechartcolorIndicator(Colors.amber, 'Housing'),
-                          piechartcolorIndicator(Colors.blue, 'Utilities'),
-                          piechartcolorIndicator(Colors.green, 'Groceries'),
-                          piechartcolorIndicator(
-                              Colors.orange, 'Transportation'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          piechartcolorIndicator(Colors.purple, 'Health Care'),
-                          piechartcolorIndicator(Colors.yellow, 'Insurance'),
-                          piechartcolorIndicator(Colors.teal, 'Education'),
-                          piechartcolorIndicator(Colors.pink, 'Entertainment'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          piechartcolorIndicator(Colors.red, 'Dining Out'),
-                          piechartcolorIndicator(Colors.indigo, 'Shopping'),
-                          piechartcolorIndicator(Colors.brown, 'Personal Care'),
-                          piechartcolorIndicator(Colors.cyan, 'Dept Payments'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          piechartcolorIndicator(
-                              Colors.deepOrange, 'Charitable Donations'),
-                          piechartcolorIndicator(Colors.lime, 'Taxes'),
-                          piechartcolorIndicator(
-                              Colors.blueGrey, 'Miscellaneous'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Text(
-                        'Total Expense',
-                        style: TextStyle(
-                            color: appTheme.mainTextColor, fontSize: 20),
+                      SizedBox(
+                        height: 150,
+                        child: GridView.builder(
+                          itemCount: Provider.of<TransactionDataProvider>(
+                                  context,
+                                  listen: false)
+                              .listofexpenseCategoryAdded
+                              .length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 1.0,
+                                  childAspectRatio: 5),
+                          itemBuilder: (context, index) {
+                            List<Color> colors = [
+                              Colors.amber,
+                              Colors.blue,
+                              Colors.green,
+                              Colors.orange,
+                              Colors.purple,
+                              Colors.yellow,
+                              Colors.teal,
+                              Colors.pink,
+                              Colors.red,
+                              Colors.indigo,
+                              Colors.brown,
+                              Colors.cyan,
+                              Colors.deepOrange,
+                              Colors.lime,
+                              Colors.blueGrey,
+                            ];
+                            return Consumer<TransactionDataProvider>(
+                                builder: ((context, transactionDataProvider,
+                                        child) =>
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          size: 15,
+                                          Icons.pie_chart,
+                                          color: colors[index],
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          transactionDataProvider
+                                              .listofexpenseCategoryAdded[index]
+                                              .key,
+                                          style: TextStyle(
+                                              color: colors[index],
+                                              fontSize: 10),
+                                        )
+                                      ],
+                                    )));
+                          },
+                        ),
                       ),
                       Consumer<ProfileDataProvider>(
                           builder: ((context, accountDataProvider, child) =>
@@ -217,7 +203,7 @@ class ExpensePieChartBox extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           categoryName,
-          style: TextStyle(color: incdicatorcolor, fontSize: 12),
+          style: TextStyle(color: incdicatorcolor, fontSize: 10),
         )
       ],
     );

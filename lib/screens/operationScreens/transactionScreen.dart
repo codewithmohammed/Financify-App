@@ -23,7 +23,7 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
       SnackBar(
         behavior: SnackBarBehavior.floating,
         content: Text(message),
-        duration: const Duration(seconds: 2), // Adjust the duration as needed
+        duration: const Duration(seconds: 2), 
         action: SnackBarAction(
           label: 'Close',
           onPressed: () {},

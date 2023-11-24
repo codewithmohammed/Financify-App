@@ -73,6 +73,8 @@ class _CurrencySelectState extends State<CurrencySelect> {
                           showCurrencyName: true,
                           onSelect: (Currency currency) {
                             profiledataprovider.replaceCurrency(currency.code);
+                            profiledataprovider
+                                .replaceCountrySymbol(currency.symbol);
                             profiledataprovider.replaceCountry(currency.name);
                           },
                         );

@@ -1,4 +1,5 @@
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
+import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/providers/updatedataprovider.dart';
 import 'package:financify/providers/widgetnotifier.dart';
@@ -35,6 +36,8 @@ class _RecordScreenState extends State<RecordScreen> {
   String cusOutlineText = 'Done';
   @override
   Widget build(BuildContext context) {
+    final profiledataprovider =
+        Provider.of<ProfileDataProvider>(context, listen: false);
     final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Consumer<TransactionDataProvider>(
         builder: ((context, transactionDataProvider, child) => Scaffold(
@@ -247,13 +250,29 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 fontSize: 14,
                                                 color: appTheme.mainTextColor),
                                           ),
-                                          Text(
-                                            transactionDataProvider
-                                                .filteredaccountList[index]
-                                                .amount,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                profiledataprovider
+                                                    .currencySymbol,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        appTheme.mainTextColor),
+                                              ),
+                                               const SizedBox(
+                                                width: 4,
+                                              ),
+                                              Text(
+                                                transactionDataProvider
+                                                    .filteredaccountList[index]
+                                                    .amount,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color.fromARGB(255, 4, 142, 255)),
+                                              ),
+                                              
+                                            ],
                                           )
                                         ],
                                       ),
@@ -393,13 +412,35 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 fontSize: 14,
                                                 color: appTheme.mainTextColor),
                                           ),
-                                          Text(
-                                            transactionDataProvider
-                                                .filteredaccountList[index]
-                                                .amount,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                profiledataprovider
+                                                    .currencySymbol,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        appTheme.mainTextColor),
+                                              ),
+                                              const SizedBox(
+                                                width: 4,
+                                              ),
+                                              Text(
+                                                transactionDataProvider
+                                                    .filteredaccountList[index]
+                                                    .amount,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: transactionDataProvider
+                                                                .filteredaccountList[
+                                                                    index]
+                                                                .type ==
+                                                            TransactionCategoryType
+                                                                .income
+                                                        ? const Color.fromARGB(255, 42, 207, 47)
+                                                        : const Color.fromARGB(255, 248, 53, 39)),
+                                              ),
+                                            ],
                                           )
                                         ],
                                       ),
@@ -475,7 +516,9 @@ class _RecordScreenState extends State<RecordScreen> {
               builder: ((context, transactionDataProvider, child) => Container(
                     height: 400,
                     width: double.infinity,
-                    decoration: BoxDecoration(color: Provider.of<AppTheme>(context, listen: true).backgroundColor),
+                    decoration: BoxDecoration(
+                        color: Provider.of<AppTheme>(context, listen: true)
+                            .backgroundColor),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -487,7 +530,9 @@ class _RecordScreenState extends State<RecordScreen> {
                               Text(
                                 'Filter',
                                 style: TextStyle(
-                                    color: Provider.of<AppTheme>(context, listen: true).mainTextColor,
+                                    color: Provider.of<AppTheme>(context,
+                                            listen: true)
+                                        .mainTextColor,
                                     fontSize: 20),
                               ),
                               Consumer<WidgetNotifier>(
@@ -537,7 +582,10 @@ class _RecordScreenState extends State<RecordScreen> {
                                           child: Text(
                                             widgetNotifier.cusOutlineText,
                                             style: TextStyle(
-                                                color: Provider.of<AppTheme>(context, listen: true).mainTextColor),
+                                                color: Provider.of<AppTheme>(
+                                                        context,
+                                                        listen: true)
+                                                    .mainTextColor),
                                           ))))
                             ],
                           ),

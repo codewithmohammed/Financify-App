@@ -15,6 +15,7 @@ class ProfileSetScreen extends StatelessWidget {
     final nameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     return Scaffold(
+      resizeToAvoidBottomInset: true,
         backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
           builder: ((context, profileDataProvider, child) => SafeArea(

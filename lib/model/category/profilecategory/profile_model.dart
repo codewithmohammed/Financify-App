@@ -19,7 +19,10 @@ class ProfileModel {
   @HiveField(3)
   final String currencyCode;
 
-  @HiveField(4)
+    @HiveField(4)
+  final String currencySymbol;
+
+  @HiveField(5)
   final String currencyCountry;
 
   ProfileModel(
@@ -27,6 +30,7 @@ class ProfileModel {
       required this.imageData,
       required this.name,
       required this.currencyCode,
+      required this.currencySymbol,
       required this.currencyCountry});
 
   @override

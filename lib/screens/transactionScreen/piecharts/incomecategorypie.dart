@@ -1,3 +1,4 @@
+
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
@@ -10,6 +11,55 @@ class IncomesPieChartBox extends StatelessWidget {
   const IncomesPieChartBox({
     super.key,
   });
+
+  List<PieChartSectionData> getSections(BuildContext context) {
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final transactionDataProvider =
+        Provider.of<TransactionDataProvider>(context, listen: true);
+    int length = transactionDataProvider.listofincomeCategoryAdded.length;
+    List<Color> colors = [
+      Colors.amber,
+      Colors.blue,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.yellow,
+      Colors.teal,
+      Colors.pink,
+      Colors.red,
+      Colors.indigo,
+      Colors.brown,
+      Colors.cyan,
+      Colors.deepOrange,
+      Colors.lime,
+      Colors.blueGrey,
+      // Add more colors as needed
+    ];
+    List<PieChartSectionData> sections = List.generate(
+      length,
+      (index) {
+        String accBalanceString = transactionDataProvider
+            .listofincomeCategoryAdded[index].value
+            .toString();
+        double accBalance = double.tryParse(accBalanceString) ?? 0.0;
+        return PieChartSectionData(
+          titlePositionPercentageOffset: 1.4,
+          color: colors[index],
+          value: accBalance,
+          radius: 100,
+          // title:
+          //     '''${accountProvider.accountList[index].accName} \n ${accountProvider.accountList[index].accBalance}''',
+          titleStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: appTheme.mainTextColor,
+          ),
+        );
+      },
+    );
+
+    return sections;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,70 +84,74 @@ class IncomesPieChartBox extends StatelessWidget {
                             swapAnimationDuration:
                                 const Duration(milliseconds: 750),
                             PieChartData(
-                                startDegreeOffset: 50,
-                                sectionsSpace: 0,
-                                centerSpaceRadius: 0,
-                                sections: [
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomesalary!,
-                                      Colors.amber),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomefreelance!,
-                                      Colors.blue),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomerental!,
-                                      Colors.green),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomeinvestment!,
-                                      Colors.orange),
-                                  piechartdata(
-                                      transactionDataProvider.sumofincomegift!,
-                                      Colors.purple),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomereimbursements!,
-                                      Colors.yellow),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomerefunds!,
-                                      Colors.teal),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomedividend!,
-                                      Colors.pink),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomeinterest!,
-                                      Colors.red),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomebusiness!,
-                                      Colors.indigo),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomeroyalty!,
-                                      Colors.brown),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomealimony!,
-                                      Colors.cyan),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomecapitalGains!,
-                                      Colors.deepOrange),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomescholarship!,
-                                      Colors.lime),
-                                  piechartdata(
-                                      transactionDataProvider
-                                          .sumofincomelotteryWinnings!,
-                                      Colors.blueGrey),
-                                ])))),
+                              startDegreeOffset: 50,
+                              sectionsSpace: 0,
+                              centerSpaceRadius: 0,
+                              sections: getSections(context),
+
+                              // [
+
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomesalary!,
+                              //       Colors.amber),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomefreelance!,
+                              //       Colors.blue),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomerental!,
+                              //       Colors.green),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomeinvestment!,
+                              //       Colors.orange),
+                              //   piechartdata(
+                              //       transactionDataProvider.sumofincomegift!,
+                              //       Colors.purple),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomereimbursements!,
+                              //       Colors.yellow),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomerefunds!,
+                              //       Colors.teal),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomedividend!,
+                              //       Colors.pink),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomeinterest!,
+                              //       Colors.red),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomebusiness!,
+                              //       Colors.indigo),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomeroyalty!,
+                              //       Colors.brown),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomealimony!,
+                              //       Colors.cyan),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomecapitalGains!,
+                              //       Colors.deepOrange),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomescholarship!,
+                              //       Colors.lime),
+                              //   piechartdata(
+                              //       transactionDataProvider
+                              //           .sumofincomelotteryWinnings!,
+                              //       Colors.blueGrey),
+                              // ]
+                            )))),
               ),
               Container(
                 height: 300,
@@ -108,68 +162,62 @@ class IncomesPieChartBox extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-              
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          piechartcolorIndicator(Colors.amber, 'Salary'),
-                          piechartcolorIndicator(
-                              Colors.blue, 'Freelance Income'),
-                          piechartcolorIndicator(Colors.green, 'Rental Income'),
-                          piechartcolorIndicator(
-                              Colors.orange, 'Investment Income'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          piechartcolorIndicator(Colors.purple, 'Gift Income'),
-                          piechartcolorIndicator(
-                              Colors.yellow, 'Reimbursements'),
-                          piechartcolorIndicator(Colors.teal, 'Refunds'),
-                          piechartcolorIndicator(
-                              Colors.pink, 'Dividend Income'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          piechartcolorIndicator(Colors.red, 'Interest Income'),
-                          piechartcolorIndicator(
-                              Colors.indigo, 'Business Income'),
-                          piechartcolorIndicator(
-                              Colors.brown, 'Royalty Income'),
-                          piechartcolorIndicator(Colors.cyan, 'Alimony'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          piechartcolorIndicator(
-                              Colors.deepOrange, 'Capital Gains'),
-                          piechartcolorIndicator(Colors.lime, 'Scholarship'),
-                          piechartcolorIndicator(
-                              Colors.blueGrey, 'Lottery Winnings'),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        'Total Income',
-                        style: TextStyle(
-                            color: appTheme.mainTextColor, fontSize: 20),
+                      SizedBox(
+                        height: 150,
+                        child: GridView.builder(
+                          itemCount: Provider.of<TransactionDataProvider>(
+                                  context,
+                                  listen: false)
+                              .listofincomeCategoryAdded
+                              .length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 1.0,
+                                  childAspectRatio: 5),
+                          itemBuilder: (context, index) {
+                            List<Color> colors = [
+                              Colors.amber,
+                              Colors.blue,
+                              Colors.green,
+                              Colors.orange,
+                              Colors.purple,
+                              Colors.yellow,
+                              Colors.teal,
+                              Colors.pink,
+                              Colors.red,
+                              Colors.indigo,
+                              Colors.brown,
+                              Colors.cyan,
+                              Colors.deepOrange,
+                              Colors.lime,
+                              Colors.blueGrey,
+                            ];
+                            return Consumer<TransactionDataProvider>(
+                                builder: ((context, transactionDataProvider,
+                                        child) =>
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          size: 15,
+                                          Icons.pie_chart,
+                                          color: colors[index],
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          transactionDataProvider
+                                              .listofincomeCategoryAdded[index]
+                                              .key,
+                                          style: TextStyle(
+                                              color: colors[index],
+                                              fontSize: 10),
+                                        )
+                                      ],
+                                    )));
+                          },
+                        ),
                       ),
                       Consumer<ProfileDataProvider>(
                           builder: ((context, accountDataProvider, child) =>
@@ -221,7 +269,7 @@ class IncomesPieChartBox extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           categoryName,
-          style: TextStyle(color: incdicatorcolor, fontSize: 11),
+          style: TextStyle(color: incdicatorcolor, fontSize: 10),
         )
       ],
     );
