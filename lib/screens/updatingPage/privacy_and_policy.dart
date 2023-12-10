@@ -91,7 +91,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                       context: context,
                       builder: (BuildContext ctx) {
                         return AlertDialog(
-                          title: const Text('Delete all user data?'),
+                          title: const Text('Delete all transaction data?'),
                           content: const Text(
                               'All your data including records, etc., will be lost. It will not affect your login information.'),
                           actions: [
@@ -132,7 +132,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                       ),
                       child: const Center(
                         child: Text(
-                          'DELETE ALL USER DATA',
+                          'DELETE ALL TRANSACTION DATA',
                           style: TextStyle(color: Colors.red),
                         ),
                       ),
@@ -149,7 +149,7 @@ class PrivacyAndPolicy extends StatelessWidget {
                               return AlertDialog(
                                 title: const Text('Delete all user data?'),
                                 content: const Text(
-                                    '''All financial transaction and profile information is irreversibly deleted and all data is lost'''),
+                                    '''All financial transaction and profile information is irreversibly deleted and all data will be lost.'''),
                                 actions: [
                                   TextButton(
                                     child: const Text('CANCEL'),

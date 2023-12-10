@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
@@ -61,9 +62,20 @@ class ExpensePieChartBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final List<String> items = [
+      'All Time',
+      'Today',
+      'Yesterday',
+      'This Month',
+      'Last Month',
+      'This Year',
+      'Last Year',
+    ];
     final appTheme = Provider.of<AppTheme>(context, listen: true);
-    return Provider.of<TransactionDataProvider>(context, listen: true)
-            .expenseaccountList
+    final transactionDataProvider =
+        Provider.of<TransactionDataProvider>(context, listen: true);
+    int length = transactionDataProvider.listofexpenseCategoryAdded.length;
+    return transactionDataProvider.expenseaccountList
             .isEmpty
         ? const Center(
             child: Text(
@@ -73,6 +85,63 @@ class ExpensePieChartBox extends StatelessWidget {
           )
         : ListView(
             children: [
+              Consumer<TransactionDataProvider>(
+                  builder: ((context, transactionDataProvider, child) =>
+                      SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20,left: 20, right: 20),
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: appTheme.primaryColor,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: DropdownButtonHideUnderline(
+                                child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: Text(
+                                transactionDataProvider.expenseCategorySortDataType!,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: appTheme.mainTextColor,
+                                ),
+                              ),
+                              items: items
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                  .toList(),
+                              onChanged: (value) {
+                                if (value == null) {
+                                  return;
+                                }
+                                final sortingDate =transactionDataProvider.selectDate(value);
+
+                                if (sortingDate != null) {
+                                  transactionDataProvider.sortThePieChartforCategory(
+                                      sortingDate, value,false);
+                                } else {
+                                  transactionDataProvider.dBtoTransaction();
+                                }
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                height: 40,
+                                width: 140,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ))),
               SizedBox(
                 height: 350,
                 width: double.infinity,
@@ -88,7 +157,17 @@ class ExpensePieChartBox extends StatelessWidget {
                                 sections: getSections(context))))),
               ),
               Container(
-                height: 300,
+                height: length <= 3
+                    ? 150
+                    : length <= 6
+                        ? 180
+                        : length <= 9
+                            ? 210
+                            : length <= 12
+                                ? 240
+                                : length <= 15
+                                    ? 270
+                                    : null,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: appTheme.darkblue,
@@ -99,13 +178,19 @@ class ExpensePieChartBox extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 150,
+                        height: length <= 3
+                            ? 50
+                            : length <= 6
+                                ? 60
+                                : length <= 9
+                                    ? 70
+                                    : length <= 12
+                                        ? 80
+                                        : length <= 15
+                                            ? 90
+                                            : null,
                         child: GridView.builder(
-                          itemCount: Provider.of<TransactionDataProvider>(
-                                  context,
-                                  listen: false)
-                              .listofexpenseCategoryAdded
-                              .length,
+                          itemCount:length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
@@ -170,7 +255,7 @@ class ExpensePieChartBox extends StatelessWidget {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                ' ${transactionDataProvider.accExpense}',
+                                                ' ${transactionDataProvider.expenseCategoryDateWise}',
                                                 style: const TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white),

@@ -29,6 +29,11 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> toAccountItems =
+        Provider.of<AccountDataProvider>(context, listen: true).toaccountList;
+    List<String> fromAccountItems =
+        Provider.of<AccountDataProvider>(context, listen: true).fromaccountList;
+
     final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
       backgroundColor: appTheme.backgroundColor,
@@ -53,8 +58,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                       child: Form(
                                         key: _amountkey,
                                         child: TextFormField(
-                                          autovalidateMode:
-                                              AutovalidateMode.onUserInteraction,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           validator: (value) {
                                             if (value == null) {
                                               return "The Amount cant be Empty";
@@ -69,11 +74,14 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                               fontSize: 50,
                                               color: appTheme.mainTextColor),
                                           decoration: InputDecoration(
-                                              border: const UnderlineInputBorder(
-                                                  borderSide: BorderSide.none),
+                                              border:
+                                                  const UnderlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide.none),
                                               hintText: "0",
                                               hintStyle: TextStyle(
-                                                  color: appTheme.mainTextColor)),
+                                                  color:
+                                                      appTheme.mainTextColor)),
                                           keyboardType: const TextInputType
                                               .numberWithOptions(),
                                         ),
@@ -95,7 +103,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 150),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Column(
                                     children: [
@@ -105,23 +114,27 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                             color: appTheme.accentColor),
                                       ),
                                       Consumer<AccountDataProvider>(
-                                          builder: ((context, accountDataProvider,
-                                                  child) =>
+                                          builder: ((context,
+                                                  accountDataProvider, child) =>
                                               DropdownButtonHideUnderline(
                                                 child: DropdownButton2<String>(
                                                   isExpanded: true,
                                                   hint: Text(
-                                                    'Select Account',
+                                                    transfertransactiondataprovider
+                                                            .fromaccountnameController
+                                                            .text
+                                                            .isEmpty
+                                                        ? 'Select Account'
+                                                        : transfertransactiondataprovider
+                                                            .fromaccountnameController
+                                                            .text,
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          appTheme.mainTextColor,
+                                                      color: appTheme
+                                                          .mainTextColor,
                                                     ),
                                                   ),
-                                                  items: accountDataProvider
-                                                      .accountList
-                                                      .map((account) =>
-                                                          account.accName)
+                                                  items: fromAccountItems
                                                       .map((item) =>
                                                           DropdownMenuItem(
                                                             value: item,
@@ -134,22 +147,73 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                             ),
                                                           ))
                                                       .toList(),
-                                                  value: fromselectedValue,
+
                                                   onChanged: (value) {
-                                                    setState(() {
-                                                      fromselectedValue = value;
-                                                    });
                                                     if (value == null) {
                                                       return;
                                                     }
-                                                    transfertransactiondataprovider
-                                                        .fromaccountnameController
-                                                        .text = value;
+                                                    // setState(() {
+                                                    //   fromselectedValue = value;
+                                                    // });
+                                                    // if (value == null) {
+                                                    //   return;
+                                                    // }
+
+                                                    if (transfertransactiondataprovider
+                                                            .fromaccountnameController
+                                                            .text
+                                                            .isNotEmpty &&
+                                                        transfertransactiondataprovider
+                                                            .toaccountnameController
+                                                            .text
+                                                            .isNotEmpty) {
+                                                      transfertransactiondataprovider
+                                                          .setFromaccount(
+                                                              value);
+                                                      transfertransactiondataprovider
+                                                          .reverseTransferAccounts();
+                                                      accountDataProvider
+                                                          .removeFromtoAccount(
+                                                              value);
+                                                    } else if (transfertransactiondataprovider
+                                                            .fromaccountnameController
+                                                            .text
+                                                            .isEmpty &&
+                                                        transfertransactiondataprovider
+                                                            .toaccountnameController
+                                                            .text
+                                                            .isNotEmpty) {
+                                                   
+                                                      accountDataProvider
+                                                          .removeFromtoAccount(
+                                                              value);
+                                                      if (value ==
+                                                          transfertransactiondataprovider
+                                                              .toaccountnameController
+                                                              .text) {
+                                                        transfertransactiondataprovider
+                                                            .reArrangeTheAccounts(
+                                                                accountDataProvider
+                                                                    .toaccountList
+                                                                    .first);
+                                                      }
+                                                      transfertransactiondataprovider
+                                                          .setFromaccount(
+                                                              value);
+                                                    } else {
+                                                      transfertransactiondataprovider
+                                                          .setFromaccount(
+                                                              value);
+                                                      accountDataProvider
+                                                          .removeFromtoAccount(
+                                                              value);
+                                                    }
                                                   },
                                                   buttonStyleData:
                                                       const ButtonStyleData(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0),
                                                     height: 40,
                                                     width: 100,
                                                   ),
@@ -160,7 +224,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
-                                                      color: appTheme.accentColor,
+                                                      color:
+                                                          appTheme.accentColor,
                                                     ),
                                                   ),
                                                   menuItemStyleData:
@@ -176,7 +241,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                     searchController:
                                                         fromAccountTextEditingController,
                                                     searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Container(
+                                                    searchInnerWidget:
+                                                        Container(
                                                       height: 50,
                                                       padding:
                                                           const EdgeInsets.only(
@@ -208,7 +274,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                               OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8),
+                                                                    .circular(
+                                                                        8),
                                                           ),
                                                         ),
                                                       ),
@@ -218,7 +285,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                       return item.value
                                                           .toString()
                                                           .toLowerCase()
-                                                          .contains(searchValue);
+                                                          .contains(
+                                                              searchValue);
                                                     },
                                                   ),
                                                   //This to clear the search value when you close the menu
@@ -243,8 +311,9 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                 await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime.now().subtract(
-                                                  const Duration(days: 30)),
+                                              firstDate: DateTime.now()
+                                                  .subtract(const Duration(
+                                                      days: 400)),
                                               lastDate: DateTime.now(),
                                             ).then((pickedDate) {
                                               String? formattedDate;
@@ -283,8 +352,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                             color: appTheme.accentColor),
                                       ),
                                       Consumer<AccountDataProvider>(
-                                          builder: ((context, accountDataProvider,
-                                                  child) =>
+                                          builder: ((context,
+                                                  accountDataProvider, child) =>
                                               DropdownButtonHideUnderline(
                                                 child: DropdownButton2<String>(
                                                   isExpanded: true,
@@ -299,12 +368,11 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                         : 'Select Account',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          appTheme.mainTextColor,
+                                                      color: appTheme
+                                                          .mainTextColor,
                                                     ),
                                                   ),
-                                                  items: accountDataProvider
-                                                      .toaccountList
+                                                  items: toAccountItems
                                                       .map((item) =>
                                                           DropdownMenuItem(
                                                             value: item,
@@ -318,21 +386,36 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                           ))
                                                       .toList(),
                                                   onChanged: (value) {
+                                                    if (value == null) {
+                                                      return;
+                                                    }
                                                     if (value ==
                                                         'choose another account') {
                                                       showPopup(
                                                           context,
                                                           accountDataProvider,
                                                           transfertransactiondataprovider);
-                                                    } else {
+                                                    }
+                                                    // else if (transfertransactiondataprovider
+                                                    //     .fromaccountnameController
+                                                    //     .text
+                                                    //     .isEmpty) {
+                                                    //   transfertransactiondataprovider
+                                                    //       .setToaccount(value);
+                                                    // }
+                                                    else {
                                                       transfertransactiondataprovider
-                                                          .setToaccount(value!);
+                                                          .setToaccount(value);
+                                                      // accountDataProvider
+                                                      //     .removeFromtoAccount(
+                                                      //         value, false);
                                                     }
                                                   },
                                                   buttonStyleData:
                                                       const ButtonStyleData(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0),
                                                     height: 40,
                                                     width: 100,
                                                   ),
@@ -343,7 +426,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
-                                                      color: appTheme.accentColor,
+                                                      color:
+                                                          appTheme.accentColor,
                                                     ),
                                                   ),
                                                   menuItemStyleData:
@@ -359,7 +443,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                     searchController:
                                                         toAccountTextEditingController,
                                                     searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Container(
+                                                    searchInnerWidget:
+                                                        Container(
                                                       height: 50,
                                                       padding:
                                                           const EdgeInsets.only(
@@ -391,7 +476,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                               OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8),
+                                                                    .circular(
+                                                                        8),
                                                           ),
                                                         ),
                                                       ),
@@ -401,7 +487,8 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                       return item.value
                                                           .toString()
                                                           .toLowerCase()
-                                                          .contains(searchValue);
+                                                          .contains(
+                                                              searchValue);
                                                     },
                                                   ),
                                                   //This to clear the search value when you close the menu

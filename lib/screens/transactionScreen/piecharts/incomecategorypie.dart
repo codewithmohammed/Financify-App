@@ -1,4 +1,4 @@
-
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/utils/themes.dart';
@@ -63,6 +63,19 @@ class IncomesPieChartBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> items = [
+      'All Time',
+      'Today',
+      'Yesterday',
+      'This Month',
+      'Last Month',
+      'This Year',
+      'Last Year',
+    ];
+
+    final transactionDataProvider =
+        Provider.of<TransactionDataProvider>(context, listen: true);
+    int length = transactionDataProvider.listofincomeCategoryAdded.length;
     final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Provider.of<TransactionDataProvider>(context, listen: true)
             .incomeaccountList
@@ -75,6 +88,63 @@ class IncomesPieChartBox extends StatelessWidget {
           )
         : ListView(
             children: [
+              Consumer<TransactionDataProvider>(
+                  builder: ((context, transactionDataProvider, child) =>
+                      SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20,left: 20, right: 20),
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: appTheme.primaryColor,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: DropdownButtonHideUnderline(
+                                child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: Text(
+                                transactionDataProvider.incomeCategorySortDataType!,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: appTheme.mainTextColor,
+                                ),
+                              ),
+                              items: items
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                  .toList(),
+                              onChanged: (value) {
+                                if (value == null) {
+                                  return;
+                                }
+                                final sortingDate =transactionDataProvider.selectDate(value);
+
+                                if (sortingDate != null) {
+                                  transactionDataProvider.sortThePieChartforCategory(
+                                      sortingDate, value,true);
+                                } else {
+                                  transactionDataProvider.dBtoTransaction();
+                                }
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                height: 40,
+                                width: 140,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+                            )),
+                          ),
+                        ),
+                      ))),
               SizedBox(
                 height: 350,
                 width: double.infinity,
@@ -88,73 +158,20 @@ class IncomesPieChartBox extends StatelessWidget {
                               sectionsSpace: 0,
                               centerSpaceRadius: 0,
                               sections: getSections(context),
-
-                              // [
-
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomesalary!,
-                              //       Colors.amber),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomefreelance!,
-                              //       Colors.blue),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomerental!,
-                              //       Colors.green),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomeinvestment!,
-                              //       Colors.orange),
-                              //   piechartdata(
-                              //       transactionDataProvider.sumofincomegift!,
-                              //       Colors.purple),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomereimbursements!,
-                              //       Colors.yellow),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomerefunds!,
-                              //       Colors.teal),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomedividend!,
-                              //       Colors.pink),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomeinterest!,
-                              //       Colors.red),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomebusiness!,
-                              //       Colors.indigo),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomeroyalty!,
-                              //       Colors.brown),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomealimony!,
-                              //       Colors.cyan),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomecapitalGains!,
-                              //       Colors.deepOrange),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomescholarship!,
-                              //       Colors.lime),
-                              //   piechartdata(
-                              //       transactionDataProvider
-                              //           .sumofincomelotteryWinnings!,
-                              //       Colors.blueGrey),
-                              // ]
                             )))),
               ),
               Container(
-                height: 300,
+                height: length <= 3
+                    ? 150
+                    : length <= 6
+                        ? 180
+                        : length <= 9
+                            ? 210
+                            : length <= 12
+                                ? 240
+                                : length <= 15
+                                    ? 270
+                                    : null,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: appTheme.darkblue,
@@ -165,13 +182,19 @@ class IncomesPieChartBox extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 150,
+                        height: length <= 3
+                            ? 50
+                            : length <= 6
+                                ? 60
+                                : length <= 9
+                                    ? 70
+                                    : length <= 12
+                                        ? 80
+                                        : length <= 15
+                                            ? 90
+                                            : null,
                         child: GridView.builder(
-                          itemCount: Provider.of<TransactionDataProvider>(
-                                  context,
-                                  listen: false)
-                              .listofincomeCategoryAdded
-                              .length,
+                          itemCount: length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
@@ -236,7 +259,7 @@ class IncomesPieChartBox extends StatelessWidget {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                ' ${transactionDataProvider.accIncome}',
+                                                ' ${transactionDataProvider.incomeCategoryDateWise}',
                                                 style: const TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white),
@@ -256,42 +279,5 @@ class IncomesPieChartBox extends StatelessWidget {
               )
             ],
           );
-  }
-
-  Row piechartcolorIndicator(Color? incdicatorcolor, String categoryName) {
-    return Row(
-      children: [
-        Icon(
-          size: 15,
-          Icons.pie_chart,
-          color: incdicatorcolor,
-        ),
-        const SizedBox(width: 5),
-        Text(
-          categoryName,
-          style: TextStyle(color: incdicatorcolor, fontSize: 10),
-        )
-      ],
-    );
-  }
-
-  PieChartSectionData piechartdata(double categorizedexpense, Color? piecolor) {
-    return PieChartSectionData(
-      showTitle: false,
-      badgePositionPercentageOffset: 1.2,
-      badgeWidget: Container(
-        alignment: Alignment.center,
-        height: 20,
-        width: 35,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: Colors.deepOrangeAccent),
-        child: Text(
-            style: const TextStyle(color: Colors.white), '$categorizedexpense'),
-      ),
-      radius: 115,
-      value: categorizedexpense,
-      color: piecolor,
-    );
   }
 }

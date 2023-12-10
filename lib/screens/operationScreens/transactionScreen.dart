@@ -1,3 +1,4 @@
+import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/transaction_notifier.dart';
@@ -23,7 +24,7 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
       SnackBar(
         behavior: SnackBarBehavior.floating,
         content: Text(message),
-        duration: const Duration(seconds: 2), 
+        duration: const Duration(seconds: 2),
         action: SnackBarAction(
           label: 'Close',
           onPressed: () {},
@@ -44,14 +45,17 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
   void _handleTabSelection() {
     if (_tabController.index == 0) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
+       Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.income;
     } else if (_tabController.index == 1) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
+           Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.expense;
     } else if (_tabController.index == 2) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
+           Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.transfer;
     }
@@ -141,12 +145,23 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                             .accountnameController.text.isNotEmpty &&
                         incomeExpenseprovider
                             .categoryController.text.isNotEmpty) {
-                      incomeExpenseprovider.setid();
-                      await incomeExpenseprovider.transactionToDB();
-                      await accountProvider.dBToAccount();
-                      incomeExpenseprovider.clearAll();
-                      popit();
-                      showSnackBar('Your Transaction is Added Successfully');
+                      if (await expenseChecker(true)) {
+                        const snackBar = SnackBar(
+                          content: Text(
+                              "You don't have enough balance in this account"),
+                          duration: Duration(
+                              seconds: 3), // Adjust the duration as needed
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        incomeExpenseprovider.setid();
+                        await incomeExpenseprovider.transactionToDB();
+                        await accountProvider.dBToAccount();
+                        incomeExpenseprovider.clearAll();
+                        popit();
+                        showSnackBar('Your Transaction is Added Successfully');
+                      }
                     }
                   } else if (_tabController.index == 2) {
                     final transferprovider =
@@ -156,15 +171,26 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                             .fromaccountnameController.text.isEmpty ||
                         transferprovider.toaccountnameController.text.isEmpty ||
                         transferprovider.amountController.text.isEmpty ||
-                        transferprovider.dateController.text.isEmpty) {
+                        transferprovider.dateController.text.isEmpty || transferprovider.toaccountnameController.text == 'choose another account') {
                       showSnackBar('Please fill in all required fields.');
                     } else {
-                      transferprovider.setid();
-                      await transferprovider.transactionToDB();
-                      await accountProvider.dBToAccount();
-                      transferprovider.clearAll();
-                      popit();
-                      showSnackBar('Your Transaction is Added Successfully');
+                      if (await expenseChecker(false)) {
+                        const snackBar = SnackBar(
+                          content: Text(
+                              "You don't have enough balance in this account"),
+                          duration: Duration(
+                              seconds: 3), // Adjust the duration as needed
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        transferprovider.setid();
+                        await transferprovider.transactionToDB();
+                        await accountProvider.dBToAccount();
+                        transferprovider.clearAll();
+                        popit();
+                        showSnackBar('Your Transaction is Added Successfully');
+                      }
                     }
                   }
                 },
@@ -194,5 +220,40 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
 
   void popit() {
     Navigator.of(context).pop();
+  }
+
+  Future<bool> expenseChecker(bool isExpenseTransaction) async {
+    final accountProvider =
+        Provider.of<AccountDataProvider>(context, listen: false);
+    final incomeExpenseprovider =
+        Provider.of<TransactionDataProvider>(context, listen: false);
+    final double enteredexpenseAmount =
+        double.parse(incomeExpenseprovider.amountController.text);
+    //if its a expense transaction
+    if (isExpenseTransaction == true) {
+      final AccountModel theaccount = accountProvider.accountList.firstWhere(
+          (element) =>
+              element.accName ==
+              incomeExpenseprovider.accountnameController.text);
+      final double acctotalbalance = double.parse(theaccount.accBalance);
+
+      if (acctotalbalance < enteredexpenseAmount) {
+        return true;
+      } else {
+        return false;
+      }
+      //if its a tranfer transaction
+    } else {
+      final AccountModel theaccount = accountProvider.accountList.firstWhere(
+          (element) =>
+              element.accName ==
+              incomeExpenseprovider.fromaccountnameController.text);
+      final double acctotalbalance = double.parse(theaccount.accBalance);
+      if (acctotalbalance < enteredexpenseAmount) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }

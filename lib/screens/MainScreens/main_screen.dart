@@ -15,7 +15,7 @@ class Mainscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
         backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(

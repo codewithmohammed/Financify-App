@@ -123,54 +123,58 @@ class _CurrencySelectState extends State<CurrencySelect> {
                           )),
                     )),
                     Padding(
-                      padding: const EdgeInsets.only(top: 40, bottom: 250),
+                      padding: const EdgeInsets.only(top: 40, ),
                       child: Text(
                         'Your base currency  should be ideally be the one you use most \noften.  Your balance & statistics will be shown in this currency.',
                         style: TextStyle(
                             color: appTheme.accentColor, fontSize: 12),
                       ),
                     ),
+                    Expanded(child: Container(),),
                     Consumer<AccountDataProvider>(
                         builder: ((context, accountDataProvider, child) =>
-                            SizedBox(
-                                width: 350,
-                                height: 54,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    accountDataProvider.accountToDB();
-                                    final sharedPrefs =
-                                        await SharedPreferences.getInstance();
-                                    await sharedPrefs.setString(
-                                        'SAVE_KEY_LOGIN', 'true');
-                                    profiledataprovider.profileToBD();
-                                    toCashSelect();
-                                  },
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(17.0),
-                                    )),
-                                    textStyle: MaterialStateProperty.all(
-                                        TextStyle(
-                                            color: appTheme.accentColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w900)),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            appTheme.mainTextColor),
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            appTheme.black),
-                                    surfaceTintColor:
-                                        MaterialStateProperty.all<Color>(
-                                            appTheme.primaryColor),
-                                  ),
-                                  child: const Text(
-                                    'CONFIRM',
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                ))))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                  width: 350,
+                                  height: 54,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      accountDataProvider.accountToDB();
+                                      final sharedPrefs =
+                                          await SharedPreferences.getInstance();
+                                      await sharedPrefs.setString(
+                                          'SAVE_KEY_LOGIN', 'true');
+                                      profiledataprovider.profileToBD();
+                                      toCashSelect();
+                                    },
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(17.0),
+                                      )),
+                                      textStyle: MaterialStateProperty.all(
+                                          TextStyle(
+                                              color: appTheme.accentColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w900)),
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              appTheme.mainTextColor),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              appTheme.black),
+                                      surfaceTintColor:
+                                          MaterialStateProperty.all<Color>(
+                                              appTheme.primaryColor),
+                                    ),
+                                    child: const Text(
+                                      'CONFIRM',
+                                      style: TextStyle(fontSize: 25),
+                                    ),
+                                  )),
+                            )))
                   ],
                 ),
               ),

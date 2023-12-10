@@ -241,7 +241,7 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime.now().subtract(
-                                                  const Duration(days: 30)),
+                                                  const Duration(days: 400)),
                                               lastDate: DateTime.now(),
                                             ).then((pickedDate) {
                                               String? formattedDate;

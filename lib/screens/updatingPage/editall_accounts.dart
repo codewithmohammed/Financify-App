@@ -90,8 +90,7 @@ class EditAllAccounts extends StatelessWidget {
                                                         onPressed: () async {
                                                           await transactionDataprovider
                                                               .deleteAllTransactionUnderAccount(
-                                                                  accountdataprovider
-                                                                      .accName);
+                                                                  accountdataprovider.accountList[index].accName);
 
                                                           await accountdataprovider
                                                               .dBDeleteAccount(

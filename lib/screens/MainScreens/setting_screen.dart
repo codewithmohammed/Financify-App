@@ -57,11 +57,9 @@ class SettingScreen extends StatelessWidget {
                                         profileDataProvider.imageData!,
                                         fit: BoxFit.cover))
                                 : ClipOval(
-                                  child: Image.asset(
-                                      ImgIcons.iconperson,
-                                      fit: BoxFit.contain
-                                    ),
-                                )),
+                                    child: Image.asset(ImgIcons.iconperson,
+                                        fit: BoxFit.contain),
+                                  )),
                         Padding(
                           padding: const EdgeInsets.only(left: 50),
                           child: Column(
@@ -80,7 +78,8 @@ class SettingScreen extends StatelessWidget {
                                       fontSize: 15,
                                       color: appTheme.darkblue,
                                       fontWeight: FontWeight.bold)),
-                              Text(profileDataProvider.currencyCode,
+                              Text(
+                                  "${profileDataProvider.currencyCode}(${profileDataProvider.currencySymbol.trim().isEmpty ? '' : profileDataProvider.currencySymbol})",
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: appTheme.darkblue,

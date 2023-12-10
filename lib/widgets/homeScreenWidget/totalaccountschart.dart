@@ -79,16 +79,13 @@ class AccountsPieChartBox extends StatelessWidget {
         Provider.of<AccountDataProvider>(context, listen: true);
     int length = accountProvider.accountList.length;
 
-    final Color startColor =
-        const HSVColor.fromAHSV(1.0, 120.0, 1.0, 1.0).toColor();
-    final Color endColor =
-        const HSVColor.fromAHSV(1.0, 0.0, 1.0, 1.0).toColor();
 
-    final double step = 1.0 / length;
+    final double step = 360 / length;
     List<Color> colors = List.generate(length, (index) {
-      final double t = step * index;
-      return Color.lerp(startColor, endColor, t)!;
-    });
+    final double hue = step * index;
+    final Color color = HSVColor.fromAHSV(1.0, hue, 1.0, 1.0).toColor();
+    return color;
+  });
 
     List<PieChartSectionData> sections = List.generate(
       accountProvider.accountList.length,

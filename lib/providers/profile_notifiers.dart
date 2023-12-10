@@ -58,6 +58,11 @@ class ProfileDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setprofilepicinweb(Uint8List image) {
+    imageData = image;
+    notifyListeners();
+  }
+
   void setProfileName(
     String typedname,
   ) {
@@ -76,7 +81,6 @@ class ProfileDataProvider extends ChangeNotifier {
       currencyCountry = profiledata.currencyCountry;
     } else {
       imageData = null;
-      notifyListeners();
     }
     notifyListeners();
   }

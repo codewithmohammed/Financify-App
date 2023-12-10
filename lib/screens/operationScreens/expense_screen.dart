@@ -241,7 +241,7 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                               context: context,
                                               initialDate: DateTime.now(),
                                               firstDate: DateTime.now().subtract(
-                                                  const Duration(days: 30)),
+                                                  const Duration(days: 400)),
                                               lastDate: DateTime.now(),
                                             ).then((pickedDate) {
                                               String? formattedDate;

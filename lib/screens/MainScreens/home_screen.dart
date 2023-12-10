@@ -4,11 +4,28 @@ import 'package:financify/utils/themes.dart';
 import 'package:financify/widgets/account_add_popup.dart';
 import 'package:financify/widgets/homeScreenWidget/piecharts.dart';
 import 'package:financify/widgets/homeScreenWidget/totalaccountschart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  increaseheight(int length, double initialHeight) {
+    if (length % 2 != 0) {
+      final iterate = (length + 1) / 2;
+      for (int i = 1; i < iterate; i++) {
+        initialHeight = initialHeight + 50;
+      }
+      return initialHeight;
+    } else {
+      final iterate = length / 2;
+      for (int i = 1; i < iterate; i++) {
+        initialHeight = initialHeight + 50;
+      }
+      return initialHeight;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +61,29 @@ class HomeScreen extends StatelessWidget {
         child: Consumer<AccountDataProvider>(
             builder: ((context, accountdataprovider, child) => SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: kIsWeb
+                        ? EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.25)
+                        : const EdgeInsets.all(20),
                     child: Column(
                       children: [
                         Container(
                           width: double.infinity,
-                          height: 215,
+                          height: accountdataprovider.accountList.length > 2 &&
+                                  accountdataprovider.accountList.length % 2 !=
+                                      0
+                              ? increaseheight(
+                                  accountdataprovider.accountList.length, 175)
+                              : accountdataprovider.accountList.length > 2 &&
+                                      accountdataprovider.accountList.length %
+                                              2 ==
+                                          0
+                                  ? increaseheight(
+                                      accountdataprovider.accountList.length,
+                                      175)
+                                  : 175,
                           decoration: BoxDecoration(
                             color: appTheme.darkblue,
                             borderRadius: BorderRadius.circular(12),
@@ -69,10 +103,34 @@ class HomeScreen extends StatelessWidget {
                                     padding: const EdgeInsets.only(top: 10),
                                     child: SingleChildScrollView(
                                       child: SizedBox(
-                                        height: 100,
+                                        height: accountdataprovider
+                                                        .accountList.length >
+                                                    2 &&
+                                                accountdataprovider.accountList
+                                                            .length %
+                                                        2 !=
+                                                    0
+                                            ? increaseheight(
+                                                accountdataprovider
+                                                    .accountList.length,
+                                                60)
+                                            : accountdataprovider.accountList
+                                                            .length >
+                                                        2 &&
+                                                    accountdataprovider
+                                                                .accountList
+                                                                .length %
+                                                            2 ==
+                                                        0
+                                                ? increaseheight(
+                                                    accountdataprovider
+                                                        .accountList.length,
+                                                    60)
+                                                : 60,
                                         child: GridView.builder(
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  mainAxisExtent: 40,
                                                   crossAxisCount: 2,
                                                   crossAxisSpacing: 10.0,
                                                   mainAxisSpacing: 10.0,
@@ -114,7 +172,7 @@ class HomeScreen extends StatelessWidget {
                                                                     profileDataProvider,
                                                                     child) =>
                                                                 Text(
-                                                                    '${accountdataprovider.accountList[index].accBalance}\t${profileDataProvider.currencyCode}')))
+                                                                    '${accountdataprovider.accountList[index].accBalance}\t${profileDataProvider.currencySymbol}')))
                                                       ],
                                                     ),
                                                   )),

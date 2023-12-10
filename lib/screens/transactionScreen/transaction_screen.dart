@@ -35,7 +35,7 @@ class TransactionScreen extends StatelessWidget {
             leading: const SizedBox(),
             backgroundColor: appTheme.darkblue,
             title: Text(
-              'TRANSACTIONS',
+              'OVERVIEW',
               style: TextStyle(color: appTheme.primaryColor),
             ),
           ),

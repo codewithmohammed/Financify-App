@@ -1,6 +1,8 @@
 import 'package:financify/auth/OBscreens/screenone.dart';
+import 'package:financify/auth/profileset/profilescreen.dart';
 import 'package:financify/screens/MainScreens/main_screen.dart';
 import 'package:financify/utils/themes.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void toOnboardingScreen() {
     Navigator.pushReplacement((context), MaterialPageRoute(builder: (ctx) {
-      return const OnboardingScreen();
+      return kIsWeb ? const ProfileSetScreen() : const OnboardingScreen();
     }));
   }
 }

@@ -36,8 +36,8 @@ class _RecordScreenState extends State<RecordScreen> {
   String cusOutlineText = 'Done';
   @override
   Widget build(BuildContext context) {
-    final profiledataprovider =
-        Provider.of<ProfileDataProvider>(context, listen: false);
+    // final profiledataprovider =
+    //     Provider.of<ProfileDataProvider>(context, listen: true);
     final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Consumer<TransactionDataProvider>(
         builder: ((context, transactionDataProvider, child) => Scaffold(
@@ -69,7 +69,7 @@ class _RecordScreenState extends State<RecordScreen> {
                                 decoration: const InputDecoration(
                                     contentPadding:
                                         EdgeInsets.only(top: 3, left: 10),
-                                    hintText: 'Search with your account name',
+                                    hintText: 'Search',
                                     hintStyle: TextStyle(
                                         color:
                                             Color.fromARGB(172, 255, 255, 255)),
@@ -252,15 +252,19 @@ class _RecordScreenState extends State<RecordScreen> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                profiledataprovider
-                                                    .currencySymbol,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        appTheme.mainTextColor),
-                                              ),
-                                               const SizedBox(
+                                              Consumer<ProfileDataProvider>(
+                                                  builder: ((context,
+                                                          profileDataProvider,
+                                                          child) =>
+                                                      Text(
+                                                        profileDataProvider
+                                                            .currencySymbol,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: appTheme
+                                                                .mainTextColor),
+                                                      ))),
+                                              const SizedBox(
                                                 width: 4,
                                               ),
                                               Text(
@@ -269,9 +273,9 @@ class _RecordScreenState extends State<RecordScreen> {
                                                     .amount,
                                                 style: const TextStyle(
                                                     fontSize: 14,
-                                                    color: Color.fromARGB(255, 4, 142, 255)),
+                                                    color: Color.fromARGB(
+                                                        255, 4, 142, 255)),
                                               ),
-                                              
                                             ],
                                           )
                                         ],
@@ -414,14 +418,18 @@ class _RecordScreenState extends State<RecordScreen> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                profiledataprovider
-                                                    .currencySymbol,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        appTheme.mainTextColor),
-                                              ),
+                                              Consumer<ProfileDataProvider>(
+                                                  builder: ((context,
+                                                          profileDataProvider,
+                                                          child) =>
+                                                      Text(
+                                                        profileDataProvider
+                                                            .currencySymbol,
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: appTheme
+                                                                .mainTextColor),
+                                                      ))),
                                               const SizedBox(
                                                 width: 4,
                                               ),
@@ -437,8 +445,10 @@ class _RecordScreenState extends State<RecordScreen> {
                                                                 .type ==
                                                             TransactionCategoryType
                                                                 .income
-                                                        ? const Color.fromARGB(255, 42, 207, 47)
-                                                        : const Color.fromARGB(255, 248, 53, 39)),
+                                                        ? const Color.fromARGB(
+                                                            255, 42, 207, 47)
+                                                        : const Color.fromARGB(
+                                                            255, 248, 53, 39)),
                                               ),
                                             ],
                                           )

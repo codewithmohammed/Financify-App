@@ -15,8 +15,16 @@ class UpdateCurrencySelect extends StatefulWidget {
 class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon:  Icon(Icons.arrow_back,color: appTheme.primaryColor,)),
+      ),
       backgroundColor: appTheme.backgroundColor,
       body: Consumer<ProfileDataProvider>(
         builder: ((context, profiledataprovider, child) => SafeArea(
@@ -72,6 +80,10 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                           onSelect: (Currency currency) {
                             profiledataprovider.replaceCurrency(currency.code);
                             profiledataprovider.replaceCountry(currency.name);
+                            profiledataprovider
+                                .replaceCountrySymbol(currency.symbol);
+                            profiledataprovider.profileToBD();
+                            Navigator.of(context).pop();
                           },
                         );
                       },
@@ -126,35 +138,6 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                             color: appTheme.accentColor, fontSize: 12),
                       ),
                     ),
-                    SizedBox(
-                        width: 350,
-                        height: 54,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            profiledataprovider.profileToBD();
-                            Navigator.of(context).pop();
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(17.0),
-                            )),
-                            textStyle: MaterialStateProperty.all(TextStyle(
-                                color: appTheme.accentColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900)),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                appTheme.mainTextColor),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                appTheme.black),
-                            surfaceTintColor: MaterialStateProperty.all<Color>(
-                                appTheme.primaryColor),
-                          ),
-                          child: const Text(
-                            'CONFIRM',
-                            style: TextStyle(fontSize: 25),
-                          ),
-                        ))
                   ],
                 ),
               ),

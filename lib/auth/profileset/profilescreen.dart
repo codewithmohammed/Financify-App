@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +13,11 @@ class ProfileSetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     final nameKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: true,
         backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
           builder: ((context, profileDataProvider, child) => SafeArea(
@@ -34,10 +36,20 @@ class ProfileSetScreen extends StatelessWidget {
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
-                             await Future.delayed(
-                                  const Duration(milliseconds: 100)).then((value) => toSelectCurrency(context));
+                              await Future.delayed(
+                                      const Duration(milliseconds: 100))
+                                  .then((value) => toSelectCurrency(context));
                             } else {
-                              return;
+                              const snackBar = SnackBar(
+                                content:
+                                    Text('Please Select your Profile Photo'),
+                                duration: Duration(
+                                    seconds:
+                                        3),
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                             }
                           },
                           child: Text(
@@ -98,79 +110,23 @@ class ProfileSetScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20)),
                                 child: IconButton(
                                   icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        backgroundColor: appTheme.darkblue,
-                                        context: context,
-                                        builder: (builder) => Container(
-                                              height: 100,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 20,
-                                                vertical: 20,
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    'Choose Profile Photo',
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: appTheme
-                                                            .mainTextColor),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      ElevatedButton.icon(
-                                                          onPressed: () async {
-                                                            final returnedcamera =
-                                                                await ImagePicker()
-                                                                    .pickImage(
-                                                                        source:
-                                                                            ImageSource.camera);
-                                                            final fileImage = File(
-                                                                returnedcamera!
-                                                                    .path);
-                                                            profileDataProvider
-                                                                .setProfilePic(
-                                                                    fileImage);
-                                                          },
-                                                          icon: const Icon(
-                                                              Icons.camera),
-                                                          label: const Text(
-                                                              'Camera')),
-                                                      ElevatedButton.icon(
-                                                          onPressed: () async {
-                                                            final returnedImage =
-                                                                await ImagePicker()
-                                                                    .pickImage(
-                                                                        source:
-                                                                            ImageSource.gallery);
-                                                            final fileImage =
-                                                                File(
-                                                                    returnedImage!
-                                                                        .path);
-                                                            profileDataProvider
-                                                                .setProfilePic(
-                                                                    fileImage);
-                                                          },
-                                                          icon: const Icon(
-                                                              Icons.image),
-                                                          label: const Text(
-                                                              'Gallery'))
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ));
+                                  onPressed: () async {
+                                    if (kIsWeb) {
+                                      FilePickerResult? result =
+                                          await FilePicker.platform
+                                              .pickFiles(type: FileType.image);
+                                      if (result != null) {
+                                        Uint8List file =
+                                            result.files.single.bytes!;
+                                        profileDataProvider
+                                            .setprofilepicinweb(file);
+                                      } else {
+                                        // User canceled the picker
+                                      }
+                                    } else {
+                                      bottomsheet(appTheme, context,
+                                          profileDataProvider);
+                                    }
                                   },
                                 ),
                               ),
@@ -191,7 +147,11 @@ class ProfileSetScreen extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 25),
+                                padding: EdgeInsets.only(
+                                    left: kIsWeb
+                                        ? MediaQuery.of(context).size.width *
+                                            0.15
+                                        : 25),
                                 child: Form(
                                   key: nameKey,
                                   child: TextFormField(
@@ -233,9 +193,80 @@ class ProfileSetScreen extends StatelessWidget {
               )),
         ));
   }
-  
+
+  Future<dynamic> bottomsheet(AppTheme appTheme, BuildContext context,
+      ProfileDataProvider profileDataProvider) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (builder) => Container(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 20,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'Choose Profile Photo',
+                    style:
+                        TextStyle(fontSize: 20, color: appTheme.mainTextColor),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton.icon(
+                          onPressed: () async {
+                            final returnedcamera = await ImagePicker()
+                                .pickImage(source: ImageSource.camera);
+                            if (returnedcamera != null) {
+                              final fileImage = File(returnedcamera.path);
+                              profileDataProvider.setProfilePic(fileImage);
+                            } else {
+                              const snackBar = SnackBar(
+                                content: Text("You haven't selected an image"),
+                                duration: Duration(seconds: 3),
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
+                          icon: const Icon(Icons.camera),
+                          label: const Text('Camera')),
+                      ElevatedButton.icon(
+                          onPressed: () async {
+                            final returnedImage = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
+                            if (returnedImage != null) {
+                              final fileImage = File(returnedImage.path);
+                              profileDataProvider.setProfilePic(fileImage);
+                            } else {
+                              const snackBar = SnackBar(
+                                content: Text("You haven't selected an image"),
+                                duration: Duration(
+                                    seconds:
+                                        3), // Adjust the duration as needed
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
+                          icon: const Icon(Icons.image),
+                          label: const Text('Gallery'))
+                    ],
+                  )
+                ],
+              ),
+            ));
+  }
+
   toSelectCurrency(BuildContext context) {
-       Navigator.pushNamedAndRemoveUntil(
-                                  context, 'CurrencySelect', (route) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, 'CurrencySelect', (route) => false);
   }
 }

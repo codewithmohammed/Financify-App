@@ -3,9 +3,10 @@ import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:flutter/Material.dart';
 
 class AccountDataProvider extends ChangeNotifier {
-      final accountDB = AccountDB();
+  final accountDB = AccountDB();
   List<AccountModel> accountList = [];
   List<String> toaccountList = [];
+  List<String> fromaccountList = [];
   String id = DateTime.now().millisecondsSinceEpoch.toString();
   String accName = 'Cash';
   String accBalance = '0';
@@ -39,16 +40,16 @@ class AccountDataProvider extends ChangeNotifier {
 
   Future<void> dBToAccount() async {
     final getaccountLists = await accountDB.getAccount();
-   
     accountList.clear();
     toaccountList.clear();
+    fromaccountList.clear();
     accountList = getaccountLists;
     toaccountList = getaccountLists.map((e) => e.accName).toList();
+    fromaccountList = getaccountLists.map((e) => e.accName).toList();
     toaccountList.add('choose another account');
-  
+
     accTotal = sumofAccounts(getaccountLists);
     notifyListeners();
-  
   }
 
   Future<void> dBDeleteAccount(String index) async {
@@ -70,5 +71,23 @@ class AccountDataProvider extends ChangeNotifier {
         AccountModel(id: id, accName: accName, accBalance: accBalance);
     await accountDB.insertAccount(accountvalue);
     await dBToAccount();
+  }
+
+  void removeFromtoAccount(String value) {
+    toaccountList.clear();
+    toaccountList.add('choose another account');
+    // if (deletefromToaccount== true) {
+    toaccountList.addAll(accountList.map((e) => e.accName).toList());
+    toaccountList.remove(value);
+
+    // }
+    // else if(deletefromToaccount == false){
+    //   if(fromaccountList.length <= 1){
+
+    //   }
+    //     fromaccountList = accountList.map((e) => e.accName).toList();
+    //   fromaccountList.remove(value);
+    // }
+    notifyListeners();
   }
 }
