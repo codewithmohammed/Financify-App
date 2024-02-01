@@ -144,14 +144,9 @@ class ProfileSetScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10)),
                                   width: 350,
                                   height: 50,
-                                ),
-                              ),
-                              Padding(
+                                  child: Padding(
                                 padding: EdgeInsets.only(
-                                    left: kIsWeb
-                                        ? MediaQuery.of(context).size.width *
-                                            0.15
-                                        : 25),
+                                    left: 5,),
                                 child: Form(
                                   key: nameKey,
                                   child: TextFormField(
@@ -182,7 +177,10 @@ class ProfileSetScreen extends StatelessWidget {
                                         border: InputBorder.none),
                                   ),
                                 ),
-                              )
+                              ),
+                                ),
+                              ),
+                              
                             ],
                           ),
                         ),

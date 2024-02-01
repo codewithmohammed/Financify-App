@@ -130,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                                         child: GridView.builder(
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  mainAxisExtent: 40,
+                                                  mainAxisExtent: 42,
                                                   crossAxisCount: 2,
                                                   crossAxisSpacing: 10.0,
                                                   mainAxisSpacing: 10.0,
