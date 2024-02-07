@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:financify/auth/profileset/name&profile/widgets/circle_widget_with_icon.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
@@ -11,7 +12,6 @@ class CashAccSet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final appTheme = Provider.of<AppTheme>(context, listen: true);
     TextEditingController amountController = TextEditingController();
     return Scaffold(
@@ -53,22 +53,10 @@ class CashAccSet extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
-                            width: 200,
-                            height: 200,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      blurRadius: 1,
-                                      color: appTheme.primaryColor,
-                                      offset: const Offset(0, 5))
-                                ],
-                                color: appTheme.darkblue,
-                                borderRadius: BorderRadius.circular(100)),
-                            child: Image.asset(
+                        CircleWidgetWithIcon(insideIcon: Image.asset(
                               ImgIcons.iconcoin,
                               scale: 4,
-                            )),
+                            ),),
                         Padding(
                           padding: const EdgeInsets.only(top: 50),
                           child: SizedBox(

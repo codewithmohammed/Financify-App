@@ -1,4 +1,5 @@
 import 'package:currency_picker/currency_picker.dart';
+import 'package:financify/auth/profileset/name&profile/widgets/circle_widget_with_icon.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/utils/images.dart';
@@ -28,22 +29,10 @@ class _CurrencySelectState extends State<CurrencySelect> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 1,
-                                  color: appTheme.primaryColor,
-                                  offset: const Offset(0, 5))
-                            ],
-                            color: appTheme.darkblue,
-                            borderRadius: BorderRadius.circular(100)),
-                        child: Image.asset(
+                    CircleWidgetWithIcon(insideIcon: Image.asset(
                           ImgIcons.iconcash,
                           scale: 4,
-                        )),
+                        ),),
                     SizedBox(
                       height: 100,
                       child: Center(
@@ -171,7 +160,7 @@ class _CurrencySelectState extends State<CurrencySelect> {
                                     ),
                                     child: const Text(
                                       'CONFIRM',
-                                      style: TextStyle(fontSize: 25),
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
                                     ),
                                   )),
                             )))
