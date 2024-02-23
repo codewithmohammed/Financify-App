@@ -3,7 +3,7 @@ import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/screens/operationScreens/transactionScreen.dart';
 
-import 'package:financify/transition/fadetransition.dart';
+import 'package:financify/utils/transition/fadetransition.dart';
 
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';

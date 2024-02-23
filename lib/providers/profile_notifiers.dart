@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:financify/db/profile_db.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
-import 'package:financify/screens/MainScreens/home_screen.dart';
-import 'package:financify/screens/MainScreens/record_screen.dart';
-import 'package:financify/screens/MainScreens/setting_screen.dart';
+import 'package:financify/screens/home/home_screen.dart';
+import 'package:financify/screens/record/record_screen.dart';
+import 'package:financify/screens/setting/setting_screen.dart';
 import 'package:financify/screens/transactionScreen/transaction_screen.dart';
 import 'package:flutter/material.dart';
 

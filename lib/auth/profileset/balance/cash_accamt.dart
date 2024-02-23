@@ -30,7 +30,7 @@ class CashAccSet extends StatelessWidget {
                               accountdataprovider.accountToDB();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
-                                  const Duration(milliseconds: 100));
+                                  const Duration(milliseconds: 100)).then((value) => toMainPage(context));
                             } else {
                               accountdataprovider
                                   .accBalanaceSet(amountController.text);

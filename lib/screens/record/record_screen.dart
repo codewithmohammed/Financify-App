@@ -4,7 +4,7 @@ import 'package:financify/providers/transaction_notifier.dart';
 import 'package:financify/providers/updatedataprovider.dart';
 import 'package:financify/providers/widgetnotifier.dart';
 import 'package:financify/screens/all_data.dart';
-import 'package:financify/transition/fadetransition.dart';
+import 'package:financify/utils/transition/fadetransition.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:financify/widgets/bottomsheetwidgets/accountdropdown.dart';
@@ -91,64 +91,128 @@ class _RecordScreenState extends State<RecordScreen> {
                         });
                       },
                       icon: cusIcon),
-                  SizedBox(
-                    height: 200,
-                    child: PopupMenuButton(
-                      onOpened: () {
-                        setState(() {
-                          // transactionDataProvider.filterClear();
-                          // transactionDataProvider.cancelSearch();
-                          cusIcon =
-                              Icon(Icons.search, color: appTheme.primaryColor);
-                          cusSearchBar = Text(
-                            'RECORDS',
-                            style: TextStyle(color: appTheme.primaryColor),
-                          );
-                          if ((transactionDataProvider
-                                  .selectedaCategoryValue.text.isEmpty &&
-                              transactionDataProvider
-                                  .selectedaDateValue.text.isEmpty &&
-                              transactionDataProvider
-                                  .selectedaccountValue.text.isEmpty &&
-                              transactionDataProvider.filteringtype == null)) {
-                            transactionDataProvider.cancelSearch();
-                          }
-                        });
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24)),
-                      color: appTheme.listTileColor,
-                      position: PopupMenuPosition.under,
-                      itemBuilder: (ctx) => [
-                        PopupMenuItem(
-                            onTap: () {
-                              bottomSheet(context);
-                            },
-                            height: 40,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.find_in_page_outlined,
-                                  color: appTheme.mainTextColor,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                  child: Text(
-                                    'Filter',
-                                    style: TextStyle(
-                                        color: appTheme.mainTextColor),
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ],
-                      child: Icon(
-                        Icons.more_vert,
-                        color: appTheme.primaryColor,
-                      ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        // transactionDataProvider.filterClear();
+                        // transactionDataProvider.cancelSearch();
+                        cusIcon =
+                            Icon(Icons.search, color: appTheme.primaryColor);
+                        cusSearchBar = Text(
+                          'RECORDS',
+                          style: TextStyle(color: appTheme.primaryColor),
+                        );
+                        if ((transactionDataProvider
+                                .selectedaCategoryValue.text.isEmpty &&
+                            transactionDataProvider
+                                .selectedaDateValue.text.isEmpty &&
+                            transactionDataProvider
+                                .selectedaccountValue.text.isEmpty &&
+                            transactionDataProvider.filteringtype == null)) {
+                          transactionDataProvider.cancelSearch();
+                        }
+                        bottomSheet(context);
+
+                        // if (cusIcon.icon == Icons.search) {
+                        //   transactionDataProvider.filterClear();
+                        //   transactionDataProvider.cancelSearch();
+                        //   Provider.of<WidgetNotifier>(context, listen: false)
+                        //       .changeToDone();
+                        //   cusIcon =
+                        //       const Icon(Icons.cancel, color: Colors.red);
+                        //   cusSearchBar = SizedBox(
+                        //     height: 40,
+                        //     child: TextField(
+                        //       onChanged: (value) =>
+                        //           transactionDataProvider.runFilter(value),
+                        //       textAlignVertical: TextAlignVertical.center,
+                        //       style: TextStyle(color: appTheme.mainTextColor),
+                        //       decoration: const InputDecoration(
+                        //           contentPadding:
+                        //               EdgeInsets.only(top: 3, left: 10),
+                        //           hintText: 'Search',
+                        //           hintStyle: TextStyle(
+                        //               color:
+                        //                   Color.fromARGB(172, 255, 255, 255)),
+                        //           border: OutlineInputBorder(
+                        //               borderRadius: BorderRadius.all(
+                        //                   Radius.circular(22)))),
+                        //     ),
+                        //   );
+                        // } else {
+                        //   cusIcon = Icon(Icons.search,
+                        //       color: appTheme.primaryColor);
+                        //   cusSearchBar = Text(
+                        //     'RECORDS',
+                        //     style: TextStyle(color: appTheme.primaryColor),
+                        //   );
+                        //   transactionDataProvider.cancelSearch();
+                        //   transactionDataProvider.filterClear();
+                        // }
+                      });
+                    },
+                    icon: Icon(
+                      Icons.find_in_page_outlined,
+                      color: appTheme.primaryColor,
                     ),
                   )
+                  // SizedBox(
+                  //   height: 200,
+                  //   child: PopupMenuButton(
+                  //     onOpened: () {
+                  // setState(() {
+                  //   // transactionDataProvider.filterClear();
+                  //   // transactionDataProvider.cancelSearch();
+                  //   cusIcon =
+                  //       Icon(Icons.search, color: appTheme.primaryColor);
+                  //   cusSearchBar = Text(
+                  //     'RECORDS',
+                  //     style: TextStyle(color: appTheme.primaryColor),
+                  //   );
+                  //   if ((transactionDataProvider
+                  //           .selectedaCategoryValue.text.isEmpty &&
+                  //       transactionDataProvider
+                  //           .selectedaDateValue.text.isEmpty &&
+                  //       transactionDataProvider
+                  //           .selectedaccountValue.text.isEmpty &&
+                  //       transactionDataProvider.filteringtype == null)) {
+                  //     transactionDataProvider.cancelSearch();
+                  //   }
+                  // });
+                  //     },
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(24)),
+                  //     color: appTheme.listTileColor,
+                  //     position: PopupMenuPosition.under,
+                  //     itemBuilder: (ctx) => [
+                  //       PopupMenuItem(
+                  //           onTap: () {
+                  //             bottomSheet(context);
+                  //           },
+                  //           height: 40,
+                  //           child: Row(
+                  //             children: [
+                  //               Icon(
+                  //                 Icons.find_in_page_outlined,
+                  //                 color: appTheme.mainTextColor,
+                  //               ),
+                  //               Padding(
+                  //                 padding:
+                  //                     const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  //                 child: Text(
+                  //                   'Filter',
+                  //                   style: TextStyle(
+                  //                       color: appTheme.mainTextColor),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           )),
+                  //     ],
+                  //     child: Icon(
+                  //       Icons.more_vert,
+                  //       color: appTheme.primaryColor,
+                  //     ),
+                  //   ),
                 ],
               ),
               body: SafeArea(

@@ -1,4 +1,3 @@
-
 import 'package:file_picker/file_picker.dart';
 import 'package:financify/auth/profileset/name&profile/widgets/bottom_sheet_method.dart';
 import 'package:financify/auth/profileset/name&profile/widgets/circle_widget_with_icon.dart';
@@ -142,37 +141,36 @@ class ProfileSetScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppTheme().darkblue,
-                        ),
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.3),
-                        child: TextFormField(
-                          controller: nameController,
-                          style: TextStyle(color: appTheme.mainTextColor),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            fillColor: Colors.white,
-                            hintText: 'What Should we call you?',
-                            hintStyle: TextStyle(color: appTheme.accentColor),
-                            prefixIcon: Icon(
-                              Icons.person_outlined,
-                              color: appTheme.accentColor,
+                            const SizedBox(
+                              height: 30,
                             ),
-                          ),
+                            Container(
+                              width: 300,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: appTheme.darkblue,
+                              ),
+                              child: TextFormField(
+                                controller: nameController,
+                                style: TextStyle(color: appTheme.mainTextColor),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  fillColor: Colors.white,
+                                  hintText: 'What Should we call you?',
+                                  hintStyle:
+                                      TextStyle(color: appTheme.accentColor),
+                                  prefixIcon: Icon(
+                                    Icons.person_outlined,
+                                    color: appTheme.accentColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ]),
               )),
         ));
   }
-
-
 }
-

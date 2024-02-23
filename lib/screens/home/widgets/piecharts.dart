@@ -2,40 +2,33 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/screens/home/functions/constants.dart';
+import 'package:financify/screens/home/widgets/pie_indicator.dart';
 import 'package:financify/utils/themes.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class PieChartBox extends StatefulWidget {
-  const PieChartBox({
+class IncomeExpenseAndTransferPieChart extends StatefulWidget {
+  const IncomeExpenseAndTransferPieChart({
     super.key,
   });
 
   @override
-  State<PieChartBox> createState() => _PieChartBoxState();
+  State<IncomeExpenseAndTransferPieChart> createState() => _IncomeExpenseAndTransferPieChartState();
 }
 
-class _PieChartBoxState extends State<PieChartBox> {
+class _IncomeExpenseAndTransferPieChartState extends State<IncomeExpenseAndTransferPieChart> {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<AppTheme>(context, listen: true);
-    final List<String> items = [
-      'All Time',
-      'Today',
-      'Yesterday',
-      'This Month',
-      'Last Month',
-      'This Year',
-      'Last Year',
-    ];
-
 
     return Consumer<AccountDataProvider>(
         builder: ((context, accountdataprovider, child) => Visibility(
-              replacement: const Text('No Account Is Added yet',
-                  style: TextStyle(color: Colors.white)),
+              replacement: const Center(
+                child: Text('No Account Is Added yet',
+                    style: TextStyle(color: Colors.white)),
+              ),
               visible: accountdataprovider.accountList.isNotEmpty,
               child: Column(
                 children: [
@@ -81,7 +74,8 @@ class _PieChartBoxState extends State<PieChartBox> {
                                         child: DropdownButton2<String>(
                                       isExpanded: true,
                                       hint: Text(
-                                        transactionDataProvider.homeSortDataType!,
+                                        transactionDataProvider
+                                            .homeSortDataType!,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: appTheme.mainTextColor,
@@ -99,12 +93,13 @@ class _PieChartBoxState extends State<PieChartBox> {
                                                 ),
                                               ))
                                           .toList(),
-                                    
                                       onChanged: (value) {
                                         if (value == null) {
                                           return;
                                         }
-                                        final sortingDate =transactionDataProvider.selectDate(value);
+                                        final sortingDate =
+                                            transactionDataProvider
+                                                .selectDate(value);
 
                                         if (sortingDate != null) {
                                           transactionDataProvider
@@ -288,64 +283,5 @@ class _PieChartBoxState extends State<PieChartBox> {
                 ],
               ),
             )));
-  }
-
-  String? selectDate(String whichDate) {
-    String formattedDate;
-    DateTime today = DateTime.now();
-    switch (whichDate) {
-      case 'All Time':
-        return null;
-      case 'Today':
-        formattedDate = DateFormat('dd/MMM/yyyy').format(today);
-        return formattedDate;
-      case 'Yesterday':
-        DateTime yesterday = today.subtract(const Duration(days: 1));
-        formattedDate = DateFormat('dd/MMM/yyyy').format(yesterday);
-        return formattedDate;
-      case 'This Month':
-        formattedDate = DateFormat('MMM/yyyy').format(today);
-        return formattedDate;
-      case 'Last Month':
-        DateTime lastMonth = today.subtract(const Duration(days: 30));
-        formattedDate = DateFormat('MMM/yyyy').format(lastMonth);
-        return formattedDate;
-      case 'This Year':
-        formattedDate = DateFormat('yyyy').format(today);
-        return formattedDate;
-      case 'Last Year':
-        DateTime lastYear = today.subtract(const Duration(days: 365));
-        formattedDate = DateFormat('yyyy').format(lastYear);
-        return formattedDate;
-      default:
-        return null;
-    }
-  }
-}
-
-class PieIndication extends StatelessWidget {
-  final Color color;
-  final String text;
-  const PieIndication({
-    super.key,
-    required this.color,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          Icons.pie_chart,
-          color: color,
-          size: 12,
-        ),
-        Text(text,
-            style: TextStyle(
-              color: color,
-            )),
-      ],
-    );
   }
 }
