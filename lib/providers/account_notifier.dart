@@ -47,7 +47,6 @@ class AccountDataProvider extends ChangeNotifier {
     toaccountList = getaccountLists.map((e) => e.accName).toList();
     fromaccountList = getaccountLists.map((e) => e.accName).toList();
     toaccountList.add('choose another account');
-
     accTotal = sumofAccounts(getaccountLists);
     notifyListeners();
   }

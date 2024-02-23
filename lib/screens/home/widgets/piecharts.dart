@@ -141,7 +141,7 @@ class _IncomeExpenseAndTransferPieChartState extends State<IncomeExpenseAndTrans
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Balance',
+                                          'Total Income',
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: appTheme.mainTextColor),
@@ -160,18 +160,23 @@ class _IncomeExpenseAndTransferPieChartState extends State<IncomeExpenseAndTrans
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              accountdataprovider.accTotal
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Color.fromARGB(
-                                                      255, 76, 201, 81)),
-                                            ),
+                                            Consumer<TransactionDataProvider>(
+                                                builder: ((context,
+                                                        transactiondataprovider,
+                                                        child) =>
+                                                    Text(
+                                                      transactiondataprovider
+                                                          .accIncome
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                          fontSize: 20,
+                                                          color: Colors.green),
+                                                    ))),
+                                    
                                           ],
                                         ),
                                         Text(
-                                          'Expense',
+                                          'Total Expense',
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: appTheme.mainTextColor),

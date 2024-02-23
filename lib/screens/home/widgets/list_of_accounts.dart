@@ -1,4 +1,3 @@
-
 import 'package:financify/providers/account_notifier.dart';
 import 'package:financify/providers/profile_notifiers.dart';
 import 'package:financify/screens/home/functions/functions.dart';
@@ -17,9 +16,9 @@ class ListOfAccounts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountDataProvider>(builder: (context, accountDataProvider, child) {
-      return
-      Column(
+    return Consumer<AccountDataProvider>(
+        builder: (context, accountDataProvider, child) {
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -81,16 +80,38 @@ class ListOfAccounts extends StatelessWidget {
               )),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: SizedBox(
-              height: 30,
-              child: OutlinedButton(
-                  onPressed: () {
-                    showAccountAddPopup(context, false);
-                  },
-                  child: Text(
-                    'ADD ACCOUNT',
-                    style: TextStyle(color: appTheme.mainTextColor),
-                  )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  height: 30,
+                  child: OutlinedButton(
+                      onPressed: () {
+                        showAccountAddPopup(context, false);
+                      },
+                      child: Text(
+                        'ADD ACCOUNT',
+                        style: TextStyle(color: appTheme.mainTextColor),
+                      )),
+                ),
+                Consumer<ProfileDataProvider>(
+                    builder: (context, profileDataProvider, child) {
+                  return Row(
+                    children: [
+                      Text(
+                        'Total Balance :',
+                        style: TextStyle(color: appTheme.mainTextColor),
+                      ),
+                      Text(
+                        ' ${accountDataProvider.accTotal}${profileDataProvider.currencySymbol}',
+                        style:
+                            const TextStyle(fontSize: 16, color: Colors.green),
+                      ),
+                    ],
+                  );
+                }
+                    ),
+              ],
             ),
           )
         ],
