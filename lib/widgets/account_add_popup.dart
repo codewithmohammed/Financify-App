@@ -116,7 +116,7 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      height: 50,
+                      height: 80,
                       child: Form(
                         key: nameKey,
                         child: TextFormField(
@@ -135,7 +135,7 @@ Future<void> showAccountAddPopup(BuildContext context, bool update,
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      height: 50,
+                      height: 80,
                       child: Form(
                         key: numberKey,
                         child: TextFormField(

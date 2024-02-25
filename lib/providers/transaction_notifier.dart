@@ -862,6 +862,7 @@ class TransactionDataProvider extends ChangeNotifier {
     incomeCategoryDateWise = listofincomeCategoryAdded.fold(
         0.0, (double sum, MapEntry<String, double> entry) => sum + entry.value);
 
+
     expenseaccountList = listofTransaction
         .where((element) => element.type == TransactionCategoryType.expense)
         .toList();
@@ -1012,7 +1013,7 @@ class TransactionDataProvider extends ChangeNotifier {
       } else {
         sumofexpensemiscellaneous = 0;
       }
-      expenseCategoryDateWise = listofincomeCategoryAdded.fold(0.0,
+      expenseCategoryDateWise = listofexpenseCategoryAdded.fold(0.0,
           (double sum, MapEntry<String, double> entry) => sum + entry.value);
     }
 

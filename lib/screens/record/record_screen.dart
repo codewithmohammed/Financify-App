@@ -254,153 +254,157 @@ class _RecordScreenState extends State<RecordScreen> {
                                             },
                                           )
                                         ]),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Provider.of<UpdateDataProvider>(context,
-                                                listen: false)
-                                            .updateDataProvider(
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .id,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .categoryname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .accountname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .fromaccountname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .toaccountname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .amount,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .transactiondate,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .accountnote,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .type);
-                                        Navigator.of(context).push(FadeRoute(
-                                            page: const AllTransactionData()));
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
+                                    child: Container(
+                                           decoration: BoxDecoration(color: appTheme.listTileColor,borderRadius:  BorderRadius.circular(13),
+                                        ),
+                                      child: ListTile(
+                                        onTap: () {
+                                          Provider.of<UpdateDataProvider>(context,
+                                                  listen: false)
+                                              .updateDataProvider(
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .id,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .categoryname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .accountname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .fromaccountname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .toaccountname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .amount,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .transactiondate,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .accountnote,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .type);
+                                          Navigator.of(context).push(FadeRoute(
+                                              page: const AllTransactionData()));
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(13),
+                                        ),
+                                        // tileColor: appTheme.listTileColor,
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              transactionDataProvider
+                                                          .filteredaccountList[
+                                                              index]
+                                                          .type ==
+                                                      TransactionCategoryType
+                                                          .transfer
+                                                  ? transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .accountnote
+                                                  : transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .categoryname,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appTheme.mainTextColor),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Consumer<ProfileDataProvider>(
+                                                    builder: ((context,
+                                                            profileDataProvider,
+                                                            child) =>
+                                                        Text(
+                                                          profileDataProvider
+                                                              .currencySymbol,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: appTheme
+                                                                  .mainTextColor),
+                                                        ))),
+                                                const SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .amount,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Color.fromARGB(
+                                                          255, 4, 142, 255)),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        subtitle: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  item.fromaccountname,
+                                                  style: TextStyle(
+                                                      color:
+                                                          appTheme.mainTextColor),
+                                                ),
+                                                const Icon(
+                                                    Icons
+                                                        .arrow_right_alt_outlined,
+                                                    color: Colors.blue),
+                                                Text(
+                                                  item.toaccountname,
+                                                  style: TextStyle(
+                                                      color:
+                                                          appTheme.mainTextColor),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              item.transactiondate,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appTheme.mainTextColor),
+                                            )
+                                          ],
+                                        ),
+                                        leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                color: appTheme.darkblue,
+                                                borderRadius:
+                                                    BorderRadius.circular(25)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset((transactionDataProvider
+                                                          .filteredaccountList[
+                                                              index]
+                                                          .type ==
+                                                      TransactionCategoryType
+                                                          .income)
+                                                  ? NavICons.iconIncome
+                                                  : (transactionDataProvider
+                                                              .filteredaccountList[
+                                                                  index]
+                                                              .type ==
+                                                          TransactionCategoryType
+                                                              .expense)
+                                                      ? NavICons.iconExpense
+                                                      : NavICons.iconTransfer),
+                                            )),
                                       ),
-                                      tileColor: appTheme.listTileColor,
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            transactionDataProvider
-                                                        .filteredaccountList[
-                                                            index]
-                                                        .type ==
-                                                    TransactionCategoryType
-                                                        .transfer
-                                                ? transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .accountnote
-                                                : transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .categoryname,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Consumer<ProfileDataProvider>(
-                                                  builder: ((context,
-                                                          profileDataProvider,
-                                                          child) =>
-                                                      Text(
-                                                        profileDataProvider
-                                                            .currencySymbol,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: appTheme
-                                                                .mainTextColor),
-                                                      ))),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .amount,
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color.fromARGB(
-                                                        255, 4, 142, 255)),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                item.fromaccountname,
-                                                style: TextStyle(
-                                                    color:
-                                                        appTheme.mainTextColor),
-                                              ),
-                                              const Icon(
-                                                  Icons
-                                                      .arrow_right_alt_outlined,
-                                                  color: Colors.blue),
-                                              Text(
-                                                item.toaccountname,
-                                                style: TextStyle(
-                                                    color:
-                                                        appTheme.mainTextColor),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            item.transactiondate,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
-                                          )
-                                        ],
-                                      ),
-                                      leading: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              color: appTheme.darkblue,
-                                              borderRadius:
-                                                  BorderRadius.circular(25)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset((transactionDataProvider
-                                                        .filteredaccountList[
-                                                            index]
-                                                        .type ==
-                                                    TransactionCategoryType
-                                                        .income)
-                                                ? NavICons.iconIncome
-                                                : (transactionDataProvider
-                                                            .filteredaccountList[
-                                                                index]
-                                                            .type ==
-                                                        TransactionCategoryType
-                                                            .expense)
-                                                    ? NavICons.iconExpense
-                                                    : NavICons.iconTransfer),
-                                          )),
                                     ),
                                   )
                                 : Slidable(
@@ -420,149 +424,153 @@ class _RecordScreenState extends State<RecordScreen> {
                                             },
                                           )
                                         ]),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Provider.of<UpdateDataProvider>(context,
-                                                listen: false)
-                                            .updateDataProvider(
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .id,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .categoryname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .accountname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .fromaccountname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .toaccountname,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .amount,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .transactiondate,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .accountnote,
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .type);
-                                        Navigator.of(context).push(FadeRoute(
-                                            page: const AllTransactionData()));
-                                      },
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
+                                    child: Container(
+                                      decoration: BoxDecoration(color: appTheme.listTileColor,borderRadius:  BorderRadius.circular(13),
+                                        ),
+                                      child: ListTile(
+                                        onTap: () {
+                                          Provider.of<UpdateDataProvider>(context,
+                                                  listen: false)
+                                              .updateDataProvider(
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .id,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .categoryname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .accountname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .fromaccountname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .toaccountname,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .amount,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .transactiondate,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .accountnote,
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .type);
+                                          Navigator.of(context).push(FadeRoute(
+                                              page: const AllTransactionData()));
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(13),
+                                        ),
+                                        // tileColor: appTheme.listTileColor,
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              transactionDataProvider
+                                                          .filteredaccountList[
+                                                              index]
+                                                          .type ==
+                                                      TransactionCategoryType
+                                                          .transfer
+                                                  ? transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .accountnote
+                                                  : transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .categoryname,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appTheme.mainTextColor),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Consumer<ProfileDataProvider>(
+                                                    builder: ((context,
+                                                            profileDataProvider,
+                                                            child) =>
+                                                        Text(
+                                                          profileDataProvider
+                                                              .currencySymbol,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: appTheme
+                                                                  .mainTextColor),
+                                                        ))),
+                                                const SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  transactionDataProvider
+                                                      .filteredaccountList[index]
+                                                      .amount,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: transactionDataProvider
+                                                                  .filteredaccountList[
+                                                                      index]
+                                                                  .type ==
+                                                              TransactionCategoryType
+                                                                  .income
+                                                          ? const Color.fromARGB(
+                                                              255, 42, 207, 47)
+                                                          : const Color.fromARGB(
+                                                              255, 248, 53, 39)),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        subtitle: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              transactionDataProvider
+                                                  .filteredaccountList[index]
+                                                  .accountname,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appTheme.mainTextColor),
+                                            ),
+                                            Text(
+                                              item.transactiondate,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appTheme.mainTextColor),
+                                            )
+                                          ],
+                                        ),
+                                        leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                color: appTheme.darkblue,
+                                                borderRadius:
+                                                    BorderRadius.circular(25)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset((transactionDataProvider
+                                                          .filteredaccountList[
+                                                              index]
+                                                          .type ==
+                                                      TransactionCategoryType
+                                                          .income)
+                                                  ? NavICons.iconIncome
+                                                  : (transactionDataProvider
+                                                              .filteredaccountList[
+                                                                  index]
+                                                              .type ==
+                                                          TransactionCategoryType
+                                                              .expense)
+                                                      ? NavICons.iconExpense
+                                                      : NavICons.iconTransfer),
+                                            )),
                                       ),
-                                      tileColor: appTheme.listTileColor,
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            transactionDataProvider
-                                                        .filteredaccountList[
-                                                            index]
-                                                        .type ==
-                                                    TransactionCategoryType
-                                                        .transfer
-                                                ? transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .accountnote
-                                                : transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .categoryname,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Consumer<ProfileDataProvider>(
-                                                  builder: ((context,
-                                                          profileDataProvider,
-                                                          child) =>
-                                                      Text(
-                                                        profileDataProvider
-                                                            .currencySymbol,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: appTheme
-                                                                .mainTextColor),
-                                                      ))),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                transactionDataProvider
-                                                    .filteredaccountList[index]
-                                                    .amount,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: transactionDataProvider
-                                                                .filteredaccountList[
-                                                                    index]
-                                                                .type ==
-                                                            TransactionCategoryType
-                                                                .income
-                                                        ? const Color.fromARGB(
-                                                            255, 42, 207, 47)
-                                                        : const Color.fromARGB(
-                                                            255, 248, 53, 39)),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            transactionDataProvider
-                                                .filteredaccountList[index]
-                                                .accountname,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
-                                          ),
-                                          Text(
-                                            item.transactiondate,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: appTheme.mainTextColor),
-                                          )
-                                        ],
-                                      ),
-                                      leading: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              color: appTheme.darkblue,
-                                              borderRadius:
-                                                  BorderRadius.circular(25)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset((transactionDataProvider
-                                                        .filteredaccountList[
-                                                            index]
-                                                        .type ==
-                                                    TransactionCategoryType
-                                                        .income)
-                                                ? NavICons.iconIncome
-                                                : (transactionDataProvider
-                                                            .filteredaccountList[
-                                                                index]
-                                                            .type ==
-                                                        TransactionCategoryType
-                                                            .expense)
-                                                    ? NavICons.iconExpense
-                                                    : NavICons.iconTransfer),
-                                          )),
                                     ),
                                   );
                           },
