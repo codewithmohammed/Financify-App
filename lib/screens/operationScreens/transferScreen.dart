@@ -183,7 +183,6 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                             .toaccountnameController
                                                             .text
                                                             .isNotEmpty) {
-                                                   
                                                       accountDataProvider
                                                           .removeFromtoAccount(
                                                               value);
@@ -231,7 +230,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                   menuItemStyleData:
                                                       MenuItemStyleData(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             appTheme
                                                                 .backgroundColor),
                                                     height: 40,
@@ -433,7 +432,7 @@ class _TransferOperationScreenState extends State<TransferOperationScreen> {
                                                   menuItemStyleData:
                                                       MenuItemStyleData(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             appTheme
                                                                 .backgroundColor),
                                                     height: 40,

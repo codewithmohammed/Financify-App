@@ -20,61 +20,62 @@ class ProfileSetScreen extends StatelessWidget {
         backgroundColor: appTheme.backgroundColor,
         body: Consumer<ProfileDataProvider>(
           builder: ((context, profileDataProvider, child) => SafeArea(
-                child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                              onPressed: () async {
-                                if (nameController.text.isNotEmpty &&
-                                    profileDataProvider.imageData != null) {
-                                  profileDataProvider
-                                      .setProfileName(nameController.text);
+                child: SingleChildScrollView(
+                  child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                                onPressed: () async {
+                                  if (nameController.text.isNotEmpty &&
+                                      profileDataProvider.imageData != null) {
+                                    profileDataProvider
+                                        .setProfileName(nameController.text);
 
-                                  FocusScope.of(context).unfocus();
-                                  await Future.delayed(
-                                          const Duration(milliseconds: 200))
-                                      .then(
-                                          (value) => toSelectCurrency(context));
-                                } else if (nameController.text.isEmpty &&
-                                    profileDataProvider.imageData == null) {
-                                  const snackBar = SnackBar(
-                                    content: Text(
-                                        'Please Enter your Name and Select your Profile Photo'),
-                                    duration: Duration(seconds: 3),
-                                  );
+                                    FocusScope.of(context).unfocus();
+                                    await Future.delayed(
+                                            const Duration(milliseconds: 200))
+                                        .then((value) =>
+                                            toSelectCurrency(context));
+                                  } else if (nameController.text.isEmpty &&
+                                      profileDataProvider.imageData == null) {
+                                    const snackBar = SnackBar(
+                                      content: Text(
+                                          'Please Enter your Name and Select your Profile Photo'),
+                                      duration: Duration(seconds: 3),
+                                    );
 
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                } else if (nameController.text.isEmpty &&
-                                    profileDataProvider.imageData != null) {
-                                  const snackBar = SnackBar(
-                                    content: Text('Please Enter your Name '),
-                                    duration: Duration(seconds: 3),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                } else {
-                                  const snackBar = SnackBar(
-                                    content: Text(
-                                        'Please Select your Profile Photo'),
-                                    duration: Duration(seconds: 3),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              },
-                              child: Text(
-                                'NEXT',
-                                style: TextStyle(color: appTheme.primaryColor),
-                                textAlign: TextAlign.right,
-                              )),
-                        ],
-                      ),
-                      Expanded(
-                        child: Column(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  } else if (nameController.text.isEmpty &&
+                                      profileDataProvider.imageData != null) {
+                                    const snackBar = SnackBar(
+                                      content: Text('Please Enter your Name '),
+                                      duration: Duration(seconds: 3),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  } else {
+                                    const snackBar = SnackBar(
+                                      content: Text(
+                                          'Please Select your Profile Photo'),
+                                      duration: Duration(seconds: 3),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                },
+                                child: Text(
+                                  'NEXT',
+                                  style:
+                                      TextStyle(color: appTheme.primaryColor),
+                                  textAlign: TextAlign.right,
+                                )),
+                          ],
+                        ),
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Set up your',
@@ -142,7 +143,7 @@ class ProfileSetScreen extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 100,
                             ),
                             Container(
                               width: 300,
@@ -166,10 +167,11 @@ class ProfileSetScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            // const Spacer(),
                           ],
                         ),
-                      ),
-                    ]),
+                      ]),
+                ),
               )),
         ));
   }

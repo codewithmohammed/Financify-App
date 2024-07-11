@@ -25,7 +25,7 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
         backgroundColor: appTheme.backgroundColor,
         body: SingleChildScrollView(
@@ -53,8 +53,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                       child: Form(
                                         key: _amountkey,
                                         child: TextFormField(
-                                          autovalidateMode:
-                                              AutovalidateMode.onUserInteraction,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           validator: (value) {
                                             if (value == null) {
                                               return "The Amount cant be Empty";
@@ -69,11 +69,14 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                               fontSize: 50,
                                               color: appTheme.mainTextColor),
                                           decoration: InputDecoration(
-                                              border: const UnderlineInputBorder(
-                                                  borderSide: BorderSide.none),
+                                              border:
+                                                  const UnderlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide.none),
                                               hintText: "0",
                                               hintStyle: TextStyle(
-                                                  color: appTheme.mainTextColor)),
+                                                  color:
+                                                      appTheme.mainTextColor)),
                                           keyboardType: const TextInputType
                                               .numberWithOptions(),
                                         ),
@@ -95,7 +98,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 150),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Column(
                                     children: [
@@ -105,8 +109,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                             color: appTheme.accentColor),
                                       ),
                                       Consumer<AccountDataProvider>(
-                                          builder: ((context, accountdataprovider,
-                                                  child) =>
+                                          builder: ((context,
+                                                  accountdataprovider, child) =>
                                               DropdownButtonHideUnderline(
                                                 child: DropdownButton2<String>(
                                                   isExpanded: true,
@@ -114,8 +118,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     'Select Account',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          appTheme.mainTextColor,
+                                                      color: appTheme
+                                                          .mainTextColor,
                                                     ),
                                                   ),
                                                   items: accountdataprovider
@@ -146,8 +150,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                   },
                                                   buttonStyleData:
                                                       const ButtonStyleData(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0),
                                                     height: 40,
                                                     width: 100,
                                                   ),
@@ -158,13 +163,14 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
-                                                      color: appTheme.accentColor,
+                                                      color:
+                                                          appTheme.accentColor,
                                                     ),
                                                   ),
                                                   menuItemStyleData:
                                                       MenuItemStyleData(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             appTheme
                                                                 .backgroundColor),
                                                     height: 40,
@@ -174,7 +180,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     searchController:
                                                         accounttextEditingController,
                                                     searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Container(
+                                                    searchInnerWidget:
+                                                        Container(
                                                       height: 50,
                                                       padding:
                                                           const EdgeInsets.only(
@@ -206,7 +213,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                               OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8),
+                                                                    .circular(
+                                                                        8),
                                                           ),
                                                         ),
                                                       ),
@@ -216,7 +224,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                       return item.value
                                                           .toString()
                                                           .toLowerCase()
-                                                          .contains(searchValue);
+                                                          .contains(
+                                                              searchValue);
                                                     },
                                                   ),
                                                   onMenuStateChange: (isOpen) {
@@ -240,15 +249,16 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                 await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime.now().subtract(
-                                                  const Duration(days: 400)),
+                                              firstDate: DateTime.now()
+                                                  .subtract(const Duration(
+                                                      days: 400)),
                                               lastDate: DateTime.now(),
                                             ).then((pickedDate) {
                                               String? formattedDate;
                                               if (pickedDate != null) {
                                                 formattedDate = formattedDate =
-                                                    DateFormat('dd/MMM/yyyy').format(
-                                                        pickedDate);
+                                                    DateFormat('dd/MMM/yyyy')
+                                                        .format(pickedDate);
                                               }
                                               return formattedDate;
                                             });
@@ -287,8 +297,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     'Select Category',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          appTheme.mainTextColor,
+                                                      color: appTheme
+                                                          .mainTextColor,
                                                     ),
                                                   ),
                                                   items: incomeCategories
@@ -317,8 +327,9 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                   },
                                                   buttonStyleData:
                                                       const ButtonStyleData(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0),
                                                     height: 40,
                                                     width: 150,
                                                   ),
@@ -329,13 +340,14 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
-                                                      color: appTheme.accentColor,
+                                                      color:
+                                                          appTheme.accentColor,
                                                     ),
                                                   ),
                                                   menuItemStyleData:
                                                       MenuItemStyleData(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             appTheme
                                                                 .backgroundColor),
                                                     height: 40,
@@ -345,7 +357,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                     searchController:
                                                         categorytextEditingController,
                                                     searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Container(
+                                                    searchInnerWidget:
+                                                        Container(
                                                       height: 50,
                                                       padding:
                                                           const EdgeInsets.only(
@@ -377,7 +390,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                               OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8),
+                                                                    .circular(
+                                                                        8),
                                                           ),
                                                         ),
                                                       ),
@@ -387,7 +401,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                                                       return item.value
                                                           .toString()
                                                           .toLowerCase()
-                                                          .contains(searchValue);
+                                                          .contains(
+                                                              searchValue);
                                                     },
                                                   ),
                                                   onMenuStateChange: (isOpen) {
@@ -406,8 +421,8 @@ class _IncomeOperationScreenState extends State<IncomeOperationScreen> {
                             SizedBox(
                               height: 80,
                               child: TextFormField(
-                                controller:
-                                    incometransactiondataprovider.noteController,
+                                controller: incometransactiondataprovider
+                                    .noteController,
                                 style: TextStyle(color: appTheme.mainTextColor),
                                 decoration: InputDecoration(
                                     hintText: 'Write Any Note',

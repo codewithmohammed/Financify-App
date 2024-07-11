@@ -23,7 +23,10 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon:  Icon(Icons.arrow_back,color: appTheme.primaryColor,)),
+            icon: Icon(
+              Icons.arrow_back,
+              color: appTheme.primaryColor,
+            )),
       ),
       backgroundColor: appTheme.backgroundColor,
       body: Consumer<ProfileDataProvider>(
@@ -78,6 +81,7 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                           showFlag: true,
                           showCurrencyName: true,
                           onSelect: (Currency currency) {
+                          
                             profiledataprovider.replaceCurrency(currency.code);
                             profiledataprovider.replaceCountry(currency.name);
                             profiledataprovider

@@ -29,10 +29,12 @@ class _CurrencySelectState extends State<CurrencySelect> {
                     const SizedBox(
                       height: 20,
                     ),
-                    CircleWidgetWithIcon(insideIcon: Image.asset(
-                          ImgIcons.iconcash,
-                          scale: 4,
-                        ),),
+                    CircleWidgetWithIcon(
+                      insideIcon: Image.asset(
+                        ImgIcons.iconcash,
+                        scale: 4,
+                      ),
+                    ),
                     SizedBox(
                       height: 100,
                       child: Center(
@@ -112,14 +114,18 @@ class _CurrencySelectState extends State<CurrencySelect> {
                           )),
                     )),
                     Padding(
-                      padding: const EdgeInsets.only(top: 40, ),
+                      padding: const EdgeInsets.only(
+                        top: 40,
+                      ),
                       child: Text(
                         'Your base currency  should be ideally be the one you use most \noften.  Your balance & statistics will be shown in this currency.',
                         style: TextStyle(
                             color: appTheme.accentColor, fontSize: 12),
                       ),
                     ),
-                    Expanded(child: Container(),),
+                    Expanded(
+                      child: Container(),
+                    ),
                     Consumer<AccountDataProvider>(
                         builder: ((context, accountDataProvider, child) =>
                             Padding(
@@ -138,29 +144,32 @@ class _CurrencySelectState extends State<CurrencySelect> {
                                       toCashSelect();
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
+                                      shape: WidgetStateProperty.all<
                                               RoundedRectangleBorder>(
                                           RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(17.0),
+                                        borderRadius:
+                                            BorderRadius.circular(17.0),
                                       )),
-                                      textStyle: MaterialStateProperty.all(
+                                      textStyle: WidgetStateProperty.all(
                                           TextStyle(
                                               color: appTheme.accentColor,
                                               fontSize: 20,
                                               fontWeight: FontWeight.w900)),
                                       foregroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               appTheme.mainTextColor),
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               appTheme.black),
                                       surfaceTintColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               appTheme.primaryColor),
                                     ),
                                     child: const Text(
                                       'CONFIRM',
-                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700),
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   )),
                             )))

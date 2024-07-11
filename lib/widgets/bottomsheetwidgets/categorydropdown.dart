@@ -16,7 +16,7 @@ class _CategoryDropdownwidgetState extends State<CategoryDropdownwidget> {
   String? categoryselectedValue;
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -69,14 +69,14 @@ class _CategoryDropdownwidgetState extends State<CategoryDropdownwidget> {
                       ),
                       buttonStyleData: ButtonStyleData(
                         overlayColor:
-                            MaterialStatePropertyAll(appTheme.mainTextColor),
+                            WidgetStatePropertyAll(appTheme.mainTextColor),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         height: 40,
                         width: 140,
                       ),
                       menuItemStyleData: MenuItemStyleData(
                         overlayColor:
-                            MaterialStatePropertyAll(appTheme.mainTextColor),
+                            WidgetStatePropertyAll(appTheme.mainTextColor),
                         height: 40,
                       ),
                     ),

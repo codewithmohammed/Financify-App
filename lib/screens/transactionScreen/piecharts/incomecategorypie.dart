@@ -92,7 +92,8 @@ class IncomesPieChartBox extends StatelessWidget {
                   builder: ((context, transactionDataProvider, child) =>
                       SizedBox(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 20,left: 20, right: 20),
+                          padding: const EdgeInsets.only(
+                              top: 20, left: 20, right: 20),
                           child: Container(
                             height: 50,
                             decoration: BoxDecoration(
@@ -102,7 +103,8 @@ class IncomesPieChartBox extends StatelessWidget {
                                 child: DropdownButton2<String>(
                               isExpanded: true,
                               hint: Text(
-                                transactionDataProvider.incomeCategorySortDataType!,
+                                transactionDataProvider
+                                    .incomeCategorySortDataType!,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: appTheme.mainTextColor,
@@ -124,11 +126,13 @@ class IncomesPieChartBox extends StatelessWidget {
                                 if (value == null) {
                                   return;
                                 }
-                                final sortingDate =transactionDataProvider.selectDate(value);
+                                final sortingDate =
+                                    transactionDataProvider.selectDate(value);
 
                                 if (sortingDate != null) {
-                                  transactionDataProvider.sortThePieChartforCategory(
-                                      sortingDate, value,true);
+                                  transactionDataProvider
+                                      .sortThePieChartforCategory(
+                                          sortingDate, value, true);
                                 } else {
                                   transactionDataProvider.dBtoTransaction();
                                 }
@@ -161,17 +165,17 @@ class IncomesPieChartBox extends StatelessWidget {
                             )))),
               ),
               Container(
-                height: length <= 3
-                    ? 150
-                    : length <= 6
-                        ? 180
-                        : length <= 9
-                            ? 210
-                            : length <= 12
-                                ? 240
-                                : length <= 15
-                                    ? 270
-                                    : null,
+                // height: length <= 3
+                //     ? 150
+                //     : length <= 6
+                //         ? 180
+                //         : length <= 9
+                //             ? 210
+                //             : length <= 12
+                //                 ? 240
+                //                 : length <= 15
+                //                     ? 270
+                //                     : null,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: appTheme.darkblue,
@@ -182,19 +186,21 @@ class IncomesPieChartBox extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: length <= 3
-                            ? 50
-                            : length <= 6
-                                ? 60
-                                : length <= 9
-                                    ? 70
-                                    : length <= 12
-                                        ? 80
-                                        : length <= 15
-                                            ? 90
-                                            : null,
+                        // height: length <= 3
+                        //     ? 50
+                        //     : length <= 6
+                        //         ? 60
+                        //         : length <= 9
+                        //             ? 70
+                        //             : length <= 12
+                        //                 ? 80
+                        //                 : length <= 15
+                        //                     ? 90
+                        //                     : null,
                         child: GridView.builder(
                           itemCount: length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,

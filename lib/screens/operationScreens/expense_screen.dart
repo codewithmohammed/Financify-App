@@ -164,7 +164,7 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                   menuItemStyleData:
                                                       MenuItemStyleData(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             appTheme
                                                                 .backgroundColor),
                                                     height: 40,
@@ -337,7 +337,7 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                   menuItemStyleData:
                                                       MenuItemStyleData(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             appTheme
                                                                 .backgroundColor),
                                                     height: 40,

@@ -622,7 +622,7 @@ class _RecordScreenState extends State<RecordScreen> {
                                       OutlinedButton(
                                           style: ButtonStyle(
                                               backgroundColor:
-                                                  MaterialStatePropertyAll(
+                                                  WidgetStatePropertyAll(
                                                       widgetNotifier
                                                           .cusOutlineButtonColor)),
                                           onPressed: () {
