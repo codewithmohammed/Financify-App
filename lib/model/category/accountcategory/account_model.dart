@@ -13,7 +13,11 @@ class AccountModel {
   @HiveField(2)
   final String accBalance;
 
-  AccountModel({required this.id, required this.accName, required this.accBalance});
+  AccountModel({
+    required this.id,
+    required this.accName,
+    required this.accBalance,
+  });
 
   @override
   String toString() {

@@ -1,14 +1,16 @@
 // ignore: file_names
-import 'package:financify/auth/profileset/name&profile/widgets/circle_widget_with_icon.dart';
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/profile_provider.dart';
+import 'package:financify/widgets/circle_widget_with_icon.dart';
+import 'package:financify/providers/account_provider.dart';
+//
 import 'package:financify/utils/images.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
+//
 import 'package:provider/provider.dart';
 
-class CashAccSet extends StatelessWidget {
-  const CashAccSet({super.key});
+class InitialAmountSettingScreen extends StatelessWidget {
+  const InitialAmountSettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +32,16 @@ class CashAccSet extends StatelessWidget {
                               accountdataprovider.accountToDB();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
-                                  const Duration(milliseconds: 100)).then((value) => toMainPage(context));
+                                      const Duration(milliseconds: 100))
+                                  .then((value) => toMainPage(context));
                             } else {
                               accountdataprovider
                                   .accBalanaceSet(amountController.text);
                               accountdataprovider.accountToDB();
                               FocusScope.of(context).unfocus();
                               await Future.delayed(
-                                  const Duration(milliseconds: 100)).then((value) => toMainPage(context));
+                                      const Duration(milliseconds: 100))
+                                  .then((value) => toMainPage(context));
                             }
                           },
                           child: Text(
@@ -53,10 +57,12 @@ class CashAccSet extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        CircleWidgetWithIcon(insideIcon: Image.asset(
-                              ImgIcons.iconcoin,
-                              scale: 4,
-                            ),),
+                        CircleWidgetWithIcon(
+                          insideIcon: Image.asset(
+                            ImgIcons.iconcoin,
+                            scale: 4,
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 50),
                           child: SizedBox(

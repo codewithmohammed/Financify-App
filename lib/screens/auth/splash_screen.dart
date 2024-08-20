@@ -1,7 +1,7 @@
-import 'package:financify/auth/OBscreens/onboarding_screen.dart';
-import 'package:financify/auth/profileset/name&profile/profilescreen.dart';
+import 'package:financify/screens/auth/onboarding_screen.dart';
+import 'package:financify/widgets/profile_screen.dart';
 import 'package:financify/screens/MainScreens/main_screen.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

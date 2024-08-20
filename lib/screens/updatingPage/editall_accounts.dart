@@ -1,6 +1,6 @@
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/providers/account_provider.dart';
+import 'package:financify/providers/transaction_provider.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:financify/widgets/account_add_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -90,7 +90,10 @@ class EditAllAccounts extends StatelessWidget {
                                                         onPressed: () async {
                                                           await transactionDataprovider
                                                               .deleteAllTransactionUnderAccount(
-                                                                  accountdataprovider.accountList[index].accName);
+                                                                  accountdataprovider
+                                                                      .accountList[
+                                                                          index]
+                                                                      .accName);
 
                                                           await accountdataprovider
                                                               .dBDeleteAccount(

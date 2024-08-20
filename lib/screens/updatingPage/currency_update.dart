@@ -1,7 +1,8 @@
 import 'package:currency_picker/currency_picker.dart';
-import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/profile_provider.dart';
+
 import 'package:financify/utils/images.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +82,6 @@ class _UpdateCurrencySelectState extends State<UpdateCurrencySelect> {
                           showFlag: true,
                           showCurrencyName: true,
                           onSelect: (Currency currency) {
-                          
                             profiledataprovider.replaceCurrency(currency.code);
                             profiledataprovider.replaceCountry(currency.name);
                             profiledataprovider

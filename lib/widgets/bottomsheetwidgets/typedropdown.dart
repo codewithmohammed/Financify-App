@@ -1,9 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/providers/widgetnotifier.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/providers/transaction_provider.dart';
+import 'package:financify/providers/widget_provider.dart';
+import 'package:financify/theme/themes.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+//
+
+import '../../utils/category.dart';
 
 class TypeDropdownwidget extends StatefulWidget {
   const TypeDropdownwidget({super.key});
@@ -17,6 +21,7 @@ class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final category = Provider.of<Category>(context, listen: true);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -39,7 +44,7 @@ class _TypeDropdownwidgetState extends State<TypeDropdownwidget> {
                           color: appTheme.mainTextColor,
                         ),
                       ),
-                      items: transactiondataprovider.filtertype
+                      items: category.filtertype
                           .map((String item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(

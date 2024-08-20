@@ -1,21 +1,22 @@
 import 'package:currency_picker/currency_picker.dart';
-import 'package:financify/auth/profileset/name&profile/widgets/circle_widget_with_icon.dart';
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/account_provider.dart';
+import 'package:financify/providers/profile_provider.dart';
 import 'package:financify/utils/images.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
+import 'package:financify/widgets/circle_widget_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+//
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CurrencySelect extends StatefulWidget {
-  const CurrencySelect({super.key});
+class CurrencySelectScreen extends StatefulWidget {
+  const CurrencySelectScreen({super.key});
 
   @override
-  State<CurrencySelect> createState() => _CurrencySelectState();
+  State<CurrencySelectScreen> createState() => _CurrencySelectScreenState();
 }
 
-class _CurrencySelectState extends State<CurrencySelect> {
+class _CurrencySelectScreenState extends State<CurrencySelectScreen> {
   @override
   Widget build(BuildContext context) {
     final appTheme = Provider.of<AppTheme>(context, listen: true);

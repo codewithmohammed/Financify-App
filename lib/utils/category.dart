@@ -19,6 +19,12 @@ List<String> incomeCategories = [
   'Lottery Winnings',
 ];
 
+   List<String> filtertype = [
+    'Income',
+    'Expense',
+    'Transfer',
+  ];
+
 
   List<String> expenseCategories = [
     'Housing',

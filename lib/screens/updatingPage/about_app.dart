@@ -1,5 +1,4 @@
-
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,7 @@ class AboutApp extends StatelessWidget {
     return Scaffold(
       backgroundColor: appTheme.backgroundColor,
       appBar: AppBar(
-           scrolledUnderElevation: 0,
+        scrolledUnderElevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -36,18 +35,24 @@ class AboutApp extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-               Text(
+              Text(
                 'Welcome to Financify \n- Your Ultimate Offline Money Management App!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: appTheme.primaryColor),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: appTheme.primaryColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 10,
               ),
-               Text(
+              Text(
                 'Take control of your finances with Financify, the app designed to empower you in managing your money seamlessly, even without an internet connection. With Financify, you can effortlessly handle multiple bank accounts and perform various operations such as tracking income, recording expenses, and transferring funds between your accounts - all offline!',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold,color: appTheme.mainTextColor),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: appTheme.mainTextColor),
               ),
               const SizedBox(
                 height: 10,

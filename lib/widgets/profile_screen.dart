@@ -1,9 +1,10 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:financify/auth/profileset/name&profile/widgets/bottom_sheet_method.dart';
-import 'package:financify/auth/profileset/name&profile/widgets/circle_widget_with_icon.dart';
-import 'package:financify/providers/profile_notifiers.dart';
+import 'package:financify/providers/profile_provider.dart';
+import 'package:financify/widgets/bottom_sheet_method.dart';
+import 'package:financify/widgets/circle_widget_with_icon.dart';
+
 import 'package:financify/utils/images.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

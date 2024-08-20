@@ -1,6 +1,6 @@
 import 'package:financify/screens/transactionScreen/expense_screen.dart';
 import 'package:financify/screens/transactionScreen/income_screen.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

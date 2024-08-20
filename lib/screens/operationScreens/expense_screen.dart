@@ -1,9 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/providers/account_provider.dart';
+import 'package:financify/providers/profile_provider.dart';
+
+import 'package:financify/providers/transaction_provider.dart';
 import 'package:financify/utils/category.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,7 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
-        final appTheme = Provider.of<AppTheme>(context, listen: true);
+    final appTheme = Provider.of<AppTheme>(context, listen: true);
     return Scaffold(
         backgroundColor: appTheme.backgroundColor,
         body: SingleChildScrollView(
@@ -53,8 +54,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                       child: Form(
                                         key: _amountkey,
                                         child: TextFormField(
-                                          autovalidateMode:
-                                              AutovalidateMode.onUserInteraction,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           validator: (value) {
                                             if (value == null) {
                                               return "The Amount cant be Empty";
@@ -69,11 +70,14 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                               fontSize: 50,
                                               color: appTheme.mainTextColor),
                                           decoration: InputDecoration(
-                                              border: const UnderlineInputBorder(
-                                                  borderSide: BorderSide.none),
+                                              border:
+                                                  const UnderlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide.none),
                                               hintText: "0",
                                               hintStyle: TextStyle(
-                                                  color: appTheme.mainTextColor)),
+                                                  color:
+                                                      appTheme.mainTextColor)),
                                           keyboardType: const TextInputType
                                               .numberWithOptions(),
                                         ),
@@ -95,7 +99,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 150),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Column(
                                     children: [
@@ -105,8 +110,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                             color: appTheme.accentColor),
                                       ),
                                       Consumer<AccountDataProvider>(
-                                          builder: ((context, accountDataProvider,
-                                                  child) =>
+                                          builder: ((context,
+                                                  accountDataProvider, child) =>
                                               DropdownButtonHideUnderline(
                                                 child: DropdownButton2<String>(
                                                   isExpanded: true,
@@ -114,8 +119,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                     'Select Account',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          appTheme.mainTextColor,
+                                                      color: appTheme
+                                                          .mainTextColor,
                                                     ),
                                                   ),
                                                   items: accountDataProvider
@@ -146,8 +151,9 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                   },
                                                   buttonStyleData:
                                                       const ButtonStyleData(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0),
                                                     height: 40,
                                                     width: 100,
                                                   ),
@@ -158,7 +164,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
-                                                      color: appTheme.accentColor,
+                                                      color:
+                                                          appTheme.accentColor,
                                                     ),
                                                   ),
                                                   menuItemStyleData:
@@ -174,7 +181,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                     searchController:
                                                         accounttextEditingController,
                                                     searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Container(
+                                                    searchInnerWidget:
+                                                        Container(
                                                       height: 50,
                                                       padding:
                                                           const EdgeInsets.only(
@@ -206,7 +214,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                               OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8),
+                                                                    .circular(
+                                                                        8),
                                                           ),
                                                         ),
                                                       ),
@@ -216,7 +225,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                       return item.value
                                                           .toString()
                                                           .toLowerCase()
-                                                          .contains(searchValue);
+                                                          .contains(
+                                                              searchValue);
                                                     },
                                                   ),
                                                   onMenuStateChange: (isOpen) {
@@ -240,8 +250,9 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                 await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime.now().subtract(
-                                                  const Duration(days: 400)),
+                                              firstDate: DateTime.now()
+                                                  .subtract(const Duration(
+                                                      days: 400)),
                                               lastDate: DateTime.now(),
                                             ).then((pickedDate) {
                                               String? formattedDate;
@@ -289,8 +300,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                     'Select Category',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          appTheme.mainTextColor,
+                                                      color: appTheme
+                                                          .mainTextColor,
                                                     ),
                                                   ),
                                                   items: expenseCategories
@@ -319,8 +330,9 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                   },
                                                   buttonStyleData:
                                                       const ButtonStyleData(
-                                                    padding: EdgeInsets.symmetric(
-                                                        horizontal: 0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0),
                                                     height: 40,
                                                     width: 150,
                                                   ),
@@ -331,7 +343,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
-                                                      color: appTheme.accentColor,
+                                                      color:
+                                                          appTheme.accentColor,
                                                     ),
                                                   ),
                                                   menuItemStyleData:
@@ -347,7 +360,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                     searchController:
                                                         categorytextEditingController,
                                                     searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Container(
+                                                    searchInnerWidget:
+                                                        Container(
                                                       height: 50,
                                                       padding:
                                                           const EdgeInsets.only(
@@ -379,7 +393,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                               OutlineInputBorder(
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(8),
+                                                                    .circular(
+                                                                        8),
                                                           ),
                                                         ),
                                                       ),
@@ -389,7 +404,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                                                       return item.value
                                                           .toString()
                                                           .toLowerCase()
-                                                          .contains(searchValue);
+                                                          .contains(
+                                                              searchValue);
                                                     },
                                                   ),
                                                   onMenuStateChange: (isOpen) {
@@ -408,8 +424,8 @@ class _ExpenseOperationScreenState extends State<ExpenseOperationScreen> {
                             SizedBox(
                               height: 80,
                               child: TextFormField(
-                                controller:
-                                    expensedatatransactionprovider.noteController,
+                                controller: expensedatatransactionprovider
+                                    .noteController,
                                 style: TextStyle(color: appTheme.mainTextColor),
                                 decoration: InputDecoration(
                                     hintText: 'Write Any Note',

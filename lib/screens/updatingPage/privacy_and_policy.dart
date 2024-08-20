@@ -1,9 +1,11 @@
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/providers/account_provider.dart';
+import 'package:financify/providers/profile_provider.dart';
+
+import 'package:financify/providers/transaction_provider.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrivacyAndPolicy extends StatelessWidget {

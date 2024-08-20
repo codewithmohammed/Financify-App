@@ -1,11 +1,11 @@
 import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/providers/account_provider.dart';
+import 'package:financify/providers/transaction_provider.dart';
 import 'package:financify/screens/operationScreens/expense_screen.dart';
 import 'package:financify/screens/operationScreens/income_screen.dart';
 import 'package:financify/screens/operationScreens/transferScreen.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,17 +45,17 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
   void _handleTabSelection() {
     if (_tabController.index == 0) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
-       Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
+      Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.income;
     } else if (_tabController.index == 1) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
-           Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
+      Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.expense;
     } else if (_tabController.index == 2) {
       Provider.of<TransactionDataProvider>(context, listen: false).clearAll();
-           Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
+      Provider.of<AccountDataProvider>(context, listen: false).dBToAccount();
       Provider.of<TransactionDataProvider>(context, listen: false).type =
           TransactionCategoryType.transfer;
     }
@@ -171,7 +171,9 @@ class _TransactionOperationScreenState extends State<TransactionOperationScreen>
                             .fromaccountnameController.text.isEmpty ||
                         transferprovider.toaccountnameController.text.isEmpty ||
                         transferprovider.amountController.text.isEmpty ||
-                        transferprovider.dateController.text.isEmpty || transferprovider.toaccountnameController.text == 'choose another account') {
+                        transferprovider.dateController.text.isEmpty ||
+                        transferprovider.toaccountnameController.text ==
+                            'choose another account') {
                       showSnackBar('Please fill in all required fields.');
                     } else {
                       if (await expenseChecker(false)) {

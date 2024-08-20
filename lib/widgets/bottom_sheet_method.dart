@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/utils/themes.dart';
+
+import 'package:financify/providers/profile_provider.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

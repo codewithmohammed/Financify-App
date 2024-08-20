@@ -1,5 +1,5 @@
 import 'package:financify/model/category/accountcategory/account_model.dart';
-import 'package:financify/providers/account_notifier.dart';
+import 'package:financify/providers/account_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

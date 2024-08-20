@@ -1,12 +1,14 @@
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
-import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/providers/updatedataprovider.dart';
-import 'package:financify/providers/widgetnotifier.dart';
+import 'package:financify/providers/profile_provider.dart';
+
+import 'package:financify/providers/transaction_provider.dart';
+import 'package:financify/providers/update_data_provider.dart';
+
+import 'package:financify/providers/widget_provider.dart';
 import 'package:financify/screens/all_data.dart';
-import 'package:financify/utils/transition/fadetransition.dart';
+import 'package:financify/transition/fadetransition.dart';
 import 'package:financify/utils/images.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:financify/widgets/bottomsheetwidgets/accountdropdown.dart';
 import 'package:financify/widgets/bottomsheetwidgets/categorydropdown.dart';
 import 'package:financify/widgets/bottomsheetwidgets/datedropdown.dart';
@@ -255,45 +257,59 @@ class _RecordScreenState extends State<RecordScreen> {
                                           )
                                         ]),
                                     child: Container(
-                                           decoration: BoxDecoration(color: appTheme.listTileColor,borderRadius:  BorderRadius.circular(13),
-                                        ),
+                                      decoration: BoxDecoration(
+                                        color: appTheme.listTileColor,
+                                        borderRadius: BorderRadius.circular(13),
+                                      ),
                                       child: ListTile(
                                         onTap: () {
-                                          Provider.of<UpdateDataProvider>(context,
+                                          Provider.of<UpdateDataProvider>(
+                                                  context,
                                                   listen: false)
                                               .updateDataProvider(
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .id,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .categoryname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .accountname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .fromaccountname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .toaccountname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .amount,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .transactiondate,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .accountnote,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .type);
                                           Navigator.of(context).push(FadeRoute(
-                                              page: const AllTransactionData()));
+                                              page:
+                                                  const AllTransactionData()));
                                         },
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(13),
+                                          borderRadius:
+                                              BorderRadius.circular(13),
                                         ),
                                         // tileColor: appTheme.listTileColor,
                                         title: Row(
@@ -308,14 +324,17 @@ class _RecordScreenState extends State<RecordScreen> {
                                                       TransactionCategoryType
                                                           .transfer
                                                   ? transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .accountnote
                                                   : transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .categoryname,
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  color: appTheme.mainTextColor),
+                                                  color:
+                                                      appTheme.mainTextColor),
                                             ),
                                             Row(
                                               children: [
@@ -336,7 +355,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 ),
                                                 Text(
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .amount,
                                                   style: const TextStyle(
                                                       fontSize: 14,
@@ -356,8 +376,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 Text(
                                                   item.fromaccountname,
                                                   style: TextStyle(
-                                                      color:
-                                                          appTheme.mainTextColor),
+                                                      color: appTheme
+                                                          .mainTextColor),
                                                 ),
                                                 const Icon(
                                                     Icons
@@ -366,8 +386,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 Text(
                                                   item.toaccountname,
                                                   style: TextStyle(
-                                                      color:
-                                                          appTheme.mainTextColor),
+                                                      color: appTheme
+                                                          .mainTextColor),
                                                 )
                                               ],
                                             ),
@@ -375,7 +395,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                               item.transactiondate,
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  color: appTheme.mainTextColor),
+                                                  color:
+                                                      appTheme.mainTextColor),
                                             )
                                           ],
                                         ),
@@ -387,7 +408,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(25)),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Image.asset((transactionDataProvider
                                                           .filteredaccountList[
                                                               index]
@@ -425,45 +447,59 @@ class _RecordScreenState extends State<RecordScreen> {
                                           )
                                         ]),
                                     child: Container(
-                                      decoration: BoxDecoration(color: appTheme.listTileColor,borderRadius:  BorderRadius.circular(13),
-                                        ),
+                                      decoration: BoxDecoration(
+                                        color: appTheme.listTileColor,
+                                        borderRadius: BorderRadius.circular(13),
+                                      ),
                                       child: ListTile(
                                         onTap: () {
-                                          Provider.of<UpdateDataProvider>(context,
+                                          Provider.of<UpdateDataProvider>(
+                                                  context,
                                                   listen: false)
                                               .updateDataProvider(
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .id,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .categoryname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .accountname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .fromaccountname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .toaccountname,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .amount,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .transactiondate,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .accountnote,
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .type);
                                           Navigator.of(context).push(FadeRoute(
-                                              page: const AllTransactionData()));
+                                              page:
+                                                  const AllTransactionData()));
                                         },
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(13),
+                                          borderRadius:
+                                              BorderRadius.circular(13),
                                         ),
                                         // tileColor: appTheme.listTileColor,
                                         title: Row(
@@ -478,14 +514,17 @@ class _RecordScreenState extends State<RecordScreen> {
                                                       TransactionCategoryType
                                                           .transfer
                                                   ? transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .accountnote
                                                   : transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .categoryname,
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  color: appTheme.mainTextColor),
+                                                  color:
+                                                      appTheme.mainTextColor),
                                             ),
                                             Row(
                                               children: [
@@ -506,7 +545,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 ),
                                                 Text(
                                                   transactionDataProvider
-                                                      .filteredaccountList[index]
+                                                      .filteredaccountList[
+                                                          index]
                                                       .amount,
                                                   style: TextStyle(
                                                       fontSize: 14,
@@ -516,10 +556,12 @@ class _RecordScreenState extends State<RecordScreen> {
                                                                   .type ==
                                                               TransactionCategoryType
                                                                   .income
-                                                          ? const Color.fromARGB(
+                                                          ? const Color
+                                                              .fromARGB(
                                                               255, 42, 207, 47)
-                                                          : const Color.fromARGB(
-                                                              255, 248, 53, 39)),
+                                                          : const Color
+                                                              .fromARGB(255,
+                                                              248, 53, 39)),
                                                 ),
                                               ],
                                             )
@@ -535,13 +577,15 @@ class _RecordScreenState extends State<RecordScreen> {
                                                   .accountname,
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  color: appTheme.mainTextColor),
+                                                  color:
+                                                      appTheme.mainTextColor),
                                             ),
                                             Text(
                                               item.transactiondate,
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  color: appTheme.mainTextColor),
+                                                  color:
+                                                      appTheme.mainTextColor),
                                             )
                                           ],
                                         ),
@@ -553,7 +597,8 @@ class _RecordScreenState extends State<RecordScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(25)),
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Image.asset((transactionDataProvider
                                                           .filteredaccountList[
                                                               index]

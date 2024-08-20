@@ -18,7 +18,6 @@ class TransactionDataProvider extends ChangeNotifier {
   List<TransactionModel> incomeaccountList = [];
   List<TransactionModel> expenseaccountList = [];
   List<TransactionModel> transferaccountList = [];
-
   List<TransactionModel> salaryIncomeList = [];
   List<TransactionModel> freelanceIncomeList = [];
   List<TransactionModel> rentalIncomeList = [];
@@ -109,11 +108,8 @@ class TransactionDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  final List<String> filtertype = [
-    'Income',
-    'Expense',
-    'Transfer',
-  ];
+
+
   TransactionCategoryType? filteringtype;
   TextEditingController selectedtypeValue = TextEditingController();
   TextEditingController selectedaccountValue = TextEditingController();

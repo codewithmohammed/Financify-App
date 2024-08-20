@@ -1,10 +1,11 @@
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
-import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/providers/transaction_notifier.dart';
+import 'package:financify/providers/profile_provider.dart';
+
+import 'package:financify/providers/transaction_provider.dart';
 import 'package:financify/screens/operationScreens/transactionScreen.dart';
-import 'package:financify/utils/transition/fadetransition.dart';
+import 'package:financify/transition/fadetransition.dart';
 import 'package:financify/utils/images.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

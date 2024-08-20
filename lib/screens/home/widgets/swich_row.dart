@@ -1,5 +1,5 @@
 
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 
 class Switchrow extends StatefulWidget {

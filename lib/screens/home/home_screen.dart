@@ -1,12 +1,62 @@
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/screens/home/functions/functions.dart';
-import 'package:financify/screens/home/widgets/list_of_accounts.dart';
-import 'package:financify/screens/home/widgets/piecharts.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/providers/account_provider.dart';
+import 'package:financify/screens/home/widgets/account_list.dart';
+import 'package:financify/screens/home/widgets/transaction_pie_chart.dart';
+import 'package:financify/theme/themes.dart';
+import 'package:financify/widgets/container_body.dart';
 import 'package:financify/widgets/custom_appbar.dart';
-import 'package:financify/screens/home/widgets/totalaccountschart.dart';
+import 'package:financify/screens/home/widgets/account_balance_widget.dart';
+import 'package:financify/widgets/dark_blue_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -45,32 +95,41 @@ class HomeScreen extends StatelessWidget {
                         : const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        Container(
-                          width: double.infinity,
-                          height: accountdataprovider.accountList.length > 2 &&
-                                  accountdataprovider.accountList.length % 2 !=
-                                      0
-                              ? increaseheight(
-                                  accountdataprovider.accountList.length, 175)
-                              : accountdataprovider.accountList.length > 2 &&
-                                      accountdataprovider.accountList.length %
-                                              2 ==
-                                          0
-                                  ? increaseheight(
-                                      accountdataprovider.accountList.length,
-                                      175)
-                                  : 175,
-                          decoration: BoxDecoration(
-                            color: appTheme.darkblue,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: ListOfAccounts(appTheme: appTheme),
+                        DarkBlueContainer(
+                          appTheme: appTheme,
+                          child: AccountSection(
+                            heading: 'List Of Accounts',
+                            appTheme: appTheme,
+                            children: [
+                              AccountLists(appTheme: appTheme),
+                            ],
                           ),
                         ),
-                        const IncomeExpenseAndTransferPieChart(),
-                        const AccountsPieChartBox()
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        DarkBlueContainer(
+                          appTheme: appTheme,
+                          child: AccountSection(
+                            heading: 'Income,Expense & Tranfer',
+                            appTheme: appTheme,
+                            children: const [
+                              TransactionPieChart()
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        DarkBlueContainer(
+                          appTheme: appTheme,
+                          child: AccountSection(
+                            heading:    'Account Balances',
+                            appTheme: appTheme,
+                            children: const [AccountBalanceWidget()],
+                          ),
+                        ),
+                        // const IncomeExpenseAndTransferPieChart(),
                       ],
                     ),
                   ),
@@ -79,3 +138,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+
+// import 'package:flutter/material.dart';

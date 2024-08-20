@@ -1,26 +1,28 @@
-import 'package:financify/auth/profileset/balance/cash_accamt.dart';
+import 'package:financify/providers/profile_provider.dart';
+import 'package:financify/providers/update_data_provider.dart';
+import 'package:financify/screens/auth/initial_amount_setting_screen.dart';
 import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/model/category/profilecategory/profile_model.dart';
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
-import 'package:financify/providers/account_notifier.dart';
-import 'package:financify/providers/profile_notifiers.dart';
-import 'package:financify/providers/transaction_notifier.dart';
-import 'package:financify/providers/updatedataprovider.dart';
-import 'package:financify/providers/widgetnotifier.dart';
+import 'package:financify/providers/account_provider.dart';
+
+import 'package:financify/providers/transaction_provider.dart';
+
+import 'package:financify/providers/widget_provider.dart';
 import 'package:financify/screens/All_data.dart';
 import 'package:financify/screens/home/home_screen.dart';
 import 'package:financify/screens/MainScreens/main_screen.dart';
 import 'package:financify/screens/setting/setting_screen.dart';
-import 'package:financify/auth/OBscreens/onboarding_screen.dart';
-import 'package:financify/auth/splashScreen/splash_screen.dart';
+import 'package:financify/screens/auth/onboarding_screen.dart';
+import 'package:financify/screens/auth/splash_screen.dart';
 import 'package:financify/screens/operationScreens/transactionScreen.dart';
-import 'package:financify/auth/profileset/currency/currencyselect.dart';
-import 'package:financify/auth/profileset/name&profile/profilescreen.dart';
+import 'package:financify/screens/auth/currency_select_screen.dart';
+import 'package:financify/widgets/profile_screen.dart';
 import 'package:financify/screens/updatingPage/editall_accounts.dart';
 import 'package:financify/screens/updatingPage/proile_update.dart';
 import 'package:financify/screens/updatingPage/currency_update.dart';
 import 'package:financify/utils/category.dart';
-import 'package:financify/utils/themes.dart';
+import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -56,21 +58,17 @@ class MyApp extends StatelessWidget {
             create: (context) => AccountDataProvider()..dBToAccount()),
         ChangeNotifierProvider(
             create: (context) => TransactionDataProvider()..dBtoTransaction()),
-              ChangeNotifierProvider(
-            create: (context) => WidgetNotifier()),
-               ChangeNotifierProvider(
-            create: (context) => Category()),
-                          ChangeNotifierProvider(
-            create: (context) => UpdateDataProvider()),
-             ChangeNotifierProvider(
-            create: (context) => AppTheme()),
+        ChangeNotifierProvider(create: (context) => WidgetNotifier()),
+        ChangeNotifierProvider(create: (context) => Category()),
+        ChangeNotifierProvider(create: (context) => UpdateDataProvider()),
+        ChangeNotifierProvider(create: (context) => AppTheme()),
       ],
       child: MaterialApp(
         routes: {
           'onboarding': (context) => const OnboardingScreen(),
           'Profileset': (context) => const ProfileSetScreen(),
-          'CurrencySelect': (context) => const CurrencySelect(),
-          'CashAccountAmt': (context) => const CashAccSet(),
+          'CurrencySelect': (context) => const CurrencySelectScreen(),
+          'CashAccountAmt': (context) => const InitialAmountSettingScreen(),
           'MainPage': (context) => const Mainscreen(),
           'HomePage': (context) => const HomeScreen(),
           'TransactionOperation': (context) =>
@@ -79,7 +77,7 @@ class MyApp extends StatelessWidget {
           'settingPage': (context) => const SettingScreen(),
           'EditallAccount': (context) => const EditAllAccounts(),
           'UpdateCurrency': (context) => const UpdateCurrencySelect(),
-           'AllDataTransaction': (context) => const AllTransactionData()
+          'AllDataTransaction': (context) => const AllTransactionData()
         },
         title: 'Financify',
         debugShowCheckedModeBanner: false,
