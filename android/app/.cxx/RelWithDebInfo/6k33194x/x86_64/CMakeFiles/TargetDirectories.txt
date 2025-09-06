@@ -1,0 +1,2 @@
+C:/Users/HP/Documents/Flutter-Projects/financify/android/app/.cxx/RelWithDebInfo/6k33194x/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/HP/Documents/Flutter-Projects/financify/android/app/.cxx/RelWithDebInfo/6k33194x/x86_64/CMakeFiles/rebuild_cache.dir
