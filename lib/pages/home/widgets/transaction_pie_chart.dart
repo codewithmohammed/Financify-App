@@ -4,7 +4,7 @@ import 'package:financify/providers/profile_provider.dart';
 
 import 'package:financify/providers/transaction_provider.dart';
 import 'package:financify/utils/constants.dart';
-import 'package:financify/screens/home/widgets/pie_indicator.dart';
+import 'package:financify/pages/home/widgets/pie_indicator.dart';
 import 'package:financify/theme/themes.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';

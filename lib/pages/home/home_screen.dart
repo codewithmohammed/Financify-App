@@ -1,10 +1,10 @@
 import 'package:financify/providers/account_provider.dart';
-import 'package:financify/screens/home/widgets/account_list.dart';
-import 'package:financify/screens/home/widgets/transaction_pie_chart.dart';
+import 'package:financify/pages/home/widgets/account_list.dart';
+import 'package:financify/pages/home/widgets/transaction_pie_chart.dart';
 import 'package:financify/theme/themes.dart';
 import 'package:financify/widgets/container_body.dart';
 import 'package:financify/widgets/custom_appbar.dart';
-import 'package:financify/screens/home/widgets/account_balance_widget.dart';
+import 'package:financify/pages/home/widgets/account_balance_widget.dart';
 import 'package:financify/widgets/dark_blue_container.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
