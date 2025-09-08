@@ -1,3 +1,5 @@
+import 'package:financify/pages/all_data.dart';
+import 'package:financify/pages/operationScreens/transactionscreen.dart';
 import 'package:financify/providers/profile_provider.dart';
 import 'package:financify/providers/update_data_provider.dart';
 import 'package:financify/pages/auth/initial_amount_setting_screen.dart';
@@ -9,13 +11,11 @@ import 'package:financify/providers/account_provider.dart';
 import 'package:financify/providers/transaction_provider.dart';
 
 import 'package:financify/providers/widget_provider.dart';
-import 'package:financify/screens/All_data.dart';
 import 'package:financify/pages/home/home_screen.dart';
 import 'package:financify/pages/MainScreens/main_screen.dart';
 import 'package:financify/pages/setting/setting_screen.dart';
 import 'package:financify/pages/auth/screen/onboarding_screen.dart';
 import 'package:financify/pages/auth/splash_screen.dart';
-import 'package:financify/screens/operationScreens/transactionScreen.dart';
 import 'package:financify/pages/auth/currency_select_screen.dart';
 import 'package:financify/widgets/profile_screen.dart';
 import 'package:financify/pages/updatingPage/editall_accounts.dart';

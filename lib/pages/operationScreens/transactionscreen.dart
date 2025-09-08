@@ -1,10 +1,10 @@
 import 'package:financify/model/category/accountcategory/account_model.dart';
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
+import 'package:financify/pages/operationScreens/expense_screen.dart';
+import 'package:financify/pages/operationScreens/income_screen.dart';
+import 'package:financify/pages/operationScreens/transferscreen.dart';
 import 'package:financify/providers/account_provider.dart';
 import 'package:financify/providers/transaction_provider.dart';
-import 'package:financify/screens/operationScreens/expense_screen.dart';
-import 'package:financify/screens/operationScreens/income_screen.dart';
-import 'package:financify/screens/operationScreens/transferScreen.dart';
 import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

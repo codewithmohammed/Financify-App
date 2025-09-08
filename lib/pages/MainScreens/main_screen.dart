@@ -1,8 +1,8 @@
 import 'package:financify/model/category/transactioncategory/transaction_model.dart';
+import 'package:financify/pages/operationScreens/transactionscreen.dart';
 import 'package:financify/providers/profile_provider.dart';
 
 import 'package:financify/providers/transaction_provider.dart';
-import 'package:financify/screens/operationScreens/transactionScreen.dart';
 import 'package:financify/transition/fadetransition.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/theme/themes.dart';

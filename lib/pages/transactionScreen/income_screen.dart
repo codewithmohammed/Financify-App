@@ -1,5 +1,5 @@
+import 'package:financify/pages/transactionScreen/piecharts/incomecategorypie.dart';
 import 'package:financify/providers/transaction_provider.dart';
-import 'package:financify/screens/transactionScreen/piecharts/incomecategorypie.dart';
 import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
