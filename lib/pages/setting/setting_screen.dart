@@ -1,6 +1,6 @@
+import 'package:financify/pages/updatingPage/about_app.dart';
+import 'package:financify/pages/updatingPage/privacy_and_policy.dart';
 import 'package:financify/providers/profile_provider.dart';
-import 'package:financify/screens/updatingPage/about_app.dart';
-import 'package:financify/screens/updatingPage/privacy_and_policy.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/theme/themes.dart';
 import 'package:flutter/material.dart';

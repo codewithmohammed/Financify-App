@@ -5,7 +5,7 @@ import 'package:financify/providers/transaction_provider.dart';
 import 'package:financify/providers/update_data_provider.dart';
 
 import 'package:financify/providers/widget_provider.dart';
-import 'package:financify/screens/all_data.dart';
+import 'package:financify/pages/all_data.dart';
 import 'package:financify/transition/fadetransition.dart';
 import 'package:financify/utils/images.dart';
 import 'package:financify/theme/themes.dart';

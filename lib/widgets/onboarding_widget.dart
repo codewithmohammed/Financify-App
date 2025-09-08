@@ -45,7 +45,7 @@ class OnboardingWidget extends StatelessWidget {
                   subtitle,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 50, 53, 68),
                     // fontSize: screenWidth * 0.04
                   ),
                 ),
