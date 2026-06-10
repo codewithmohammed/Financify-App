@@ -31,7 +31,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.example.financify"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion = "26.2.11394342"
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
     sourceCompatibility JavaVersion.VERSION_11
@@ -68,7 +68,7 @@ android {
            storePassword keystoreProperties['storePassword']
        }
    }
-
+\
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
